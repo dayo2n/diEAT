@@ -1,0 +1,6 @@
+framework module Pods_diEAT {
+  umbrella header "Pods-diEAT-umbrella.h"
+
+  export *
+  module * { export * }
+}

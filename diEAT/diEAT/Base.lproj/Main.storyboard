@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="diEAT" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1xZ-hh-ghd" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="54" width="414" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="3gT-xw-nWK"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
+                                        <color key="value" systemColor="systemYellowColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="todaySelectionColor">
+                                        <color key="value" systemColor="systemOrangeColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
+                                        <color key="value" red="0.97432331203185407" green="0.024161066975868839" blue="0.0" alpha="0.76340707791905826" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
+                                        <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="titleTodayColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="subtitleDefaultColor">
+                                        <color key="value" systemColor="labelColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="fakedSelectedDay">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="headerTitleTextSize">
+                                        <real key="value" value="17"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="weekdayTextSize">
+                                        <real key="value" value="14"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="headerMinimumDissolvedAlpha">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="egq-up-8zV">
+                                <rect key="frame" x="0.0" y="488" width="414" height="408"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Epq-dO-ZmC" customClass="CellType" customModule="diEAT" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="49.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Epq-dO-ZmC" id="ru6-fd-4n5" customClass="CellType">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" allowsEditingTextAttributes="YES" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d0O-ma-KvT">
+                                <rect key="frame" x="0.0" y="454" width="414" height="34"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="11"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hhB-bc-SHk">
+                                <rect key="frame" x="357" y="456" width="30" height="30"/>
+                                <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="addButton::" destination="BYZ-38-t0r" eventType="touchUpInside" id="zs9-Jl-byJ"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tpd-uv-QV3">
+                                <rect key="frame" x="102" y="414" width="210" height="32"/>
+                                <segments>
+                                    <segment title="아침"/>
+                                    <segment title="점심"/>
+                                    <segment title="저녁"/>
+                                    <segment title="기타"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🍳 Eat Log 🍳" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkQ-yO-rPJ">
+                                <rect key="frame" x="127" y="381" width="160" height="23"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hhB-bc-SHk" secondAttribute="trailing" constant="27" id="1h8-5x-sDr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bkQ-yO-rPJ" secondAttribute="trailing" constant="127" id="8Zb-Br-IQS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tpd-uv-QV3" secondAttribute="trailing" constant="102" id="CtO-4A-pPe"/>
+                            <constraint firstItem="hhB-bc-SHk" firstAttribute="top" secondItem="1xZ-hh-ghd" secondAttribute="bottom" constant="102" id="DpK-kj-bON"/>
+                            <constraint firstItem="d0O-ma-KvT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="E3E-TZ-5AW"/>
+                            <constraint firstItem="bkQ-yO-rPJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="127" id="F8i-Mk-nVo"/>
+                            <constraint firstItem="hhB-bc-SHk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="357" id="Fr3-uR-LBf"/>
+                            <constraint firstAttribute="bottom" secondItem="egq-up-8zV" secondAttribute="bottom" id="I8V-zC-wLh"/>
+                            <constraint firstItem="d0O-ma-KvT" firstAttribute="top" secondItem="1xZ-hh-ghd" secondAttribute="bottom" constant="100" id="KlI-vd-xMu"/>
+                            <constraint firstItem="egq-up-8zV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="L3e-zN-Hqf"/>
+                            <constraint firstItem="1xZ-hh-ghd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="RTA-dP-KsN"/>
+                            <constraint firstItem="tpd-uv-QV3" firstAttribute="top" secondItem="bkQ-yO-rPJ" secondAttribute="bottom" constant="10" id="SDg-mH-keN"/>
+                            <constraint firstItem="egq-up-8zV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Uy4-yt-5Lc"/>
+                            <constraint firstItem="1xZ-hh-ghd" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YaS-F8-bZj"/>
+                            <constraint firstItem="1xZ-hh-ghd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="cbv-I3-asF"/>
+                            <constraint firstItem="egq-up-8zV" firstAttribute="top" secondItem="d0O-ma-KvT" secondAttribute="bottom" id="fsg-Dy-LDM"/>
+                            <constraint firstItem="tpd-uv-QV3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="102" id="sxh-aX-OMt"/>
+                            <constraint firstItem="d0O-ma-KvT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ueL-RB-3Xk"/>
+                            <constraint firstItem="d0O-ma-KvT" firstAttribute="top" secondItem="tpd-uv-QV3" secondAttribute="bottom" constant="9" id="xNS-DL-V0P"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="calendar" destination="1xZ-hh-ghd" id="x3D-Gg-ycp"/>
+                        <outlet property="eatLog" destination="egq-up-8zV" id="g9K-sK-G7Z"/>
+                        <outlet property="selectedMeal" destination="tpd-uv-QV3" id="EkW-sd-Oge"/>
+                        <outlet property="textField" destination="d0O-ma-KvT" id="0uj-Yk-twg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="87.723214285714278"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

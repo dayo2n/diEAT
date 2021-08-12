@@ -8,4 +8,5 @@ target 'diEAT' do
   # Pods for diEAT
 
 pod 'FSCalendar'
+pod 'RealmSwift'
 end

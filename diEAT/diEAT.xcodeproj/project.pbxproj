@@ -53,6 +53,41 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		BF8C5C5226C0F0DE00CD690F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BFC0CF0D26B1342E008A28BE /* ViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		BF8C5C5326C0F10A00CD690F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BFC0CF1226B1342F008A28BE /* Assets.xcassets */,
+				BFC0CF0926B1342E008A28BE /* AppDelegate.swift */,
+				BFC0CF0B26B1342E008A28BE /* SceneDelegate.swift */,
+			);
+			path = "Support Files";
+			sourceTree = "<group>";
+		};
+		BF8C5C5426C0F14000CD690F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFC0CF2126B153F2008A28BE /* CellType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF8C5C5526C0F15A00CD690F /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				BFC0CF0F26B1342E008A28BE /* Main.storyboard */,
+				BFC0CF1426B1342F008A28BE /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoard;
+			sourceTree = "<group>";
+		};
 		BFC0CEFD26B1342E008A28BE = {
 			isa = PBXGroup;
 			children = (
@@ -74,13 +109,10 @@
 		BFC0CF0826B1342E008A28BE /* diEAT */ = {
 			isa = PBXGroup;
 			children = (
-				BFC0CF0926B1342E008A28BE /* AppDelegate.swift */,
-				BFC0CF0B26B1342E008A28BE /* SceneDelegate.swift */,
-				BFC0CF0D26B1342E008A28BE /* ViewController.swift */,
-				BFC0CF2126B153F2008A28BE /* CellType.swift */,
-				BFC0CF0F26B1342E008A28BE /* Main.storyboard */,
-				BFC0CF1226B1342F008A28BE /* Assets.xcassets */,
-				BFC0CF1426B1342F008A28BE /* LaunchScreen.storyboard */,
+				BF8C5C5526C0F15A00CD690F /* StoryBoard */,
+				BF8C5C5426C0F14000CD690F /* Model */,
+				BF8C5C5326C0F10A00CD690F /* Support Files */,
+				BF8C5C5226C0F0DE00CD690F /* ViewController */,
 				BFC0CF1726B1342F008A28BE /* Info.plist */,
 			);
 			path = diEAT;

@@ -8,127 +8,87 @@
 import UIKit
 import FSCalendar
 import RealmSwift
+import SwiftUI
 
 class ViewController: UIViewController {
 
     @IBOutlet var calendar: FSCalendar!
-    @IBOutlet weak var eatLog: UITableView!
+    let dateFormatter = DateFormatter()
+    @IBOutlet weak var eatLog: UICollectionView!
+    
+    static let shared = ViewController()
+    var didSelectDate = ""
     let realm = try! Realm()
-    
-    var breakfast : [String] = ["그릭요거트", "딸기", "오트밀", "아몬드브리즈"]
-    var lunch : [String] = ["두부유부초밥", "팽이버섯구이"]
-    var dinner : [String] = ["소고기구이", "구운김치", "아삭이고추", "상추"]
-    var etc : [String] = []
-    
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var selectedMeal: UISegmentedControl!
-    @IBAction func addButton(_ sender: UIButton, _: UISegmentedControl){
-        switch self.selectedMeal.selectedSegmentIndex {
-        case 0:
-            breakfast.append(String(self.textField.text!))
-            self.eatLog.reloadSections(IndexSet(0...0), with: UITableView.RowAnimation.automatic)
-        case 1:
-            lunch.append(String(self.textField.text!))
-            self.eatLog.reloadSections(IndexSet(1...1), with: UITableView.RowAnimation.automatic)
-        case 2:
-            dinner.append(String(self.textField.text!))
-            self.eatLog.reloadSections(IndexSet(2...2), with: UITableView.RowAnimation.automatic)
-        case 3:
-            etc.append(String(self.textField.text!))
-            self.eatLog.reloadSections(IndexSet(3...3), with: UITableView.RowAnimation.automatic)
-        default:
-            return
-        }
-        self.textField.text = ""
-    }
-    
-    let cellIdentifier: String = "cell"
-    
+    var logs: Results<LogData>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setCalendar()
-        setEatLog()
-    }
-}
-
-extension ViewController : UITableViewDelegate, UITableViewDataSource{
-    
-    
-
-    private func setEatLog(){
+        didSelectDate = dateFormatter.string(from: Date())
+        
+        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        print(documentsDirectory)
+        
+        // set EatLog
         eatLog.delegate = self
         eatLog.dataSource = self
+        
+        let nibName = UINib(nibName: "EatLogCollectionViewCell", bundle: nil)
+        eatLog.register(nibName, forCellWithReuseIdentifier: "EatLogCollectionViewCell")
+        
+        logs = realm.objects(LogData.self)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
-        
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        
-        switch section {
-        case 0:
-            return self.breakfast.count
-        case 1:
-            return self.lunch.count
-        case 2:
-            return self.dinner.count
-        case 3:
-            return self.etc.count
-        default:
-            return 0
-        }
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
-        let text : String
-
-        switch indexPath.section {
-        case 0:
-            text = self.breakfast[indexPath.row]
-        case 1:
-            text = self.lunch[indexPath.row]
-        case 2:
-            text = self.dinner[indexPath.row]
-        case 3:
-            text = self.etc[indexPath.row]
-        default:
-            text = ""
-        }
-        cell.textLabel?.text = text
-
-        return cell
-
-
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        
-        switch section {
-        case 0:
-            return " [ 아침 ] "
-        case 1:
-            return " [ 점심 ] "
-        case 2:
-            return " [ 저녁 ] "
-        case 3:
-            return " [ 기타 ] "
-        default:
-            return ""
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is AddEatLogViewController {
+            let vc = segue.destination as? AddEatLogViewController
+            vc?.didSelectDate = self.didSelectDate
         }
     }
 }
 
-extension ViewController : FSCalendarDelegate, FSCalendarDataSource{
+extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return logs.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EatLogCollectionViewCell", for: indexPath) as! EatLogCollectionViewCell
+        
+//        let selectedDateLogs = logs.filter("date == '\(didSelectDate)'")
+//        let log = selectedDateLogs[indexPath.row]
+        let log = logs[indexPath.row]
+        cell.eatImage.image = loadImageFromDocumentDirecory(imgName: "\(log._id).png")
+        cell.eatLabel.text = log.time
+
+        return cell
+    }
+    
+    // 아래는 셀들의 사이즈, 간격을 조정해주는 코드
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+        
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+    
+    // 이거는 인스타처럼 셀이 세개씩 보이게 해주는 코드
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width - 4) / 3
+            
+        return CGSize(width: width, height: width)
+    }
+}
+
+
+// calendar
+extension ViewController : FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance{
     
     private func setCalendar() {
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.locale = Locale(identifier: "ko_KR")
@@ -145,8 +105,26 @@ extension ViewController : FSCalendarDelegate, FSCalendarDataSource{
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE MM-dd-YYYY"
+        print(dateFormatter.string(from: date))
+        didSelectDate = dateFormatter.string(from: date) // 왠지모르겠는데 하루 전 값으로 나와서 하루 더해주기
+        print(didSelectDate)
+    }
+    
+    // 각 날짜의 border color 설정. 옅은 회색을 줘서, 칸처럼 보이게.
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
         
+        return UIColor.borderColor()
+    }
+    
+    func loadImageFromDocumentDirecory(imgName: String) -> UIImage? {
+        let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
+        let userDominMask = FileManager.SearchPathDomainMask.userDomainMask
+        let path = NSSearchPathForDirectoriesInDomains(documentDirectory, userDominMask, true)
+        
+        if let directoryPath = path.first{
+            let imgURL = URL(fileURLWithPath: directoryPath).appendingPathComponent(imgName)
+            return UIImage(contentsOfFile: imgURL.path)
+        }
+        return nil
     }
 }

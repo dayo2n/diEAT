@@ -1,24 +1,20 @@
 //
-//  DataRealm.swift
+//  LogData.swift
 //  diEAT
 //
-//  Created by 문다 on 2021/08/09.
+//  Created by 문다 on 2021/11/04.
 //
 
 import Foundation
 import RealmSwift
 
 class LogData: Object{
-    @objc dynamic var year = ""
-    @objc dynamic var month = ""
-    @objc dynamic var day = ""
     
-    @objc dynamic var breakfast : String = ""
-    @objc dynamic var lunch : String = ""
-    @objc dynamic var dinner : String = ""
-    @objc dynamic var etc : String = ""
-//    let breakfast = List<String>()
-//    let lunch = List<String>()
-//    let dinner = List<String>()
-//    let etc = List<String>()
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var date: String?
+    @Persisted dynamic var time: String?
+    
+    convenience init(content: String){
+        self.init()
+    }
 }

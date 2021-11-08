@@ -48,6 +48,10 @@ class AddEatLogViewController: UIViewController {
 //        eatDescription.layer.borderColor = UIColor.lightGray.cgColor
     }
     
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        <#code#>
+//    }
+    
     @IBAction func setTime(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             selectedTime = "Breakfast"

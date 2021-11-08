@@ -421,10 +421,21 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSCalendar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Realm\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift\"",
+					"\"${PODS_ROOT}/Realm/core\"",
+				);
 				INFOPLIST_FILE = diEAT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"${PODS_XCFRAMEWORKS_BUILD_DIR}/realm-monorepo",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cnu.cse.dayo2n.diEAT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -441,10 +452,21 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSCalendar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Realm\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RealmSwift\"",
+					"\"${PODS_ROOT}/Realm/core\"",
+				);
 				INFOPLIST_FILE = diEAT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"${PODS_XCFRAMEWORKS_BUILD_DIR}/realm-monorepo",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cnu.cse.dayo2n.diEAT;
 				PRODUCT_NAME = "$(TARGET_NAME)";

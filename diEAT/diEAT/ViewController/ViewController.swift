@@ -49,18 +49,19 @@ class ViewController: UIViewController {
 
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return logs.count
+        
+        let selectedDateLogs = logs.filter("date == '\(didSelectDate)'")
+        return selectedDateLogs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EatLogCollectionViewCell", for: indexPath) as! EatLogCollectionViewCell
         
-//        let selectedDateLogs = logs.filter("date == '\(didSelectDate)'")
-//        let log = selectedDateLogs[indexPath.row]
-        let log = logs[indexPath.row]
+        let selectedDateLogs = logs.filter("date == '\(didSelectDate)'")
+        let log = selectedDateLogs[indexPath.row]
+//          let log = logs[indexPath.row]
         cell.eatImage.image = loadImageFromDocumentDirecory(imgName: "\(log._id).png")
         cell.eatLabel.text = log.time
-
         return cell
     }
     
@@ -106,8 +107,11 @@ extension ViewController : FSCalendarDelegate, FSCalendarDataSource, FSCalendarD
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print(dateFormatter.string(from: date))
-        didSelectDate = dateFormatter.string(from: date) // 왠지모르겠는데 하루 전 값으로 나와서 하루 더해주기
+        didSelectDate = dateFormatter.string(from: date)
         print(didSelectDate)
+        DispatchQueue.main.async {
+            self.eatLog.reloadData()
+        }
     }
     
     // 각 날짜의 border color 설정. 옅은 회색을 줘서, 칸처럼 보이게.

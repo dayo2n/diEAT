@@ -87,8 +87,9 @@ class AddEatLogViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SavedLog"{
-            guard segue.destination is ViewController else { return }
+            guard let vc = segue.destination as? ViewController else { return }
             self.save()
+            vc.eatLog.reloadData()
         }
     }
 }

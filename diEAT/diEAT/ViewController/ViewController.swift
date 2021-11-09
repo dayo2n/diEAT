@@ -46,8 +46,8 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is AddEatLogViewController {
-            let vc = segue.destination as? AddEatLogViewController
-            vc?.didSelectDate = self.didSelectDate
+            guard let vc = segue.destination as? AddEatLogViewController else { return }
+                    vc.didSelectDate = self.didSelectDate
         }
     }
 }

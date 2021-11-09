@@ -48,9 +48,7 @@ class AddEatLogViewController: UIViewController {
 //        eatDescription.layer.borderColor = UIColor.lightGray.cgColor
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        <#code#>
-//    }
+
     
     @IBAction func setTime(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
@@ -75,7 +73,7 @@ class AddEatLogViewController: UIViewController {
         return newLog
     }
 
-    @IBAction func save(_ sender: Any) {
+    func save() {
         let newLog = self.addNewLog(selectedTime, didSelectDate)
 
         try! realm.write{
@@ -85,6 +83,13 @@ class AddEatLogViewController: UIViewController {
         print("저장됨")
         print(newLog)
 
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SavedLog"{
+            guard segue.destination is ViewController else { return }
+            self.save()
+        }
     }
 }
 

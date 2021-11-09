@@ -35,8 +35,13 @@ class ViewController: UIViewController {
         
         let nibName = UINib(nibName: "EatLogCollectionViewCell", bundle: nil)
         eatLog.register(nibName, forCellWithReuseIdentifier: "EatLogCollectionViewCell")
+        DispatchQueue.main.async {
+            self.eatLog.reloadData()
+        }
         
         logs = realm.objects(LogData.self)
+    }
+    @IBAction func unwindAfterSave(segue:UIStoryboardSegue) {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

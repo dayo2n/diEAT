@@ -193,7 +193,7 @@
                     <navigationItem key="navigationItem" id="hKI-dS-e05">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="R5G-tl-vys">
                             <connections>
-                                <action selector="save:" destination="4dh-m2-wyj" id="eFQ-kH-qwY"/>
+                                <segue destination="yaj-eT-mfo" kind="unwind" identifier="SavedLog" unwindAction="unwindAfterSaveWithSegue:" id="xfD-ju-xsr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -202,6 +202,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrS-jN-D2N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="yaj-eT-mfo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1788.4057971014495" y="90.401785714285708"/>
         </scene>

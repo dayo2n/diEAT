@@ -18,5 +18,7 @@
 ## 📷 Design
 
 ## 📸 ScreenShot
+<img width="653" alt="image" src="https://user-images.githubusercontent.com/57654681/144611314-6b651572-5e7a-42b6-b478-33267cddff88.png">
+
 
 ## 📌 Version

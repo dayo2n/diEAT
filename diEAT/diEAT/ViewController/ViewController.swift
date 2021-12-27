@@ -41,9 +41,12 @@ class ViewController: UIViewController {
         
         logs = realm.objects(LogData.self)
     }
+    
+    // 로그 기록 후 돌아오면
     @IBAction func unwindAfterSave(segue:UIStoryboardSegue) {
     }
     
+    // segue 전에 다음 컨트롤러로 정보를 전달
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is AddEatLogViewController {
             guard let vc = segue.destination as? AddEatLogViewController else { return }

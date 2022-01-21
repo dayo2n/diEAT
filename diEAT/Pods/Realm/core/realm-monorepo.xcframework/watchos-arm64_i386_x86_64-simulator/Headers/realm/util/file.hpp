@@ -652,6 +652,12 @@ private:
         void map(const File&, AccessMode, size_t size, int map_flags, size_t offset = 0);
         void remap(const File&, AccessMode, size_t size, int map_flags);
         void unmap() noexcept;
+        // fully update any process shared representation (e.g. buffer cache).
+        // other processes will be able to see changes, but a full platform crash
+        // may loose data
+        void flush();
+        // fully synchronize any underlying storage. After completion, a full platform
+        // crash will *not* have lost data.
         void sync();
 #if REALM_ENABLE_ENCRYPTION
         mutable util::EncryptedFileMapping* m_encrypted_mapping = nullptr;
@@ -736,8 +742,6 @@ public:
     /// mapped file.
     Map() noexcept;
 
-    ~Map() noexcept;
-
     // Disable copying. Copying an opened Map will create a scenario
     // where the same memory will be mapped once but unmapped twice.
     Map(const Map&) = delete;
@@ -794,6 +798,7 @@ public:
     /// attached to a memory mapped file, has undefined behavior.
     void sync();
 
+    void flush();
     /// Check whether this Map instance is currently attached to a
     /// memory mapped file.
     bool is_attached() const noexcept;
@@ -1167,11 +1172,6 @@ inline File::Map<T>::Map() noexcept
 }
 
 template <class T>
-inline File::Map<T>::~Map() noexcept
-{
-}
-
-template <class T>
 inline T* File::Map<T>::map(const File& f, AccessMode a, size_t size, int map_flags, size_t offset)
 {
     MapBase::map(f, a, size, map_flags, offset);
@@ -1199,6 +1199,12 @@ template <class T>
 inline void File::Map<T>::sync()
 {
     MapBase::sync();
+}
+
+template <class T>
+inline void File::Map<T>::flush()
+{
+    MapBase::flush();
 }
 
 template <class T>

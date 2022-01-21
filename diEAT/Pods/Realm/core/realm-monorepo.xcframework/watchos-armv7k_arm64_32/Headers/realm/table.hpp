@@ -35,6 +35,7 @@
 #include <realm/table_cluster_tree.hpp>
 #include <realm/keys.hpp>
 #include <realm/global_key.hpp>
+#include <realm/index_string.hpp>
 
 // Only set this to one when testing the code paths that exercise object ID
 // hash collisions. It artificially limits the "optimistic" local ID to use
@@ -48,10 +49,9 @@ class BacklinkColumn;
 template <class>
 class BacklinkCount;
 class BinaryColumy;
-class ConstTableView;
+class TableView;
 class Group;
 class SortDescriptor;
-class StringIndex;
 class TableView;
 template <class>
 class Columns;
@@ -263,7 +263,7 @@ public:
     /// Create a number of objects with keys supplied
     void create_objects(const std::vector<ObjKey>& keys);
     /// Does the key refer to an object within the table?
-    bool is_valid(ObjKey key) const
+    bool is_valid(ObjKey key) const noexcept
     {
         return m_clusters.is_valid(key);
     }
@@ -273,6 +273,10 @@ public:
         REALM_ASSERT(!key.is_unresolved());
         return m_clusters.get(key);
     }
+    Obj try_get_object(ObjKey key) const noexcept
+    {
+        return m_clusters.try_get_obj(key);
+    }
     Obj get_object(size_t ndx) const
     {
         return m_clusters.get(ndx);
@@ -280,7 +284,7 @@ public:
     // Get object based on primary key
     Obj get_object_with_primary_key(Mixed pk) const;
     // Get primary key based on ObjKey
-    Mixed get_primary_key(ObjKey key);
+    Mixed get_primary_key(ObjKey key) const;
     // Get logical index for object. This function is not very efficient
     size_t get_object_ndx(ObjKey key) const noexcept
     {
@@ -391,7 +395,7 @@ public:
         report_invalid_key(col);
         if (!has_search_index(col))
             return nullptr;
-        return m_index_accessors[col.get_index().val];
+        return m_index_accessors[col.get_index().val].get();
     }
     template <class T>
     ObjKey find_first(ColKey col_key, T value) const;
@@ -409,27 +413,26 @@ public:
     ObjKey find_first_uuid(ColKey col_key, UUID value) const;
 
     //    TableView find_all_link(Key target_key);
-    //    ConstTableView find_all_link(Key target_key) const;
     TableView find_all_int(ColKey col_key, int64_t value);
-    ConstTableView find_all_int(ColKey col_key, int64_t value) const;
+    TableView find_all_int(ColKey col_key, int64_t value) const;
     TableView find_all_bool(ColKey col_key, bool value);
-    ConstTableView find_all_bool(ColKey col_key, bool value) const;
+    TableView find_all_bool(ColKey col_key, bool value) const;
     TableView find_all_float(ColKey col_key, float value);
-    ConstTableView find_all_float(ColKey col_key, float value) const;
+    TableView find_all_float(ColKey col_key, float value) const;
     TableView find_all_double(ColKey col_key, double value);
-    ConstTableView find_all_double(ColKey col_key, double value) const;
+    TableView find_all_double(ColKey col_key, double value) const;
     TableView find_all_string(ColKey col_key, StringData value);
-    ConstTableView find_all_string(ColKey col_key, StringData value) const;
+    TableView find_all_string(ColKey col_key, StringData value) const;
     TableView find_all_binary(ColKey col_key, BinaryData value);
-    ConstTableView find_all_binary(ColKey col_key, BinaryData value) const;
+    TableView find_all_binary(ColKey col_key, BinaryData value) const;
     TableView find_all_null(ColKey col_key);
-    ConstTableView find_all_null(ColKey col_key) const;
+    TableView find_all_null(ColKey col_key) const;
 
     TableView get_sorted_view(ColKey col_key, bool ascending = true);
-    ConstTableView get_sorted_view(ColKey col_key, bool ascending = true) const;
+    TableView get_sorted_view(ColKey col_key, bool ascending = true) const;
 
     TableView get_sorted_view(SortDescriptor order);
-    ConstTableView get_sorted_view(SortDescriptor order) const;
+    TableView get_sorted_view(SortDescriptor order) const;
 
     // Report the current content version. This is a 64-bit value which is bumped whenever
     // the content in the table changes.
@@ -523,12 +526,12 @@ public:
     // Queries
     // Using where(tv) is the new method to perform queries on TableView. The 'tv' can have any order; it does not
     // need to be sorted, and, resulting view retains its order.
-    Query where(ConstTableView* tv = nullptr)
+    Query where(TableView* tv = nullptr)
     {
         return Query(m_own_ref, tv);
     }
 
-    Query where(ConstTableView* tv = nullptr) const
+    Query where(TableView* tv = nullptr) const
     {
         return Query(m_own_ref, tv);
     }
@@ -636,6 +639,22 @@ private:
         cookie_deleted = 0xdead,
     };
 
+    // This is only used for debugging checks, so relaxed operations are fine.
+    class AtomicLifeCycleCookie {
+    public:
+        void operator=(LifeCycleCookie cookie)
+        {
+            m_storage.store(cookie, std::memory_order_relaxed);
+        }
+        operator LifeCycleCookie() const
+        {
+            return m_storage.load(std::memory_order_relaxed);
+        }
+
+    private:
+        std::atomic<LifeCycleCookie> m_storage = {};
+    };
+
     mutable WrappedAllocator m_alloc;
     Array m_top;
     void update_allocator_wrapper(bool writable)
@@ -653,7 +672,7 @@ private:
     Array m_index_refs;                             // 5th slot in m_top
     Array m_opposite_table;                         // 7th slot in m_top
     Array m_opposite_column;                        // 8th slot in m_top
-    std::vector<StringIndex*> m_index_accessors;
+    std::vector<std::unique_ptr<StringIndex>> m_index_accessors;
     ColKey m_primary_key_col;
     Replication* const* m_repl;
     static Replication* g_dummy_replication;
@@ -754,9 +773,6 @@ private:
 
     uint64_t get_sync_file_id() const noexcept;
 
-    static size_t get_size_from_ref(ref_type top_ref, Allocator&) noexcept;
-    static size_t get_size_from_ref(ref_type spec_ref, ref_type columns_ref, Allocator&) noexcept;
-
     /// Create an empty table with independent spec and return just
     /// the reference to the underlying memory.
     static ref_type create_empty_table(Allocator&, TableKey = TableKey());
@@ -789,7 +805,7 @@ private:
     std::vector<size_t> m_leaf_ndx2spec_ndx;
     bool m_is_embedded = false;
     uint64_t m_in_file_version_at_transaction_boundary = 0;
-    LifeCycleCookie m_cookie;
+    AtomicLifeCycleCookie m_cookie;
 
     static constexpr int top_position_for_spec = 0;
     static constexpr int top_position_for_columns = 1;
@@ -817,7 +833,7 @@ private:
     template <class>
     friend class SimpleQuerySupport;
     friend class LangBindHelper;
-    friend class ConstTableView;
+    friend class TableView;
     template <class T>
     friend class Columns;
     friend class Columns<StringData>;
@@ -959,8 +975,8 @@ public:
         return link(backlink_col_key);
     }
 
-    Subexpr* column(const std::string&);
-    Subexpr* subquery(Query subquery);
+    std::unique_ptr<Subexpr> column(const std::string&);
+    std::unique_ptr<Subexpr> subquery(Query subquery);
 
     template <class T>
     inline Columns<T> column(ColKey col_key)
@@ -1028,9 +1044,9 @@ private:
     void add(ColKey ck);
 
     template <class T>
-    Subexpr* create_subexpr(ColKey col_key)
+    std::unique_ptr<Subexpr> create_subexpr(ColKey col_key)
     {
-        return new Columns<T>(col_key, m_base_table, m_link_cols, m_comparison_type);
+        return std::make_unique<Columns<T>>(col_key, m_base_table, m_link_cols, m_comparison_type);
     }
 };
 
@@ -1252,22 +1268,9 @@ inline bool Table::is_group_level() const noexcept
     return bool(get_parent_group());
 }
 
-inline bool Table::operator==(const Table& t) const
-{
-    return m_spec == t.m_spec && compare_objects(t); // Throws
-}
-
 inline bool Table::operator!=(const Table& t) const
 {
     return !(*this == t); // Throws
-}
-
-inline size_t Table::get_size_from_ref(ref_type top_ref, Allocator& alloc) noexcept
-{
-    const char* top_header = alloc.translate(top_ref);
-    std::pair<int_least64_t, int_least64_t> p = Array::get_two(top_header, 0);
-    ref_type spec_ref = to_ref(p.first), columns_ref = to_ref(p.second);
-    return get_size_from_ref(spec_ref, columns_ref, alloc);
 }
 
 inline bool Table::is_link_type(ColumnType col_type) noexcept

@@ -30,11 +30,17 @@ constexpr int get_current_protocol_version() noexcept
     return 3;
 }
 
-constexpr const char* get_websocket_protocol_prefix() noexcept
+constexpr std::string_view get_pbs_websocket_protocol_prefix() noexcept
 {
     return "com.mongodb.realm-sync/";
 }
 
+constexpr std::string_view get_flx_websocket_protocol_prefix() noexcept
+{
+    return "com.mongodb.realm-query-sync/";
+}
+
+enum class SyncServerMode { PBS, FLX };
 
 /// Supported protocol envelopes:
 ///
@@ -112,6 +118,11 @@ struct SaltedVersion {
 struct DownloadCursor {
     version_type server_version;
     version_type last_integrated_client_version;
+};
+
+enum class DownloadBatchState {
+    MoreToCome,
+    LastInBatch,
 };
 
 /// Checks that `dc.last_integrated_client_version` is zero if
@@ -200,7 +211,8 @@ enum class ProtocolError {
     bad_decompression            = 110, // Error in decompression (UPLOAD)
     bad_changeset_header_syntax  = 111, // Bad syntax in a changeset header (UPLOAD)
     bad_changeset_size           = 112, // Bad size specified in changeset header (UPLOAD)
-    bad_changesets               = 113, // Bad changesets (UPLOAD)
+    switch_to_flx_sync           = 113, // Connected with wrong wire protocol - should switch to FLX sync
+    switch_to_pbs                = 114, // Connected with wrong wire protocol - should switch to PBS
 
     // Session level errors
     session_closed               = 200, // Session closed (no error)
@@ -230,6 +242,14 @@ enum class ProtocolError {
     user_mismatch                = 223, // User mismatch for client file identifier (IDENT)
     too_many_sessions            = 224, // Too many sessions in connection (BIND)
     invalid_schema_change        = 225, // Invalid schema change (UPLOAD)
+    bad_query                    = 226, // Client query is invalid/malformed (IDENT, QUERY)
+    object_already_exists        = 227, // Client tried to create an object that already exists outside their
+                                        // view (UPLOAD)
+    server_permissions_changed   = 228, // Server permissions for this file ident have changed since the last time it
+                                        // was used (IDENT)
+    initial_sync_not_completed   = 229, // Client tried to open a session before initial sync is complete (BIND)
+    write_not_allowed            = 230, // Client attempted a write that is disallowed by permissions, or modifies an
+                                        // object outside the current query - requires client reset (UPLOAD)
 
     // clang-format on
 };

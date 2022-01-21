@@ -73,6 +73,12 @@ public:
     // This is also created as part of opening a Realm, so only use this
     // method if the session needs to exist before the Realm does.
     void create_session(const Realm::Config& config) REQUIRES(!m_realm_mutex, !m_schema_cache_mutex);
+
+    std::shared_ptr<SyncSession> sync_session() REQUIRES(!m_realm_mutex)
+    {
+        util::CheckedLockGuard lock(m_realm_mutex);
+        return m_sync_session;
+    }
 #endif
 
     // Get the existing cached Realm if it exists for the specified scheduler or config.scheduler
@@ -183,7 +189,7 @@ public:
 
     // Commit a Realm's current write transaction and send notifications to all
     // other Realm instances for that path, including in other processes
-    void commit_write(Realm& realm) REQUIRES(!m_notifier_mutex);
+    void commit_write(Realm& realm, bool commit_to_disk = true) REQUIRES(!m_notifier_mutex);
 
     void enable_wait_for_change();
     bool wait_for_change(std::shared_ptr<Transaction> tr);
@@ -195,6 +201,11 @@ public:
 
     template <typename Pred>
     util::CheckedUniqueLock wait_for_notifiers(Pred&& wait_predicate) REQUIRES(!m_notifier_mutex);
+
+    void async_request_write_mutex(TransactionRef& tr, util::UniqueFunction<void()> when_acquired = nullptr)
+    {
+        m_db->async_request_write_mutex(tr, when_acquired);
+    }
 
     AuditInterface* audit_context() const noexcept
     {

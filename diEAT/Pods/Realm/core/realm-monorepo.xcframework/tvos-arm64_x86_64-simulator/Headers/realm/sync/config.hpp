@@ -19,27 +19,42 @@
 #ifndef REALM_SYNC_CONFIG_HPP
 #define REALM_SYNC_CONFIG_HPP
 
+#include <realm/db.hpp>
 #include <realm/util/assert.hpp>
 #include <realm/util/optional.hpp>
-#include <realm/util/network.hpp>
 
 #include <functional>
 #include <memory>
 #include <string>
 #include <map>
-#include <array>
 #include <system_error>
 #include <unordered_map>
 
 namespace realm {
 
-class Group;
 class SyncUser;
 class SyncSession;
+class Realm;
 
 namespace bson {
 class Bson;
 }
+
+enum class SimplifiedProtocolError {
+    ConnectionIssue,
+    UnexpectedInternalIssue,
+    SessionIssue,
+    BadAuthentication,
+    PermissionDenied,
+    ClientResetRequested,
+};
+
+namespace sync {
+using port_type = std::uint_fast16_t;
+enum class ProtocolError;
+}
+
+SimplifiedProtocolError get_simplified_error(sync::ProtocolError err);
 
 struct SyncError {
 
@@ -78,10 +93,10 @@ struct SyncError {
 using SyncSessionErrorHandler = void(std::shared_ptr<SyncSession>, SyncError);
 
 enum class ClientResyncMode : unsigned char {
-    // Enable automatic client resync without local transaction recovery
-    DiscardLocal = 1,
     // Fire a client reset error
-    Manual = 2,
+    Manual,
+    // Discard local changes, without disrupting accessors or closing the Realm
+    DiscardLocal,
 };
 
 enum class ReconnectMode {
@@ -111,8 +126,11 @@ enum class SyncSessionStopPolicy {
 };
 
 struct SyncConfig {
+    struct FLXSyncEnabled {
+    };
+
     struct ProxyConfig {
-        using port_type = util::network::Endpoint::port_type;
+        using port_type = sync::port_type;
         enum class Type { HTTP, HTTPS } type;
         std::string address;
         port_type port;
@@ -122,6 +140,7 @@ struct SyncConfig {
 
     std::shared_ptr<SyncUser> user;
     std::string partition_value;
+    bool flx_sync_requested = false;
     SyncSessionStopPolicy stop_policy = SyncSessionStopPolicy::AfterChangesUploaded;
     std::function<SyncSessionErrorHandler> error_handler;
     bool client_validate_ssl = true;
@@ -136,13 +155,18 @@ struct SyncConfig {
     std::map<std::string, std::string> custom_http_headers;
 
     // The name of the directory which Realms should be backed up to following
-    // a client reset
+    // a client reset in ClientResyncMode::Manual mode
     util::Optional<std::string> recovery_directory;
-    ClientResyncMode client_resync_mode = ClientResyncMode::DiscardLocal;
+    ClientResyncMode client_resync_mode = ClientResyncMode::Manual;
+    std::function<void(std::shared_ptr<Realm> before_frozen)> notify_before_client_reset;
+    std::function<void(std::shared_ptr<Realm> before_frozen, std::shared_ptr<Realm> after)> notify_after_client_reset;
+    std::function<void(const std::string&, std::function<void(DBRef, util::Optional<std::string>)>)>
+        get_fresh_realm_for_path;
 
     explicit SyncConfig(std::shared_ptr<SyncUser> user, bson::Bson partition);
     explicit SyncConfig(std::shared_ptr<SyncUser> user, std::string partition);
     explicit SyncConfig(std::shared_ptr<SyncUser> user, const char* partition);
+    explicit SyncConfig(std::shared_ptr<SyncUser> user, FLXSyncEnabled);
 };
 
 } // namespace realm

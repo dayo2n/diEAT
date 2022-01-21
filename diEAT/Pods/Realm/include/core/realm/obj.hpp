@@ -19,7 +19,7 @@
 #ifndef REALM_OBJ_HPP
 #define REALM_OBJ_HPP
 
-#include <realm/array.hpp>
+#include <realm/node.hpp>
 #include <realm/table_ref.hpp>
 #include <realm/keys.hpp>
 #include <realm/mixed.hpp>
@@ -73,6 +73,24 @@ enum JSONOutputMode {
     output_mode_xjson_plus, // extended json as described in the spec with additional modifier used for sync
 };
 
+/// The status of an accessor after a call to `update_if_needed()`.
+enum class UpdateStatus {
+    /// The owning object or column no longer exist, and the accessor could
+    /// not be updated. The accessor should be left in a detached state
+    /// after this, and further calls to `update_if_needed()` are not
+    /// guaranteed to reattach the accessor.
+    Detached,
+
+    /// The underlying data of the accessor was changed since the last call
+    /// to `update_if_needed()`. The accessor is still valid.
+    Updated,
+
+    /// The underlying data of the accessor did not change since the last
+    /// call to `update_if_needed()`, and the accessor is still valid in its
+    /// current state.
+    NoChange,
+};
+
 // 'Object' would have been a better name, but it clashes with a class in ObjectStore
 class Obj {
 public:
@@ -110,16 +128,16 @@ public:
         return m_table != nullptr;
     }
 
-    // Check if the object is still alive
+    /// Check if the object is still alive
     bool is_valid() const noexcept;
-    // Will throw if object is not valid
+    /// Will throw if object is not valid
     void check_valid() const;
-    // Delete object from table. Object is invalid afterwards.
+    /// Delete object from table. Object is invalid afterwards.
     void remove();
-    // Invalidate
-    //  - this turns the object into a tombstone if links to the object exist.
-    //  - deletes the object is no links to the object exist.
-    //  - To be used by the Sync client.
+    /// Invalidate
+    ///  - this turns the object into a tombstone if links to the object exist.
+    ///  - deletes the object is no links to the object exist.
+    ///  - To be used by the Sync client.
     void invalidate();
 
     template <typename U>
@@ -139,7 +157,6 @@ public:
         return get<U>(get_column_key(col_name));
     }
     bool is_unresolved(ColKey col_key) const;
-    int cmp(const Obj& other, ColKey col_key) const;
 
     size_t get_link_count(ColKey col_key) const;
 
@@ -161,11 +178,11 @@ public:
     bool evaluate(T func) const;
 
     void to_json(std::ostream& out, size_t link_depth, const std::map<std::string, std::string>& renames,
-                 std::vector<ColKey>& followed, JSONOutputMode output_mode) const;
+                 std::vector<ObjLink>& followed, JSONOutputMode output_mode) const;
     void to_json(std::ostream& out, size_t link_depth, const std::map<std::string, std::string>& renames,
                  JSONOutputMode output_mode = output_mode_json) const
     {
-        std::vector<ColKey> followed;
+        std::vector<ObjLink> followed;
         to_json(out, link_depth, renames, followed, output_mode);
     }
 
@@ -244,8 +261,14 @@ public:
 
     void assign(const Obj& other);
 
-    Obj get_linked_object(ColKey link_col_key) const;
-    Obj get_linked_object(StringData link_col_name) const;
+    Obj get_linked_object(ColKey link_col_key) const
+    {
+        return _get_linked_object(link_col_key, get_any(link_col_key));
+    }
+    Obj get_linked_object(StringData link_col_name) const
+    {
+        return get_linked_object(get_column_key(link_col_name));
+    }
 
     template <typename U>
     Lst<U> get_list(ColKey col_key) const;
@@ -286,6 +309,7 @@ public:
     Dictionary get_dictionary(StringData col_name) const;
 
     CollectionBasePtr get_collection_ptr(ColKey col_key) const;
+    CollectionBasePtr get_collection_ptr(StringData col_name) const;
     LinkCollectionPtr get_linkcollection_ptr(ColKey col_key) const;
 
     void assign_pk_and_backlinks(const Obj& other);
@@ -302,10 +326,10 @@ private:
     friend class Cluster;
     friend class ColumnListBase;
     friend class CollectionBase;
-    friend class ConstTableView;
+    friend class TableView;
     template <class, class>
     friend class Collection;
-    template <class>
+    template <class, class>
     friend class CollectionBaseImpl;
     template <class>
     friend class Lst;
@@ -325,10 +349,19 @@ private:
     mutable bool m_valid;
 
     Allocator& _get_alloc() const noexcept;
+
+
+    /// Update the accessor. Returns true when the accessor was updated to
+    /// reflect new changes to the underlying state.
     bool update() const;
     // update if needed - with and without check of table instance version:
     bool update_if_needed() const;
     bool _update_if_needed() const; // no check, use only when already checked
+
+    /// Update the accessor (and return `UpdateStatus::Detached` if the Obj is
+    /// no longer valid, rather than throwing an exception).
+    UpdateStatus update_if_needed_with_status() const;
+
     template <class T>
     bool do_is_null(ColKey::Idx col_ndx) const;
 
@@ -343,9 +376,6 @@ private:
     template <typename U>
     U _get(ColKey::Idx col_ndx) const;
 
-    template <class T>
-    int cmp(const Obj& other, ColKey::Idx col_ndx) const;
-    int cmp(const Obj& other, ColKey::Idx col_ndx) const;
     ObjKey get_backlink(ColKey backlink_col, size_t backlink_ndx) const;
     // Return all backlinks from a specific backlink column
     std::vector<ObjKey> get_all_backlinks(ColKey backlink_col) const;
@@ -360,7 +390,7 @@ private:
     ColKey spec_ndx2colkey(size_t col_ndx);
     size_t colkey2spec_ndx(ColKey);
     bool ensure_writeable();
-    void sync(Array& arr);
+    void sync(Node& arr);
     int_fast64_t bump_content_version();
     void bump_both_versions();
     template <class T>
@@ -370,6 +400,12 @@ private:
     size_t get_row_ndx() const
     {
         return m_row_ndx;
+    }
+
+    Obj _get_linked_object(ColKey link_col_key, Mixed link) const;
+    Obj _get_linked_object(StringData link_col_name, Mixed link) const
+    {
+        return _get_linked_object(get_column_key(link_col_name), link);
     }
 
     void set_int(ColKey col_key, int64_t value);
@@ -520,12 +556,6 @@ std::vector<U> Obj::get_list_values(ColKey col_key) const
         values.push_back(v);
 
     return values;
-}
-
-inline Obj Obj::get_linked_object(StringData link_col_name) const
-{
-    ColKey col = get_column_key(link_col_name);
-    return get_linked_object(col);
 }
 
 template <class Val>

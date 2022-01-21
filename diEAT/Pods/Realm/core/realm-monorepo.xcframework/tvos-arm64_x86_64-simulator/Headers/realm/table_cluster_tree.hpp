@@ -38,6 +38,13 @@ public:
         auto state = ClusterTree::get(k);
         return Obj(get_table_ref(), state.mem, k, state.index);
     }
+    Obj try_get_obj(ObjKey k) const noexcept
+    {
+        if (auto state = ClusterTree::try_get(k)) {
+            return Obj(get_table_ref(), state.mem, k, state.index);
+        }
+        return {};
+    }
     Obj get(size_t ndx) const
     {
         ObjKey k;
@@ -72,6 +79,7 @@ private:
 class TableClusterTree::Iterator : public ClusterTree::Iterator {
 public:
     typedef std::forward_iterator_tag iterator_category;
+    typedef std::ptrdiff_t difference_type;
     typedef Obj value_type;
     typedef Obj* pointer;
     typedef Obj& reference;

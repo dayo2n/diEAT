@@ -429,12 +429,13 @@
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
 				INFOPLIST_FILE = diEAT/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"${PODS_XCFRAMEWORKS_BUILD_DIR}/realm-monorepo",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm\"",
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cnu.cse.dayo2n.diEAT;
@@ -460,12 +461,13 @@
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
 				INFOPLIST_FILE = diEAT/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					"${PODS_XCFRAMEWORKS_BUILD_DIR}/realm-monorepo",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm\"",
 					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cnu.cse.dayo2n.diEAT;

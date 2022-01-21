@@ -22,11 +22,13 @@
 #include <realm/object-store/schema.hpp>
 
 #include <realm/util/optional.hpp>
+#include <realm/util/functional.hpp>
 #include <realm/binary_data.hpp>
 #include <realm/db.hpp>
 #include <realm/version_id.hpp>
 
 #include <memory>
+#include <deque>
 
 namespace realm {
 class AsyncOpenTask;
@@ -42,8 +44,13 @@ class Table;
 class ThreadSafeReference;
 class Transaction;
 struct SyncConfig;
+class SyncSession;
 typedef std::shared_ptr<Realm> SharedRealm;
 typedef std::weak_ptr<Realm> WeakRealm;
+
+namespace sync {
+class SubscriptionSet;
+}
 
 namespace util {
 class Scheduler;
@@ -55,89 +62,6 @@ class CollectionNotifier;
 class RealmCoordinator;
 class RealmFriend;
 } // namespace _impl
-
-// How to handle update_schema() being called on a file which has
-// already been initialized with a different schema
-enum class SchemaMode : uint8_t {
-    // If the schema version has increased, automatically apply all
-    // changes, then call the migration function.
-    //
-    // If the schema version has not changed, verify that the only
-    // changes are to add new tables and add or remove indexes, and then
-    // apply them if so. Does not call the migration function.
-    //
-    // This mode does not automatically remove tables which are not
-    // present in the schema that must be manually done in the migration
-    // function, to support sharing a Realm file between processes using
-    // different class subsets.
-    //
-    // This mode allows using schemata with different subsets of tables
-    // on different threads, but the tables which are shared must be
-    // identical.
-    Automatic,
-
-    // Open the file in immutable mode. Schema version must match the
-    // version in the file, and all tables present in the file must
-    // exactly match the specified schema, except for indexes. Tables
-    // are allowed to be missing from the file.
-    // WARNING: This is the original ReadOnly mode.
-    Immutable,
-
-    // Open the Realm in read-only mode, transactions are not allowed to
-    // be performed on the Realm instance. The schema of the existing Realm
-    // file won't be changed through this Realm instance. Extra tables and
-    // extra properties are allowed in the existing Realm schema. The
-    // difference of indexes is allowed as well. Other schema differences
-    // than those will cause an exception. This is different from Immutable
-    // mode, sync Realm can be opened with ReadOnly mode. Changes
-    // can be made to the Realm file through another writable Realm instance.
-    // Thus, notifications are also allowed in this mode.
-    // FIXME: Rename this to ReadOnly
-    // WARNING: This is not the original ReadOnly mode. The original ReadOnly
-    // has been renamed to Immutable.
-    ReadOnlyAlternative,
-
-    // If the schema version matches and the only schema changes are new
-    // tables and indexes being added or removed, apply the changes to
-    // the existing file.
-    // Otherwise delete the file and recreate it from scratch.
-    // The migration function is not used.
-    //
-    // This mode allows using schemata with different subsets of tables
-    // on different threads, but the tables which are shared must be
-    // identical.
-    ResetFile,
-
-    // The only changes allowed are to add new tables, add columns to
-    // existing tables, and to add or remove indexes from existing
-    // columns. Extra tables not present in the schema are ignored.
-    // Indexes are only added to or removed from existing columns if the
-    // schema version is greater than the existing one (and unlike other
-    // modes, the schema version is allowed to be less than the existing
-    // one).
-    // The migration function is not used.
-    // This should be used when including discovered user classes.
-    // Previously called Additive.
-    //
-    // This mode allows updating the schema with additive changes even
-    // if the Realm is already open on another thread.
-    AdditiveDiscovered,
-
-    // The same additive properties as AdditiveDiscovered, except
-    // in this mode, all classes in the schema have been explicitly
-    // included by the user. This means that stricter schema checks are
-    // run such as throwing an error when an embedded object type which
-    // is not linked from any top level object types is included.
-    AdditiveExplicit,
-
-    // Verify that the schema version has increased, call the migraiton
-    // function, and then verify that the schema now matches.
-    // The migration function is mandatory for this mode.
-    //
-    // This mode requires that all threads and processes which open a
-    // file use identical schemata.
-    Manual
-};
 
 class Realm : public std::enable_shared_from_this<Realm> {
 public:
@@ -208,10 +132,9 @@ public:
         {
             return schema_mode == SchemaMode::Immutable;
         }
-        // FIXME: Rename this to read_only().
-        bool read_only_alternative() const
+        bool read_only() const
         {
-            return schema_mode == SchemaMode::ReadOnlyAlternative;
+            return schema_mode == SchemaMode::ReadOnly;
         }
 
         // The following are intended for internal/testing purposes and
@@ -270,7 +193,16 @@ public:
     // using the `AsyncOpenTask` returned. Note that the download doesn't actually
     // start until you call `AsyncOpenTask::start(callback)`
     static std::shared_ptr<AsyncOpenTask> get_synchronized_realm(Config config);
+
+    std::shared_ptr<SyncSession> sync_session() const;
+
+    // Returns the latest/active subscription set for a FLX-sync enabled realm. If FLX sync is not currently
+    // enabled for this realm, calling this will cause future connections to the server to be opened in FLX
+    // sync mode if they aren't already.
+    sync::SubscriptionSet get_latest_subscription_set();
+    sync::SubscriptionSet get_active_subscription_set();
 #endif
+
     // Returns a frozen Realm for the given Realm. This Realm can be accessed from any thread.
     static SharedRealm get_frozen_realm(Config config, VersionID version);
 
@@ -301,12 +233,64 @@ public:
         return m_schema_version;
     }
 
+
     void begin_transaction();
     void commit_transaction();
     void cancel_transaction();
     bool is_in_transaction() const noexcept;
 
+    // Asynchronous (write)transaction.
+    // * 'the_write_block' is queued for execution on the scheduler
+    //   associated with the current realm. It will run after the write
+    //   mutex has been acquired.
+    // * If 'notify_only' is false, 'the_block' should end by calling commit_transaction(),
+    //   cancel_transaction() or async_commit_transaction().
+    // * If 'notify_only' is false, returning without one of these calls will be equivalent to calling
+    //   cancel_transaction().
+    // * If 'notify_only' is true, 'the_block' should only be used for signalling that
+    //   a write transaction can proceed, but must not itself call async_commit() or cancel_transaction()
+    // * The call returns immediately allowing the caller to proceed
+    //   while the write mutex is held by someone else.
+    // * Write blocks from multiple calls to async_transaction() will be
+    //   executed in order.
+    // * A later call to async_begin_transaction() will wait for any earlier write blocks.
+    using AsyncHandle = unsigned;
+    AsyncHandle async_begin_transaction(util::UniqueFunction<void()>&& the_block, bool notify_only = false);
+
+    // Asynchronous commit.
+    // * 'the_done_block' is queued for execution on the scheduler associated with
+    //   the current realm. It will run after the commit has reached stable storage.
+    // * The call returns immediately allowing the caller to proceed while
+    //   the I/O is performed on a dedicated background thread.
+    // * Callbacks to 'the_done_block' will occur in the order of async_commit()
+    // * If 'allow_grouping' is set, the next async_commit *may* run without an
+    //   intervening synchronization of stable storage.
+    // * Such a sequence of commits form a group. In case of a platform crash,
+    //   either none or all of the commits in a group will reach stable storage.
+    AsyncHandle async_commit_transaction(util::UniqueFunction<void()>&& the_done_block = nullptr,
+                                         bool allow_grouping = false);
+
+    // Cancel a queued code block (either for an async_transaction or for an async_commit)
+    // * Cancelling a commit will not abort the commit, it will only cancel the callback
+    //   informing of commit completion.
+    void async_cancel_transaction(AsyncHandle);
+
+    // Returns true when async transactiona has been created and the result of the last
+    // commit has not yet reached permanent storage.
+    bool is_in_async_transaction() const noexcept;
+
+    void set_async_error_handler(util::UniqueFunction<void(AsyncHandle, std::exception_ptr)>&& hndlr)
+    {
+        m_async_exception_handler = std::move(hndlr);
+    }
+
     // Returns a frozen copy for the current version of this Realm
+    // If called from within a write transaction, the returned Realm will
+    // reflect the state at the beginning of the write transaction. Any
+    // accumulated state changes will not be part of it. To obtain a frozen
+    // transaction reflecting a current write transaction, you need to first
+    // commit the write and then freeze.
+    // possible better name: freeze_at_transaction_start ?
     SharedRealm freeze();
 
     // Returns `true` if the Realm is frozen, `false` otherwise.
@@ -349,6 +333,8 @@ public:
         return m_auto_refresh;
     }
     void notify();
+    void run_writes();
+    void run_async_completions();
 
     void invalidate();
 
@@ -385,7 +371,7 @@ public:
      * - the Realm file itself
      * - the .management folder
      * - the .note file
-     * - the .log file and its legacy versions: .log_a and .log_b
+     * - the .log file
      *
      * The .lock file for this Realm cannot and will not be deleted as this is unsafe.
      * If a different process / thread is accessing the Realm at the same time a corrupt state
@@ -504,6 +490,28 @@ private:
     Transaction& transaction();
     Transaction& transaction() const;
     std::shared_ptr<Transaction> transaction_ref();
+    struct AsyncWriteDesc {
+        util::UniqueFunction<void()> writer;
+        bool notify_only;
+        unsigned handle;
+    };
+    std::deque<AsyncWriteDesc> m_async_write_q;
+    struct AsyncCommitDesc {
+        util::UniqueFunction<void()> when_completed;
+        unsigned handle;
+    };
+    std::vector<AsyncCommitDesc> m_async_commit_q;
+    unsigned m_async_commit_handle = 0;
+    bool m_is_running_async_writes = false;
+    bool m_notify_only = false;
+    bool m_is_running_async_commit_completions = false;
+    bool m_async_commit_barrier_requested = false;
+    util::UniqueFunction<void(AsyncHandle, std::exception_ptr)> m_async_exception_handler;
+    void run_writes_on_proper_thread();
+    void run_async_completions_on_proper_thread();
+    void check_pending_write_requests();
+    void end_current_write();
+    void call_completion_callbacks();
 
 public:
     std::unique_ptr<BindingContext> m_binding_context;

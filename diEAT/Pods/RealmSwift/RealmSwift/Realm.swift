@@ -629,7 +629,7 @@ import Realm.Private
      :nodoc:
      */
     public func delete<Element: ObjectBase>(_ objects: Results<Element>) {
-        rlmRealm.deleteObjects(objects.rlmResults)
+        rlmRealm.deleteObjects(objects.collection)
     }
 
     /**
@@ -650,7 +650,7 @@ import Realm.Private
 
      - returns: A `Results` containing the objects.
      */
-    public func objects<Element: Object>(_ type: Element.Type) -> Results<Element> {
+    public func objects<Element: RealmFetchable>(_ type: Element.Type) -> Results<Element> {
         return Results(RLMGetObjects(rlmRealm, type.className(), nil))
     }
 
@@ -1001,7 +1001,7 @@ extension Realm {
 /// The type of a block to run for notification purposes when the data in a Realm is modified.
 public typealias NotificationBlock = (_ notification: Realm.Notification, _ realm: Realm) -> Void
 
-#if swift(>=5.5) && canImport(_Concurrency)
+#if swift(>=5.5.2) && canImport(_Concurrency)
 @available(macOS 12.0, tvOS 15.0, iOS 15.0, watchOS 8.0, *)
 extension Realm {
     /// Options for when to download all data from the server before opening
@@ -1039,16 +1039,13 @@ extension Realm {
      - parameter configuration: A configuration object to use when opening the Realm.
      - parameter downloadBeforeOpen: When opening the Realm should first download
      all data from the server.
-     - parameter queue: An optional dispatch queue to confine the Realm to. If
-     given, this Realm instance can be used from within
-     blocks dispatched to the given queue rather than on the
-     current thread.
      - throws: An `NSError` if the Realm could not be initialized.
      - returns: An open Realm.
      */
+    @MainActor
     public init(configuration: Realm.Configuration = .defaultConfiguration,
-                downloadBeforeOpen: OpenBehavior = .never,
-                queue: DispatchQueue? = nil) async throws {
+                downloadBeforeOpen: OpenBehavior = .never) async throws {
+        var rlmRealm: RLMRealm?
         switch downloadBeforeOpen {
         case .never:
             break
@@ -1057,17 +1054,37 @@ extension Realm {
                 fallthrough
             }
         case .always:
-            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Swift.Error>) in
-                RLMRealm.asyncOpen(with: configuration.rlmConfiguration, callback: { error in
+            rlmRealm = try await withCheckedThrowingContinuation { continuation in
+                RLMRealm.asyncOpen(with: configuration.rlmConfiguration, callbackQueue: .main) { (realm, error) in
                     if let error = error {
                         continuation.resume(with: .failure(error))
                     } else {
-                        continuation.resume()
+                        continuation.resume(with: .success(realm!))
                     }
-                })
+                }
             }
         }
-        try self.init(RLMRealm(configuration: configuration.rlmConfiguration, queue: queue))
+        if rlmRealm == nil {
+            rlmRealm = try RLMRealm(configuration: configuration.rlmConfiguration)
+        }
+        self.init(rlmRealm!)
     }
 }
 #endif // swift(>=5.5)
+
+/**
+ Objects which can be feched from the Realm - Object or Projection
+ */
+public protocol RealmFetchable: RealmCollectionValue {
+    /// :nodoc:
+    static func className() -> String
+}
+/// :nodoc:
+extension Object: RealmFetchable {}
+/// :nodoc:
+extension Projection: RealmFetchable {
+    /// :nodoc:
+    public static func className() -> String {
+        return Root.className()
+    }
+}

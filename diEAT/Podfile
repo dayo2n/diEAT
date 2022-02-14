@@ -9,4 +9,6 @@ target 'diEAT' do
 
 pod 'FSCalendar'
 pod 'RealmSwift'
+pod 'Firebase/Core'
+pod 'Firebase/Database'
 end

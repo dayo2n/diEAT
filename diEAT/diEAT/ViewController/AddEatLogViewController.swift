@@ -36,7 +36,7 @@ class AddEatLogViewController: UIViewController {
         imgPicker.sourceType = .camera
         present(imgPicker, animated: false, completion: nil)
         }else{ // 시뮬레이터로 카메라 동작 불가
-            print("Camera is not available on simulator, plz check on the iPhone")
+            print("=== DEBUG: Camera is not available on simulator, plz check on the iPhone")
         }
     }
     
@@ -60,8 +60,8 @@ class AddEatLogViewController: UIViewController {
         }else if sender.selectedSegmentIndex == 3 {
             selectedTime = "etc"
         }
-        print(didSelectDate)
-        print("selectedTime is \(selectedTime)")
+        print("=== DEBUG: \(didSelectDate)")
+        print("=== DEBUG: selectedTime is \(selectedTime)")
     }
     
     //log를 렘에 새로 추가하는 메소드
@@ -80,8 +80,8 @@ class AddEatLogViewController: UIViewController {
             realm.add(newLog)
             saveImgToDocumentDirectory(imgName: "\(newLog._id).png", img: eatImgView.image!)
         }
-        print("저장됨")
-        print(newLog)
+        print("=== DEBUG: 저장됨")
+        print("=== DEBUG: \(newLog)")
 
     }
     
@@ -102,7 +102,7 @@ UINavigationControllerDelegate{
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         {
             eatImgView.image = image
-            print(info)
+            print("=== DEBUG: \(info)")
         }
         dismiss(animated: true, completion: nil)
       
@@ -112,22 +112,22 @@ UINavigationControllerDelegate{
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return}
         let imgURL = documentDirectory.appendingPathComponent(imgName)
         guard let data = img.pngData() else{
-            print("압축 실패")
+            print("=== DEBUG: 압축 실패")
             return
         }
         if FileManager.default.fileExists(atPath:  imgURL.path){
             do{
                 try FileManager.default.removeItem(at: imgURL)
-                print(" img removed, 덮어쓰기 ")
+                print("=== DEBUG: img removed, 덮어쓰기 ")
             } catch{
-                print(" failed to remove img ")
+                print("=== DEBUG: failed to remove img ")
             }
         }
         do {
             try data.write(to: imgURL)
-            print(" success to save img into doc")
+            print("=== DEBUG: success to save img into doc")
         } catch {
-            print(" faild to save img into doc")
+            print("=== DEBUG: faild to save img into doc")
         }
     }
 }

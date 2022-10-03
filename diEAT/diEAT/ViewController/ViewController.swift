@@ -23,11 +23,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let imageView = UIImageView(image: UIImage(named: "wide_logo.png"))
+//        self.navigationItem.titleView = imageView
+        
         setCalendar()
         didSelectDate = dateFormatter.string(from: Date())
         
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        print(documentsDirectory)
+        print("=== DEBUG: \(documentsDirectory)")
         
         // set EatLog
         eatLog.delegate = self
@@ -114,9 +117,9 @@ extension ViewController : FSCalendarDelegate, FSCalendarDataSource, FSCalendarD
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(dateFormatter.string(from: date))
+        print("=== DEBUG: \(dateFormatter.string(from: date))")
         didSelectDate = dateFormatter.string(from: date)
-        print(didSelectDate)
+        print("=== DEBUG: \(didSelectDate)")
         DispatchQueue.main.async {
             self.eatLog.reloadData()
         }

@@ -22,7 +22,6 @@
 		BFD0E7782733DD8D00458612 /* EatLogCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFD0E7762733DD8D00458612 /* EatLogCollectionViewCell.xib */; };
 		BFD0E77C2733DF9400458612 /* LogData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0E77B2733DF9400458612 /* LogData.swift */; };
 		BFD0E77E2733E4BE00458612 /* AddEatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0E77D2733E4BE00458612 /* AddEatLogViewController.swift */; };
-		BFD0E7802736754A00458612 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BFD0E77F2736754A00458612 /* icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +40,6 @@
 		BFD0E7762733DD8D00458612 /* EatLogCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EatLogCollectionViewCell.xib; sourceTree = "<group>"; };
 		BFD0E77B2733DF9400458612 /* LogData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogData.swift; sourceTree = "<group>"; };
 		BFD0E77D2733E4BE00458612 /* AddEatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEatLogViewController.swift; sourceTree = "<group>"; };
-		BFD0E77F2736754A00458612 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		CACD1B675189F6C514DDDCC4 /* Pods-diEAT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diEAT.debug.xcconfig"; path = "Target Support Files/Pods-diEAT/Pods-diEAT.debug.xcconfig"; sourceTree = "<group>"; };
 		FAC41D007B287C714EE036D2 /* Pods-diEAT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diEAT.release.xcconfig"; path = "Target Support Files/Pods-diEAT/Pods-diEAT.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,7 +78,6 @@
 		BF8C5C5226C0F0DE00CD690F /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				BFD0E77F2736754A00458612 /* icon.png */,
 				BFC0CF0D26B1342E008A28BE /* ViewController.swift */,
 				BFD0E77D2733E4BE00458612 /* AddEatLogViewController.swift */,
 			);
@@ -222,7 +219,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFD0E7802736754A00458612 /* icon.png in Resources */,
 				BFD0E7782733DD8D00458612 /* EatLogCollectionViewCell.xib in Resources */,
 				BFBF6F8F27A8BA51004EDCBA /* GoogleService-Info.plist in Resources */,
 				BFC0CF1626B1342F008A28BE /* LaunchScreen.storyboard in Resources */,
@@ -444,7 +440,7 @@
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
 				INFOPLIST_FILE = diEAT/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -476,7 +472,7 @@
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
 				INFOPLIST_FILE = diEAT/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

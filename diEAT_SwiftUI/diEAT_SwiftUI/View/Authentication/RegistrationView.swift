@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RegistrationView: View {
     
-    @State private var id: String = ""
+    @State private var username: String = ""
+    @State private var email: String = ""
     @State private var pw: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
@@ -24,28 +25,29 @@ struct RegistrationView: View {
                 
                 Spacer()
                 VStack {
-                    CustomTextField(text: $id, placeholder: Text("USERNAME"), imageName: "person")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
-                        .padding([.leading, .trailing])
-                    
-                    CustomTextField(text: $id, placeholder: Text("ID"), imageName: "heart.text.square")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
-                        .padding([.leading, .trailing])
-                    
-                    CustomSecureField(password: $id, placeholder: Text("PASSWORD"))
+                    CustomTextField(text: $username, placeholder: Text("USERNAME"), imageName: "person")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
                         .border(Color("btnColor"), width: 0.7)
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
-                    Button(action: {viewModel.login()}, label: {
+                    CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Color("btnColor"), width: 0.7)
+                        .padding([.leading, .trailing])
+                    
+                    CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Color("btnColor"), width: 0.7)
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 20)
+                    
+                    Button(action: { viewModel.register(username: username, email: email, pw: pw) }, label: {
                         Text("SIGN UP")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white)

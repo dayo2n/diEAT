@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State private var id: String = ""
+    @State private var email: String = ""
     @State private var pw: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     
@@ -23,26 +23,26 @@ struct LoginView: View {
                 
                 Spacer()
                 VStack {
-                    CustomTextField(text: $id, placeholder: Text("USERNAME"), imageName: "person")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
+                        .border(Color("defaultColor"), width: 0.7)
                         .padding([.leading, .trailing])
                     
-                    CustomSecureField(password: $id, placeholder: Text("PASSWORD"))
+                    CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
+                        .border(Color("defaultColor"), width: 0.7)
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
-                    Button(action: {viewModel.login()}, label: {
+                    Button(action: { viewModel.login(email: email, pw: pw) }, label: {
                         Text("LOGIN")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .foregroundColor(.white)
                             .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Color("btnColor"))
+                            .background(Color("defaultColor"))
                             .cornerRadius(10)
                     })
                     

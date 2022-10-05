@@ -16,8 +16,7 @@ class AuthViewModel: ObservableObject {
     static let shared = AuthViewModel()
     
     init() {
-//        userSession = Auth.auth().currentUser // makes a API call to the firebase server
-        userSession = nil
+        userSession = Auth.auth().currentUser // makes a API call to the firebase server
         // If there is no login information, userSession would be 'nil'
         fetchUser()
     }
@@ -32,12 +31,37 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func register() {
-        
+    func register(username: String, email: String, pw: String) {
+        Auth.auth().createUser(withEmail: email, password: pw) { result, error in
+            if let error = error {
+                print("=== DEBUG: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let user = result?.user else { return }
+            
+            let data = ["email": email,
+                        "username": username,
+                        "uid": user.uid]
+            
+            Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
+                self.userSession = user
+                self.fetchUser()
+            }
+        }
     }
     
-    func login() {
-        
+    func login(email: String, pw: String) {
+        Auth.auth().signIn(withEmail: email, password: pw) { result, error in
+            if let error = error {
+                print("=== DEBUG: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let user = result?.user else { return }
+            self.userSession = user
+            self.fetchUser()
+        }
     }
     
     func logout() {

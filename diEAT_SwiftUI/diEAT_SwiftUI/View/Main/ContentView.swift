@@ -13,17 +13,11 @@ struct ContentView: View {
     
     var body: some View {
         if viewModel.userSession == nil {
-            Text("no user")
+            LoginView()
         } else {
-            if let user = viewModel.cuurrentUser {
-                Text("hello")
+            if let user = viewModel.currentUser {
+                Text("signed in")
             }
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }

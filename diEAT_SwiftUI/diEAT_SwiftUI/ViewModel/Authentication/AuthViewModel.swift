@@ -13,11 +13,11 @@ class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     
-    
     static let shared = AuthViewModel()
     
     init() {
-        userSession = Auth.auth().currentUser // makes a API call to the firebase server
+//        userSession = Auth.auth().currentUser // makes a API call to the firebase server
+        userSession = nil
         // If there is no login information, userSession would be 'nil'
         fetchUser()
     }

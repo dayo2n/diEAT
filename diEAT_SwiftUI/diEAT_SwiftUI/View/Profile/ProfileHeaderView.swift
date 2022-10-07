@@ -31,8 +31,8 @@ struct ProfileHeaderView: View {
             }
             
             Text("\(user.username)")
-        }.padding(20)
+            
+            Spacer()
+        }.padding([.top, .bottom], 20)
     }
 }
-
-

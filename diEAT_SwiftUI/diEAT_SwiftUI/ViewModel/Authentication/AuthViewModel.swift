@@ -72,4 +72,12 @@ class AuthViewModel: ObservableObject {
     func resetPassword() {
         
     }
+    
+    func editUsername(newUsername: String) {
+        guard let uid = userSession?.uid else { return }
+        Firestore.firestore().collection("users").document(uid).updateData(["username": newUsername]) { _ in
+            print("=== DEBUG: new username is \(newUsername)")
+        }
+        fetchUser()
+    }
 }

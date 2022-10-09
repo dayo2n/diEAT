@@ -10,24 +10,71 @@ import Kingfisher
 
 struct EditProfileView: View {
     @ObservedObject var viewModel: AuthViewModel
+    @Environment(\.colorScheme) var scheme
+    @State var newUsername: String = ""
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        VStack {
-            if let profileImgUrl = viewModel.currentUser?.profileImageUrl {
-                    KFImage(URL(string: profileImgUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                        .clipShape(Circle())
-                        .padding(.leading)
-            } else {
-                Image("defaultProfileImg")
+        NavigationView {
+            VStack {
+                ZStack {
+                    Circle()
+                        .frame(width: 122, height: 122)
+                        .foregroundColor(Theme.bgColor(scheme))
+                    
+                    if let profileImgUrl = viewModel.currentUser?.profileImageUrl {
+                            KFImage(URL(string: profileImgUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                    } else {
+                        Image("defaultProfileImg")
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
+                            .foregroundColor(Theme.defaultColor(scheme))
+                    }
+                    Circle()
+                        .trim(from: 0.08, to: 0.42)
+                        .frame(width: 120, height: 120)
+                        .foregroundColor(Theme.bgColor(scheme))
+                        .opacity(0.7)
+                    
+                    Button(action: {}, label: {
+                        VStack {
+                            Spacer()
+                            
+                            Text("편집")
+                                .font(.system(size: 16, weight: .heavy, design: .monospaced))
+                                .foregroundColor(Theme.textColor(scheme))
+                                .padding(.bottom, 10)
+                        }.frame(width: 120, height: 120)
+                    })
+                }
                 
-                    Image("defaultProfileImg")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 80, height: 80)
-                        .clipShape(Circle())
-                        .padding(.leading)
+                CustomTextField(text: $newUsername, placeholder: Text("\(viewModel.currentUser!.username) "), imageName: scheme == .dark ? "person.fill" : "person")
+                    .font(.system(size: 15, weight: .medium, design: .monospaced))
+                    .padding(20)
+                    .frame(height: 50)
+                    .border(Theme.defaultColor(scheme), width: 0.7)
+                    .padding([.leading, .trailing])
+                
+                Spacer()
+            }.background(Theme.bgColor(scheme))
+        }.toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(action: {
+                    // AuthViewModel에서 유저 네임 변경 함수 구현
+                    viewModel.editUsername(newUsername: newUsername)
+                    dismiss()
+                }, label: {
+                    Text("변경")
+                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                })
             }
         }
     }

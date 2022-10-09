@@ -10,24 +10,30 @@ import ElegantCalendar
 
 struct MainView: View {
     
-    let user: User
+    @ObservedObject var viewModel: AuthViewModel
     @State var currentDate: Date = Date()
+    @State var editProfileMode: Bool = false
+    @Environment(\.colorScheme) var scheme
 
     var body: some View {
-        
-        VStack {
-            ProfileHeaderView(user: user)
-                .padding(.top, 40)
-            
-            // Calendar
-            CustomDatePicker(currentDate: $currentDate)
-                .padding([.leading, .trailing] ,10)
-            
-            // Eat Log
-            
-            Spacer()
+        NavigationView {
+            VStack {
+                NavigationLink(destination: { EditProfileView(viewModel: viewModel )}, label: {
+                    ProfileHeaderView(user: viewModel.currentUser!)
+                })
+                
+                // Calendar
+                CustomDatePicker(currentDate: $currentDate)
+                    .foregroundColor(Theme.textColor(scheme))
+                    .padding([.leading, .trailing] ,10)
+                
+                // Eat Log
+                
+                Spacer()
+                
+            }
+            .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
+            .background(Theme.bgColor(scheme))
         }
-        .ignoresSafeArea()
-        .background(Color("bgColor"))
     }
 }

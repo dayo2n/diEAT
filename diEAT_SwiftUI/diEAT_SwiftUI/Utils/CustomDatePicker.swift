@@ -13,6 +13,7 @@ struct CustomDatePicker: View {
     
     // Month update on arrow button clicks
     @State var currentMonth: Int = 0
+    @Environment(\.colorScheme) var scheme
     
     // Days
     let days: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -65,7 +66,7 @@ struct CustomDatePicker: View {
             LazyVGrid(columns: columns) {
                 ForEach(extractDate()) { value in
                     CardView(value: value)
-                        .frame(height: 50)
+                        .frame(height: 45)
                         .onTapGesture {
                             print("=== DEBUG: \(value)")
                     }
@@ -84,6 +85,7 @@ struct CustomDatePicker: View {
             if value.day != -1 {
                 Text("\(value.day)")
                     .font(.system(size: 13, weight: .regular, design: .monospaced))
+                    .padding(.bottom, 20)
             }
         }
     }

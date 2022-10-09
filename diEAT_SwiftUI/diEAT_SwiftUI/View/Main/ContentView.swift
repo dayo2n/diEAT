@@ -16,7 +16,7 @@ struct ContentView: View {
             LoginView()
         } else {
             if let user = viewModel.currentUser {
-                MainView(user: user)
+                MainView(viewModel: viewModel)
             }
         }
     }

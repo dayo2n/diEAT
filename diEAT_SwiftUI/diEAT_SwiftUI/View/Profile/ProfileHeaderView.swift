@@ -11,6 +11,7 @@ import Kingfisher
 struct ProfileHeaderView: View {
     
     let user: User
+    @Environment(\.colorScheme) var scheme
     
     var body: some View {
         HStack {
@@ -31,6 +32,7 @@ struct ProfileHeaderView: View {
             }
             
             Text("\(user.username)")
+                .foregroundColor(Theme.textColor(scheme))
             
             Spacer()
         }.padding([.top, .bottom], 20)

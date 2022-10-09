@@ -12,12 +12,13 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var pw: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @Environment(\.colorScheme) var scheme
     
     var body: some View {
         NavigationView {
             VStack {
                 Text("diEAT")
-                    .font(.system(size: 20, weight: .heavy, design: .monospaced))
+                    .font(.system(size: 30, weight: .heavy, design: .monospaced))
                 Text("Sign in")
                     .font(.system(size: 13, weight: .light, design: .monospaced))
                 
@@ -27,22 +28,22 @@ struct LoginView: View {
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("defaultColor"), width: 0.7)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                     
                     CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("defaultColor"), width: 0.7)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
                     Button(action: { viewModel.login(email: email, pw: pw) }, label: {
                         Text("LOGIN")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.textColor(scheme))
                             .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Color("defaultColor"))
+                            .background(Theme.btnColor(scheme))
                             .cornerRadius(10)
                     })
                     
@@ -50,11 +51,11 @@ struct LoginView: View {
                         HStack {
                             Text("Don't have an account?")
                                 .font(.system(size: 13))
-                                .foregroundColor(.black)
+                                .foregroundColor(Theme.defaultColor(scheme))
                             
                             Text("Sign up")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.black)
+                                .foregroundColor(Theme.textColor(scheme))
                         }
                         .padding(.bottom, 16)
                     })
@@ -62,7 +63,8 @@ struct LoginView: View {
             }
         }
         .ignoresSafeArea()
-        .background(Color("bgColor"))
+        .background()
+        .background(Theme.bgColor(scheme))
     }
 }
 

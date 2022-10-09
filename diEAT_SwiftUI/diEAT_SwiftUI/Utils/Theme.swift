@@ -10,33 +10,44 @@ import SwiftUI
 struct Theme {
     static func bgColor(_ scheme: ColorScheme) -> Color {
         let lightColor = Color("bgColor")
-        let darckColor = Color("bgColor")
+        let darkColor = Color("bgColor")
         
         switch scheme {
         case .light : return lightColor
-        case .dark : return darckColor
+        case .dark : return darkColor
         @unknown default: return lightColor
         }
     }
     
     static func defaultColor(_ scheme: ColorScheme) -> Color {
         let lightColor = Color("defaultColor")
-        let darckColor = Color("defaultColor")
+        let darkColor = Color("defaultColor")
         
         switch scheme {
         case .light : return lightColor
-        case .dark : return darckColor
+        case .dark : return darkColor
         @unknown default: return lightColor
         }
     }
     
     static func textColor(_ scheme: ColorScheme) -> Color {
         let lightColor = Color(.black)
-        let darckColor = Color(.white)
+        let darkColor = Color(.white)
         
         switch scheme {
         case .light : return lightColor
-        case .dark : return darckColor
+        case .dark : return darkColor
+        @unknown default: return lightColor
+        }
+    }
+    
+    static func btnColor(_ scheme: ColorScheme) -> Color {
+        let lightColor = Color(.lightGray)
+        let darkColor = Color(.darkGray)
+        
+        switch scheme {
+        case .light : return lightColor
+        case .dark : return darkColor
         @unknown default: return lightColor
         }
     }

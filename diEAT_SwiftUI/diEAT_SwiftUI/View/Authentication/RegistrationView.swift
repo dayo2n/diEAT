@@ -14,6 +14,7 @@ struct RegistrationView: View {
     @State private var pw: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
+    @Environment(\.colorScheme) var scheme
     
     var body: some View {
         NavigationView {
@@ -29,7 +30,7 @@ struct RegistrationView: View {
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
@@ -37,22 +38,22 @@ struct RegistrationView: View {
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                     
                     CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
                         .padding(20)
                         .frame(height: 50)
-                        .border(Color("btnColor"), width: 0.7)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
                     Button(action: { viewModel.register(username: username, email: email, pw: pw) }, label: {
                         Text("SIGN UP")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.textColor(scheme))
                             .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Color("btnColor"))
+                            .background(Theme.btnColor(scheme))
                             .cornerRadius(10)
                     })
                     
@@ -60,11 +61,11 @@ struct RegistrationView: View {
                         HStack {
                             Text("Already have an account?")
                                 .font(.system(size: 13))
-                                .foregroundColor(.black)
+                                .foregroundColor(Theme.defaultColor(scheme))
                             
                             Text("Sign in")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.black)
+                                .foregroundColor(Theme.textColor(scheme))
                         }
                         .padding(.bottom, 16)
                     })

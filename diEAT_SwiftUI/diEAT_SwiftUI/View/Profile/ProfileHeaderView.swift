@@ -24,11 +24,13 @@ struct ProfileHeaderView: View {
                     .padding(.leading)
             } else {
                 Image("defaultProfileImg")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())
                     .padding(.leading)
+                    .foregroundColor(Theme.textColor(scheme))
             }
             
             Text("\(user.username)")

@@ -18,9 +18,17 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: { EditProfileView(viewModel: viewModel )}, label: {
-                    ProfileHeaderView(user: viewModel.currentUser!)
-                })
+                HStack {
+                    NavigationLink(destination: { EditProfileView(viewModel: viewModel )}, label: {
+                        ProfileHeaderView(user: viewModel.currentUser!)
+                    })
+                    
+                    Button(action: AuthViewModel.shared.logout) {
+                        Image(systemName: scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")
+                            .padding(.trailing)
+                            .foregroundColor(Theme.textColor(scheme))
+                    }
+                }
                 
                 // Calendar
                 CustomDatePicker(currentDate: $currentDate)

@@ -16,6 +16,7 @@ struct EditProfileView: View {
     
     @State var imagePickMode: Bool = false
     @State var selectedImage: UIImage?
+    @State var progressGuage: Double = 1.0
     
     var body: some View {
         NavigationView {
@@ -53,9 +54,17 @@ struct EditProfileView: View {
                             Text("편집")
                                 .font(.system(size: 16, weight: .heavy, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .padding(.bottom, 10)
+                                .padding(.bottom, 8)
                         }.frame(width: 120, height: 120)
-                    }).sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                    })
+                    .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                    
+                    if progressGuage == 0.0 {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(2)
+                            .padding(20)
+                    }
                 }
                 
                 CustomTextField(text: $newUsername, placeholder: Text("\(viewModel.currentUser!.username) "), imageName: scheme == .dark ? "person.fill" : "person")
@@ -81,11 +90,15 @@ struct EditProfileView: View {
             }
         }
     }
-}
-
-extension EditProfileView {
+    
     func loadImage() {
+        print("=== DEBUG: \(progressGuage)")
         guard let selectedImage = selectedImage else { return }
-        viewModel.uploadProfileImage(newProfileImage: selectedImage)
+        self.progressGuage = 0.0
+        print("=== DEBUG: \(progressGuage)")
+        viewModel.uploadProfileImage(newProfileImage: selectedImage) {
+            self.progressGuage = 1.0
+            print("=== DEBUG: \(progressGuage)")
+        }
     }
 }

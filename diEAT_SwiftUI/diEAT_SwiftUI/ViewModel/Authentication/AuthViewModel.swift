@@ -80,4 +80,14 @@ class AuthViewModel: ObservableObject {
         }
         fetchUser()
     }
+    
+    func uploadProfileImage(newProfileImage: UIImage) {
+        guard let uid = userSession?.uid else { return }
+        ImageUploader.uploadImage(image: newProfileImage, type: .profile) { imageUrl in
+            Firestore.firestore().collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { _ in
+                print("=== DEBUG: profile image uploaded!")
+            }
+        }
+        fetchUser()
+    }
 }

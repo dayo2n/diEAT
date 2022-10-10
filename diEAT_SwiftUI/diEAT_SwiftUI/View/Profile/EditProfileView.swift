@@ -14,6 +14,9 @@ struct EditProfileView: View {
     @State var newUsername: String = ""
     @Environment(\.dismiss) private var dismiss
     
+    @State var imagePickMode: Bool = false
+    @State var selectedImage: UIImage?
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -43,7 +46,7 @@ struct EditProfileView: View {
                         .foregroundColor(Theme.bgColor(scheme))
                         .opacity(0.7)
                     
-                    Button(action: {}, label: {
+                    Button(action: { imagePickMode.toggle() }, label: {
                         VStack {
                             Spacer()
                             
@@ -52,7 +55,7 @@ struct EditProfileView: View {
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.bottom, 10)
                         }.frame(width: 120, height: 120)
-                    })
+                    }).sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                 }
                 
                 CustomTextField(text: $newUsername, placeholder: Text("\(viewModel.currentUser!.username) "), imageName: scheme == .dark ? "person.fill" : "person")
@@ -77,5 +80,12 @@ struct EditProfileView: View {
                 })
             }
         }
+    }
+}
+
+extension EditProfileView {
+    func loadImage() {
+        guard let selectedImage = selectedImage else { return }
+        viewModel.uploadProfileImage(newProfileImage: selectedImage)
     }
 }

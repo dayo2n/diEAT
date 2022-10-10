@@ -86,8 +86,9 @@ class AuthViewModel: ObservableObject {
         ImageUploader.uploadImage(image: newProfileImage, type: .profile) { imageUrl in
             Firestore.firestore().collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { _ in
                 print("=== DEBUG: profile image uploaded!")
+                
+                self.fetchUser()
             }
         }
-        fetchUser()
     }
 }

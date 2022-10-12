@@ -69,10 +69,11 @@ struct CustomDatePicker: View {
                     ZStack {
                         if value.date == selectedDate {
                             Circle()
+                                .frame(height: 35)
                         }
                         
                         CardView(value: value)
-                            .frame(height: 45)
+                            .frame(height: 35)
                             .onTapGesture {
                                 selectedDate = value.date
                             }

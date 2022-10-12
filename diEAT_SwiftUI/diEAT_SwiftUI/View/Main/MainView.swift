@@ -33,12 +33,25 @@ struct MainView: View {
                 // Calendar
                 CustomDatePicker(currentDate: $currentDate, selectedDate: currentDate)
                     .foregroundColor(Theme.textColor(scheme))
-                    .padding([.leading, .trailing] ,10)
+                    .padding([.leading, .trailing], 10)
+                    .padding(.bottom, 20)
                 
                 // Eat Log
+                HStack {
+                    Text("Eat Log")
+                        .font(.system(size: 15, weight: .bold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                    Spacer()
+                    Button(action: {}, label: {
+                        Image(systemName: "plus")
+                            .foregroundColor(Theme.textColor(scheme))
+                    })
+                }
+                .padding([.leading, .trailing], 20)
                 
-                Spacer()
-                
+                ScrollView {
+                    CustomGridView()
+                }
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))

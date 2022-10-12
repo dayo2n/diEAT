@@ -31,7 +31,7 @@ struct MainView: View {
                 }
                 
                 // Calendar
-                CustomDatePicker(currentDate: $currentDate)
+                CustomDatePicker(currentDate: $currentDate, selectedDate: currentDate)
                     .foregroundColor(Theme.textColor(scheme))
                     .padding([.leading, .trailing] ,10)
                 

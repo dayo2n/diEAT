@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomDatePicker: View {
     
     @Binding var currentDate: Date
+    @State var selectedDate: Date
     
     // Month update on arrow button clicks
     @State var currentMonth: Int = 0
@@ -65,10 +66,17 @@ struct CustomDatePicker: View {
             
             LazyVGrid(columns: columns) {
                 ForEach(extractDate()) { value in
-                    CardView(value: value)
-                        .frame(height: 45)
-                        .onTapGesture {
-                            print("=== DEBUG: \(value)")
+                    ZStack {
+                        if value.date == selectedDate {
+                            Circle()
+                        }
+                        
+                        CardView(value: value)
+                            .frame(height: 45)
+                            .onTapGesture {
+                                selectedDate = value.date
+                            }
+                            .foregroundColor(value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))
                     }
                 }
             }
@@ -84,8 +92,8 @@ struct CustomDatePicker: View {
         HStack {
             if value.day != -1 {
                 Text("\(value.day)")
-                    .font(.system(size: 13, weight: .regular, design: .monospaced))
-                    .padding(.bottom, 20)
+                    .font(.system(size: 14, weight: .regular, design: .monospaced))
+                    .padding(10)
             }
         }
     }

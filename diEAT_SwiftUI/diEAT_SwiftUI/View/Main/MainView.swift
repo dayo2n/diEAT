@@ -42,7 +42,9 @@ struct MainView: View {
                         .font(.system(size: 15, weight: .bold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
                     Spacer()
-                    Button(action: {}, label: {
+                    Button(action: {
+                        
+                    }, label: {
                         Image(systemName: "plus")
                             .foregroundColor(Theme.textColor(scheme))
                     })

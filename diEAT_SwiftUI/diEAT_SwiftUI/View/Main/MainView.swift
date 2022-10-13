@@ -12,7 +12,7 @@ struct MainView: View {
     
     @ObservedObject var viewModel: AuthViewModel
     @State var currentDate: Date = Date()
-    @State var editProfileMode: Bool = false
+    @State var editPostMode: Bool = false
     @Environment(\.colorScheme) var scheme
 
     var body: some View {
@@ -41,13 +41,13 @@ struct MainView: View {
                     Text("Eat Log")
                         .font(.system(size: 15, weight: .bold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
+                    
                     Spacer()
-                    Button(action: {
-                        
-                    }, label: {
+                    
+                    Button(action: { editPostMode.toggle() }, label: {
                         Image(systemName: "plus")
                             .foregroundColor(Theme.textColor(scheme))
-                    })
+                    }).sheet(isPresented: $editPostMode, content: { EditPostView(editMode: true, editPostMode: $editPostMode) })
                 }
                 .padding([.leading, .trailing], 20)
                 

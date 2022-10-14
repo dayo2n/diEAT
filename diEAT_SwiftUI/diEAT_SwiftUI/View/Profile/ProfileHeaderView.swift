@@ -34,7 +34,9 @@ struct ProfileHeaderView: View {
             }
             
             Text("\(user.username)")
+                .font(.system(size: 20, weight: .bold, design: .monospaced))
                 .foregroundColor(Theme.textColor(scheme))
+                .padding(.leading)
             
             Spacer()
         }.padding([.top, .bottom], 20)

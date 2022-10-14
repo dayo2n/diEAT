@@ -16,14 +16,21 @@ struct EatLog: View {
     var body: some View {
         VStack {
             // Eat Log
+
             HStack {
+                Image(systemName: "quote.opening")
+                    .font(.system(size: 12))
+                    .foregroundColor(Theme.textColor(scheme))
+                    .padding(.bottom, 3)
+                
                 Text("\(Date2OnlyDate(date: selectedDate))")
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
                     .foregroundColor(Theme.textColor(scheme))
                 
-                Text(" Eat Log")
-                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                Image(systemName: "quote.closing")
+                    .font(.system(size: 12))
                     .foregroundColor(Theme.textColor(scheme))
+                    .padding(.top, 3)
                 
                 Spacer()
                 

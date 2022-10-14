@@ -78,6 +78,12 @@ struct CustomDatePicker: View {
                                 .frame(height: 35)
                         }
                         
+                        if Date2OnlyDate(date: value.date) == Date2OnlyDate(date: today) && value.day != -1 {
+                            Circle()
+                                .frame(height: 35)
+                                .foregroundColor(.gray)
+                        }
+                        
                         CardView(value: value)
                             .frame(height: 35)
                             .onTapGesture {

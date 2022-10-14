@@ -113,8 +113,9 @@ struct EditPostView: View {
                     if selectedImage == nil {
                         print("=== DEBUG: no selected image")
                     } else {
-                        viewModel.uploadPost(selectedDate: selectedDate, image: selectedImage!, caption: caption) { _ in
+                        viewModel.uploadPost(selectedDate: selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
                             print("=== DEBUG: upload sucess on \(selectedDate)!")
+                            
                             mode.wrappedValue.dismiss()
                         }
                     }

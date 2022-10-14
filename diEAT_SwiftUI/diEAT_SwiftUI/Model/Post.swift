@@ -14,4 +14,5 @@ struct Post: Identifiable, Decodable {
     let caption: String
     let imageUrl: String
     let timestamp: Timestamp // must be import Firebase
+    let mealtime: String
 }

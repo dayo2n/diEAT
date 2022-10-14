@@ -26,7 +26,7 @@ struct CustomGridView: View {
                     
                     HStack {
                         VStack{
-                            Text("Breakfast")
+                            Text("\(post.mealtime)")
                                 .font(.system(size: 12, weight: .regular, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(5)

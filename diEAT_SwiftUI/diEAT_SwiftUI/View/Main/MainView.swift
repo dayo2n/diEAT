@@ -16,7 +16,7 @@ struct MainView: View {
     @State var editPostMode: Bool = false
     @Environment(\.colorScheme) var scheme
     @State var selectedDateChanged: Bool = false
-    @ObservedObject var viewModel: FetchPostViewModel  = FetchPostViewModel()
+    @ObservedObject var viewModel: FetchPostViewModel = FetchPostViewModel()
 
     var body: some View {
         NavigationView {

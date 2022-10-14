@@ -17,8 +17,12 @@ struct EatLog: View {
         VStack {
             // Eat Log
             HStack {
-                Text("Eat Log")
+                Text("\(Date2OnlyDate(date: selectedDate))")
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .foregroundColor(Theme.textColor(scheme))
+                
+                Text(" Eat Log")
+                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
                     .foregroundColor(Theme.textColor(scheme))
                 
                 Spacer()
@@ -28,7 +32,7 @@ struct EatLog: View {
                 }, label: {
                     Image(systemName: "plus")
                         .foregroundColor(Theme.textColor(scheme))
-                }).sheet(isPresented: $editPostMode, content: {
+                }).sheet(isPresented: $editPostMode, onDismiss: { viewModel.fetchPost(selectedDate: selectedDate) }, content: {
                     NavigationView {
                         EditPostView(editMode: true, editPostMode: $editPostMode, selectedDate: $selectedDate)
                     }

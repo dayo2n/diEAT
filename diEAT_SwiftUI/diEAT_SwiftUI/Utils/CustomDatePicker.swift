@@ -22,7 +22,10 @@ struct CustomDatePicker: View {
     // Days
     let days: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     // Months
-    let months: [String : String] = ["January" : "01", "February":"02   ","March":"03","April":"04","May":"05","June":"06","July":"07", "August":"08","September":"09","October":"10","November":"11","December":"12"]
+    let months: [String : String] = ["January": "01", "February": "02", "March": "03",
+                                     "April": "04", "May": "05", "June": "06",
+                                     "July": "07", "August": "08", "September": "09",
+                                     "October": "10", "November": "11", "December": "12"]
     
     var body: some View {
         VStack {

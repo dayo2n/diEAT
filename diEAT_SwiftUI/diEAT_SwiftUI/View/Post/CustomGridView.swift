@@ -13,12 +13,13 @@ struct CustomGridView: View {
     private let items = [GridItem(), GridItem()]
     private let width = UIScreen.main.bounds.width / 2
     @Environment(\.colorScheme) var scheme
+    @ObservedObject var viewModel: FetchPostViewModel
     
     var body: some View {
         LazyVGrid(columns: items, content: {
-            ForEach(1..<6) { post in
+            ForEach(viewModel.posts) { post in
                 ZStack {
-                    Image("defaultPostImage")
+                    KFImage(URL(string: post.imageUrl))
                         .resizable()
                         .frame(width: width - 5, height: width)
                         .scaledToFill()
@@ -39,11 +40,5 @@ struct CustomGridView: View {
                 .padding(.bottom, 1)
             }
         })
-    }
-}
-
-struct CustomGridView_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomGridView()
     }
 }

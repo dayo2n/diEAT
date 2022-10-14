@@ -10,17 +10,20 @@ import ElegantCalendar
 
 struct MainView: View {
     
-    @ObservedObject var viewModel: AuthViewModel
+    let user: User
     @State var currentDate: Date = Date()
+    @State var selectedDate: Date = Date()
     @State var editPostMode: Bool = false
     @Environment(\.colorScheme) var scheme
+    @State var selectedDateChanged: Bool = false
+    @ObservedObject var viewModel: FetchPostViewModel  = FetchPostViewModel()
 
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    NavigationLink(destination: { EditProfileView(viewModel: viewModel )}, label: {
-                        ProfileHeaderView(user: viewModel.currentUser!)
+                    NavigationLink(destination: { EditProfileView(user: user )}, label: {
+                        ProfileHeaderView(user: user)
                     })
                     
                     Button(action: AuthViewModel.shared.logout) {
@@ -31,33 +34,13 @@ struct MainView: View {
                 }
                 
                 // Calendar
-                CustomDatePicker(currentDate: $currentDate, selectedDate: currentDate)
+                CustomDatePicker(currentDate: $currentDate, selectedDate: $selectedDate, viewModel: viewModel)
                     .foregroundColor(Theme.textColor(scheme))
                     .padding([.leading, .trailing], 10)
                     .padding(.bottom, 20)
                 
-                // Eat Log
-                HStack {
-                    Text("Eat Log")
-                        .font(.system(size: 15, weight: .bold, design: .monospaced))
-                        .foregroundColor(Theme.textColor(scheme))
-                    
-                    Spacer()
-                    
-                    Button(action: { editPostMode.toggle() }, label: {
-                        Image(systemName: "plus")
-                            .foregroundColor(Theme.textColor(scheme))
-                    }).sheet(isPresented: $editPostMode, content: {
-                        NavigationView {
-                            EditPostView(editMode: true, editPostMode: $editPostMode)
-                        }
-                    })
-                }
-                .padding([.leading, .trailing], 20)
-                
-                ScrollView {
-                    CustomGridView()
-                }
+                // Eat log
+                EatLog(editPostMode: editPostMode, selectedDate: selectedDate, viewModel: viewModel)
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))

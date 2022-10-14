@@ -9,12 +9,15 @@ import SwiftUI
 
 struct CustomDatePicker: View {
     
+    var today: Date = Date()
     @Binding var currentDate: Date
-    @State var selectedDate: Date
+    @Binding var selectedDate: Date
     
     // Month update on arrow button clicks
     @State var currentMonth: Int = 0
     @Environment(\.colorScheme) var scheme
+    
+    @ObservedObject var viewModel: FetchPostViewModel
     
     // Days
     let days: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -76,6 +79,7 @@ struct CustomDatePicker: View {
                             .frame(height: 35)
                             .onTapGesture {
                                 selectedDate = value.date
+                                viewModel.fetchPost(selectedDate: selectedDate)
                             }
                             .foregroundColor(value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))
                     }

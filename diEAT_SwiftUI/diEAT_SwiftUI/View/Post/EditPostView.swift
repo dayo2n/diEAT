@@ -17,6 +17,7 @@ struct EditPostView: View {
     
     @State var editMode: Bool // true: 수정모드, false: 새 글 작성 모드
     @Binding var editPostMode: Bool
+    @Binding var selectedDate: Date
     
     @State private var imagePickMode: Bool = false
     @State private var selectedImage: UIImage?
@@ -27,7 +28,7 @@ struct EditPostView: View {
     
     @Environment(\.colorScheme) var scheme
     @Environment(\.presentationMode) var mode
-    @ObservedObject var viewModel: PostViewModel = PostViewModel()
+    @ObservedObject var viewModel: EditPostViewModel = EditPostViewModel()
     
     var body: some View {
         VStack {
@@ -40,7 +41,7 @@ struct EditPostView: View {
                     image
                         .resizable()
                         .frame(width: 300, height: 300)
-                        .scaledToFill()
+                        .scaledToFit()
                 }
             }
             .padding(.top)
@@ -101,9 +102,7 @@ struct EditPostView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    mode.wrappedValue.dismiss()
-                }, label: {
+                Button(action: { mode.wrappedValue.dismiss() }, label: {
                     Text("Cancel")
                         .font(.system(size: 14, weight: .semibold, design: .monospaced))
                         .foregroundColor(Color.red)
@@ -111,13 +110,22 @@ struct EditPostView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    mode.wrappedValue.dismiss()
+                    if selectedImage == nil {
+                        print("=== DEBUG: no selected image")
+                    } else {
+                        viewModel.uploadPost(selectedDate: selectedDate, image: selectedImage!, caption: caption) { _ in
+                            print("=== DEBUG: upload sucess on \(selectedDate)!")
+                            mode.wrappedValue.dismiss()
+                        }
+                    }
                 }, label: {
                     Text("Add")
                         .font(.system(size: 14, weight: .semibold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
                 })
             }
+        }.onAppear {
+            print(selectedDate)
         }
     }
 }

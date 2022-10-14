@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct EditProfileView: View {
-    @ObservedObject var viewModel: AuthViewModel
+    let user: User
     @Environment(\.colorScheme) var scheme
     @State var newUsername: String = ""
     @Environment(\.dismiss) private var dismiss
@@ -26,7 +26,7 @@ struct EditProfileView: View {
                         .frame(width: 122, height: 122)
                         .foregroundColor(Theme.bgColor(scheme))
                     
-                    if let profileImgUrl = viewModel.currentUser?.profileImageUrl {
+                    if let profileImgUrl = user.profileImageUrl {
                             KFImage(URL(string: profileImgUrl))
                                 .resizable()
                                 .scaledToFill()
@@ -67,7 +67,7 @@ struct EditProfileView: View {
                     }
                 }
                 
-                CustomTextField(text: $newUsername, placeholder: Text("\(viewModel.currentUser!.username) "), imageName: scheme == .dark ? "person.fill" : "person")
+                CustomTextField(text: $newUsername, placeholder: Text("\(user.username) "), imageName: scheme == .dark ? "person.fill" : "person")
                     .font(.system(size: 15, weight: .medium, design: .monospaced))
                     .padding(20)
                     .frame(height: 50)
@@ -80,7 +80,7 @@ struct EditProfileView: View {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: {
                     // AuthViewModel에서 유저 네임 변경 함수 구현
-                    viewModel.editUsername(newUsername: newUsername)
+                    AuthViewModel.shared.editUsername(newUsername: newUsername)
                     dismiss()
                 }, label: {
                     Text("변경")
@@ -96,7 +96,7 @@ struct EditProfileView: View {
         guard let selectedImage = selectedImage else { return }
         self.progressGuage = 0.0
         print("=== DEBUG: \(progressGuage)")
-        viewModel.uploadProfileImage(newProfileImage: selectedImage) {
+        AuthViewModel.shared.uploadProfileImage(newProfileImage: selectedImage) {
             self.progressGuage = 1.0
             print("=== DEBUG: \(progressGuage)")
         }

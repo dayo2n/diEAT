@@ -10,16 +10,7 @@ import Firebase
 
 typealias FirestoreCompletion = ((Error?) -> Void)?
 
-class PostViewModel: ObservableObject{
-    @Published var posts: [Post]?
-    
-    func fetchPost(selectedDate: Date, uid: String) {
-        Firestore.firestore().collection("posts").whereField("uid", isEqualTo: uid).getDocuments {snapshot, _ in
-            guard let documents = snapshot?.documents else { return }
-            let posts = documents.compactMap({ try? $0.data(as: Post.self) })
-            self.posts = posts.filter{ $0.timestamp.dateValue() == selectedDate }.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue() })
-        }
-    }
+class EditPostViewModel: ObservableObject{
     
     func uploadPost(selectedDate: Date, image: UIImage, caption: String, completion: FirestoreCompletion) {
         guard let user = AuthViewModel.shared.currentUser else { return }

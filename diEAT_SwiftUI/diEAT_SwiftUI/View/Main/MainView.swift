@@ -44,6 +44,7 @@ struct MainView: View {
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))
+            .onAppear() { viewModel.fetchPost(selectedDate: selectedDate) }
         }
     }
 }

@@ -8,6 +8,11 @@
 import SwiftUI
 import Kingfisher
 
+enum MealTime: String, CaseIterable, Identifiable {
+    case Breakfast, Lunch, Dinner, etc
+    var id: Self { self } // Identifiable 프로토콜을 받으면 ForEach문을 사용 가능
+}
+
 struct EditPostView: View {
     
     @State var editMode: Bool // true: 수정모드, false: 새 글 작성 모드
@@ -18,6 +23,7 @@ struct EditPostView: View {
     @State private var image: Image?
     
     @State private var caption: String = ""
+    @State private var mealTime: MealTime = .Breakfast
     
     @Environment(\.colorScheme) var scheme
     @Environment(\.presentationMode) var mode
@@ -33,16 +39,36 @@ struct EditPostView: View {
                 } else if let image = image {
                     image
                         .resizable()
-                        .scaledToFill()
                         .frame(width: 300, height: 300)
+                        .scaledToFill()
                 }
             }
+            .padding(.top)
             
             Button(action: { imagePickMode.toggle() }, label: {
                 Text("Select image")
                     .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                    .padding(.bottom)
             })
             .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+            
+            HStack {
+                Text("Meal Time")
+                    .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                    .foregroundColor(Theme.textColor(scheme))
+                    .padding()
+                Spacer()
+            }
+            
+            Picker("MealTime", selection: $mealTime) {
+                ForEach(MealTime.allCases) { time in
+                    Text(time.rawValue.capitalized)
+                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding([.leading, .trailing, .bottom])
             
             HStack {
                 Text("Caption")
@@ -64,16 +90,16 @@ struct EditPostView: View {
                         .padding()
                 } else {
                     // Fallback on earlier versions
-                    TextField("Enter the caption...", text: $caption)
-                        .frame(height: 100)
+                    TextField("Enter the caption...(0 to 30)", text: $caption)
+                        .frame(height: 30)
                         .font(.system(size: 14, weight: .semibold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
                         .padding()
                 }
             }
-
-                
-        }.toolbar {
+            Spacer()
+        }
+        .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
                     mode.wrappedValue.dismiss()

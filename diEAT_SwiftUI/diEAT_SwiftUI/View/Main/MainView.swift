@@ -47,7 +47,11 @@ struct MainView: View {
                     Button(action: { editPostMode.toggle() }, label: {
                         Image(systemName: "plus")
                             .foregroundColor(Theme.textColor(scheme))
-                    }).sheet(isPresented: $editPostMode, content: { EditPostView(editMode: true, editPostMode: $editPostMode) })
+                    }).sheet(isPresented: $editPostMode, content: {
+                        NavigationView {
+                            EditPostView(editMode: true, editPostMode: $editPostMode)
+                        }
+                    })
                 }
                 .padding([.leading, .trailing], 20)
                 

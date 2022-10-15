@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct EatLog: View {
-    @State var editPostMode: Bool
-    @State var selectedDate: Date
+    @State var editPostMode: Bool = false
+    @Binding var selectedDate: Date
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel
     
     var body: some View {
         VStack {
             // Eat Log
-
             HStack {
                 Image(systemName: "quote.opening")
                     .font(.system(size: 12))

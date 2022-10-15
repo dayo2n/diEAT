@@ -13,9 +13,7 @@ struct MainView: View {
     let user: User
     @State var currentDate: Date = Date()
     @State var selectedDate: Date = Date()
-    @State var editPostMode: Bool = false
     @Environment(\.colorScheme) var scheme
-    @State var selectedDateChanged: Bool = false
     @ObservedObject var viewModel: FetchPostViewModel = FetchPostViewModel()
 
     var body: some View {
@@ -38,9 +36,10 @@ struct MainView: View {
                     .foregroundColor(Theme.textColor(scheme))
                     .padding([.leading, .trailing], 10)
                     .padding(.bottom, 20)
+                    .onChange(of: selectedDate, perform: { value in selectedDate = value })
                 
                 // Eat log
-                EatLog(editPostMode: editPostMode, selectedDate: selectedDate, viewModel: viewModel)
+                EatLog(selectedDate: $selectedDate, viewModel: viewModel)
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))

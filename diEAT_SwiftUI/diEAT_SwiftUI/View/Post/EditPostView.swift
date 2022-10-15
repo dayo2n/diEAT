@@ -126,7 +126,7 @@ struct EditPostView: View {
                 })
             }
         }.onAppear {
-            print(selectedDate)
+            print(UTC2KST(date: selectedDate))
         }
     }
 }

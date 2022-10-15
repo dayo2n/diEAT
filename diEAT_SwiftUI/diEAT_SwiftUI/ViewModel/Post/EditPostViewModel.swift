@@ -20,7 +20,7 @@ class EditPostViewModel: ObservableObject{
                         "username": user.username,
                         "imageUrl": imageUrl,
                         "caption": caption,
-                        "timestamp": Timestamp(date: selectedDate),
+                        "timestamp": Timestamp(date: UTC2KST(date: selectedDate)),
                         "mealtime": mealtime] as [String: Any]
             Firestore.firestore().collection("posts").addDocument(data: data, completion: completion)
         }

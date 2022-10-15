@@ -20,3 +20,16 @@ func Date2OnlyDate(date: Date) -> String {
     
     return "\(splitOnlyDate[0])"
 }
+
+func UTC2KST(date: Date) -> Date {
+    let dateFormatterKST = DateFormatter()
+    dateFormatterKST.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatterKST.timeZone = TimeZone(identifier: "KST")
+    let stringKST: String = dateFormatterKST.string(from: date)
+    
+    
+    let dateFormatterUTC = DateFormatter()
+    dateFormatterUTC.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatterUTC.timeZone = TimeZone(identifier: "UTC")
+    return dateFormatterUTC.date(from: stringKST)!
+}

@@ -78,7 +78,7 @@ struct CustomDatePicker: View {
                                 .frame(height: 35)
                         }
                         
-                        if Date2OnlyDate(date: value.date) == Date2OnlyDate(date: today) && value.day != -1 {
+                        if Date2OnlyDate(date: UTC2KST(date: value.date)) == Date2OnlyDate(date: UTC2KST(date: today)) && value.day != -1 {
                             Circle()
                                 .frame(height: 35)
                                 .foregroundColor(.gray)

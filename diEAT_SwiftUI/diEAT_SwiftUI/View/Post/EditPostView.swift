@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import PopupView
 
 enum MealTime: String, CaseIterable, Identifiable {
     case Breakfast, Lunch, Dinner, etc
@@ -23,6 +24,7 @@ struct EditPostView: View {
     @State private var imagePickMode: Bool = false
     @State private var selectedImage: UIImage?
     @State private var image: Image?
+    @State private var popNoImageWarning: Bool = false
     
     @State private var caption: String = ""
     @State private var mealTime: MealTime = .Breakfast
@@ -113,6 +115,7 @@ struct EditPostView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         if selectedImage == nil {
+                            popNoImageWarning.toggle()
                             print("=== DEBUG: no selected image")
                         } else {
                             uploadPostProgress = true
@@ -137,6 +140,16 @@ struct EditPostView: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .scaleEffect(5)
             }
+        }
+        .popup(isPresented: $popNoImageWarning, type: .floater(), position: .bottom, autohideIn: 3) {
+            Text("업로드 실패!\n 식단 이미지를 첨부해 주세요 :(")
+                .font(.system(size: 17, weight: .medium, design: .monospaced))
+                .padding([.leading, .trailing], 20)
+                .padding([.bottom, .top], 10)
+                .foregroundColor(Theme.textColor(scheme))
+                .background(.red)
+                .cornerRadius(30.0)
+                .multilineTextAlignment(.center)
         }
     }
 }

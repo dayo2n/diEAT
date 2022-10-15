@@ -22,7 +22,7 @@ struct EatLog: View {
                     .foregroundColor(Theme.textColor(scheme))
                     .padding(.bottom, 3)
                 
-                Text("\(Date2OnlyDate(date: selectedDate))")
+                Text("\(Date2OnlyDate(date: UTC2KST(date: selectedDate)))")
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
                     .foregroundColor(Theme.textColor(scheme))
                 

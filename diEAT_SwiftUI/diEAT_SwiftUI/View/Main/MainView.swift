@@ -15,12 +15,13 @@ struct MainView: View {
     @State var selectedDate: Date = Date()
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel = FetchPostViewModel()
+    @State private var popLoginToast: Bool = false
 
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
-                    NavigationLink(destination: { EditProfileView(user: user )}, label: {
+                    NavigationLink(destination: { EditProfileView(user: user)}, label: {
                         ProfileHeaderView(user: user)
                     })
                     
@@ -43,7 +44,19 @@ struct MainView: View {
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))
-            .onAppear() { viewModel.fetchPost(selectedDate: selectedDate) }
+            .onAppear() {
+                viewModel.fetchPost(selectedDate: currentDate)
+                popLoginToast.toggle()
+            }
+            .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
+                Text("\(user.username)님 반갑습니다 :)")
+                    .font(.system(size: 17, weight: .medium, design: .monospaced))
+                    .padding([.leading, .trailing], 20)
+                    .padding([.bottom, .top], 10)
+                    .foregroundColor(Theme.textColor(scheme))
+                    .background(.blue)
+                    .cornerRadius(30.0)
+            }
         }
     }
 }

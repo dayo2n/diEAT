@@ -18,26 +18,28 @@ struct CustomGridView: View {
     var body: some View {
         LazyVGrid(columns: items, content: {
             ForEach(viewModel.posts) { post in
-                ZStack {
-                    KFImage(URL(string: post.imageUrl))
-                        .resizable()
-                        .frame(width: width - 5, height: width)
-                        .scaledToFill()
-                    
-                    HStack {
-                        VStack{
-                            Text("\(post.mealtime)")
-                                .font(.system(size: 12, weight: .regular, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                                .padding(5)
-                                .background(Theme.bgColor(scheme).opacity(0.7))
-                                .padding([.leading, .top], 5)
+                NavigationLink(destination: SinglePostView(post: post)) {
+                    ZStack {
+                        KFImage(URL(string: post.imageUrl))
+                            .resizable()
+                            .frame(width: width - 5, height: width)
+                            .scaledToFill()
+                        
+                        HStack {
+                            VStack{
+                                Text("\(post.mealtime)")
+                                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                                    .foregroundColor(Theme.textColor(scheme))
+                                    .padding(5)
+                                    .background(Theme.bgColor(scheme).opacity(0.7))
+                                    .padding([.leading, .top], 5)
+                                Spacer()
+                            }
                             Spacer()
                         }
-                        Spacer()
                     }
+                    .padding(.bottom, 1)
                 }
-                .padding(.bottom, 1)
             }
         })
     }

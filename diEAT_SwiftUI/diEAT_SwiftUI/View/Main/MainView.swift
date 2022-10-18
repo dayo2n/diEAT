@@ -17,6 +17,7 @@ struct MainView: View {
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel = FetchPostViewModel()
     @State private var popLoginToast: Bool = false
+    @State private var freezePop: Bool = false
 
     var body: some View {
         NavigationView {
@@ -47,7 +48,10 @@ struct MainView: View {
             .background(Theme.bgColor(scheme))
             .onAppear() {
                 viewModel.fetchPost(selectedDate: selectedDate)
-                popLoginToast.toggle()
+                if !freezePop {
+                    popLoginToast.toggle()
+                    freezePop = true
+                }
             }
             .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
                 Text("\(user.username)님 반갑습니다 :)")

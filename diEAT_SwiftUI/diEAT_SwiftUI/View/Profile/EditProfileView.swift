@@ -75,8 +75,10 @@ struct EditProfileView: View {
                     .padding([.leading, .trailing])
                 
                 Spacer()
-            }.background(Theme.bgColor(scheme))
-        }.toolbar {
+            }
+            .background(Theme.bgColor(scheme))
+        }
+        .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: {
                     // AuthViewModel에서 유저 네임 변경 함수 구현
@@ -92,13 +94,10 @@ struct EditProfileView: View {
     }
     
     func loadImage() {
-        print("=== DEBUG: \(progressGuage)")
         guard let selectedImage = selectedImage else { return }
         self.progressGuage = 0.0
-        print("=== DEBUG: \(progressGuage)")
         AuthViewModel.shared.uploadProfileImage(newProfileImage: selectedImage) {
             self.progressGuage = 1.0
-            print("=== DEBUG: \(progressGuage)")
         }
     }
 }

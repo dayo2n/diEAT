@@ -76,9 +76,3 @@ struct RegistrationView: View {
         .background(Color("bgColor"))
     }
 }
-
-struct RegistrationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegistrationView()
-    }
-}

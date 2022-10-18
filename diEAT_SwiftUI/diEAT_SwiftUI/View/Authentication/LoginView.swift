@@ -67,9 +67,3 @@ struct LoginView: View {
         .background(Theme.bgColor(scheme))
     }
 }
-
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-    }
-}

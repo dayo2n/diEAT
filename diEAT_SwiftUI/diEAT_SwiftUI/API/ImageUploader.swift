@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseStorage
 import UIKit
+import Kingfisher
 
 // profile 또는 Post 타입에 따라 파일 경로 설정
 enum UploadType {
@@ -35,7 +36,6 @@ struct ImageUploader {
                 print("=== DEBUG: failed to upload image \(error.localizedDescription)")
                 return
             }
-            
             
             ref.downloadURL { url , _ in
                 guard let imageUrl = url?.absoluteString else { return } // 함수에서 String으로 받기로 해서

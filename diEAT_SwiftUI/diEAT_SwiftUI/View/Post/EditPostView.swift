@@ -16,8 +16,8 @@ enum MealTime: String, CaseIterable, Identifiable {
 
 struct EditPostView: View {
     
+    var post: Post?
     @State var editMode: Bool // true: 수정모드, false: 새 글 작성 모드
-    @Binding var editPostMode: Bool
     @Binding var selectedDate: Date
     
     @State private var uploadPostProgress: Bool = false
@@ -37,15 +37,22 @@ struct EditPostView: View {
         ZStack {
             VStack {
                 ZStack {
-                    if image == nil {
-                        Rectangle()
-                            .frame(width: 300, height: 300)
-                            .foregroundColor(Theme.defaultColor(scheme))
-                    } else if let image = image {
-                        image
+                    if editMode {
+                        KFImage(URL(string: post!.imageUrl))
                             .resizable()
-                            .frame(width: 300, height: 300)
+                            .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
                             .scaledToFit()
+                    } else {
+                        if image == nil {
+                            Rectangle()
+                                .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
+                                .foregroundColor(Theme.defaultColor(scheme))
+                        } else if let image = image {
+                            image
+                                .resizable()
+                                .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
+                                .scaledToFit()
+                        }
                     }
                 }
                 .padding(.top)
@@ -104,34 +111,6 @@ struct EditPostView: View {
                 }
                 Spacer()
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { mode.wrappedValue.dismiss() }, label: {
-                        Text("Cancel")
-                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Color.red)
-                    })
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        if selectedImage == nil {
-                            popNoImageWarning.toggle()
-                            print("=== DEBUG: no selected image")
-                        } else {
-                            uploadPostProgress = true
-                            viewModel.uploadPost(selectedDate: selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
-                                print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                uploadPostProgress = false
-                                mode.wrappedValue.dismiss()
-                            }
-                        }
-                    }, label: {
-                        Text("Add")
-                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                    })
-                }
-            }
             if uploadPostProgress {
                 LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
@@ -139,6 +118,44 @@ struct EditPostView: View {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .scaleEffect(5)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { mode.wrappedValue.dismiss() }, label: {
+                    Text("Cancel")
+                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Color.red)
+                })
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    if editMode {
+                        uploadPostProgress = true
+                        viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
+
+                            print("=== DEBUG: upload sucess on \(selectedDate)!")
+                            uploadPostProgress = false
+                            mode.wrappedValue.dismiss()
+                        }
+                    } else {
+                        if selectedImage == nil {
+                            popNoImageWarning.toggle()
+                            print("=== DEBUG: no selected image")
+                        } else {
+                            uploadPostProgress = true
+                            viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
+                                print("=== DEBUG: upload sucess on \(selectedDate)!")
+                                uploadPostProgress = false
+                                mode.wrappedValue.dismiss()
+                            }
+                        }
+                    }
+                }, label: {
+                    Text(editMode ? "Edit" : "Add")
+                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                })
             }
         }
         .popup(isPresented: $popNoImageWarning, type: .floater(), position: .bottom, autohideIn: 3) {
@@ -151,6 +168,10 @@ struct EditPostView: View {
                 .cornerRadius(30.0)
                 .multilineTextAlignment(.center)
         }
+        .background(Theme.bgColor(scheme))
+        .onAppear() {
+            getExistedLog()
+        }
     }
 }
 
@@ -158,5 +179,21 @@ extension EditPostView {
     func loadImage() {
         guard let selectedImage = selectedImage else { return }
         image = Image(uiImage: selectedImage)
+    }
+    
+    func getExistedLog() {
+        if editMode {
+            mealTime = MealTime(rawValue: post!.mealtime)!
+            caption = post!.caption
+            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: post!.imageUrl)!)) { result in
+                switch result {
+                case .success(let value):
+                    selectedImage = value.image as UIImage
+                    loadImage()
+                case .failure(let error):
+                    print("=== DEBUG: \(error)")
+                }
+            }
+        }
     }
 }

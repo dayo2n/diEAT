@@ -20,9 +20,16 @@ class EditPostViewModel: ObservableObject{
                         "username": user.username,
                         "imageUrl": imageUrl,
                         "caption": caption,
-                        "timestamp": Timestamp(date: UTC2KST(date: selectedDate)),
+                        "timestamp": Timestamp(date: selectedDate),
                         "mealtime": mealtime] as [String: Any]
             Firestore.firestore().collection("posts").addDocument(data: data, completion: completion)
+        }
+    }
+    
+    func updatePost(id: String, selectedDate: Date, image: UIImage, caption: String, mealtime: String, completion: FirestoreCompletion) {
+        print("=== DEBUG: update \(id)")
+        Firestore.firestore().collection("posts").document(id).delete() { _ in
+            self.uploadPost(selectedDate: selectedDate, image: image, caption: caption, mealtime: mealtime, completion: completion)
         }
     }
 }

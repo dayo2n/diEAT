@@ -45,7 +45,7 @@ struct MainView: View {
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))
             .onAppear() {
-                viewModel.fetchPost(selectedDate: currentDate)
+                viewModel.fetchPost(selectedDate: selectedDate)
                 popLoginToast.toggle()
             }
             .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {

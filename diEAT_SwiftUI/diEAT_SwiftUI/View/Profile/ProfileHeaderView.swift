@@ -34,11 +34,11 @@ struct ProfileHeaderView: View {
             }
             
             Text("\(user.username)")
-                .font(.system(size: 18, weight: .bold, design: .monospaced))
+                .font(.system(size: 20, weight: .bold, design: .monospaced))
                 .foregroundColor(Theme.textColor(scheme))
                 .padding(.leading)
             
             Spacer()
-        }.padding([.top, .bottom], 20)
+        }.padding(.top, 30)
     }
 }

@@ -24,11 +24,28 @@ struct MainView: View {
         SidebarMenu(sidebarWidth: UIScreen.main.bounds.width / 3 * 2, showSidebar: $showSidebar) {
             NavigationView {
                 VStack {
-                    Button(action: {
-                        showEditProfile.toggle()
-                    }) { ProfileHeaderView(user: user) }
-                        .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
+                    ProfileHeaderView(user: user)
+
+                    Divider()
+                        .padding(.all)
                     
+                    Button(action: { showEditProfile.toggle() }, label: {
+                        HStack {
+                            Image(systemName: "person.fill.viewfinder")
+                                .font(.system(size: 16))
+                                .foregroundColor(Theme.textColor(scheme))
+                            
+                            Text("프로필 변경")
+                                .font(.system(size: 16, weight: .medium, design: .monospaced))
+                                .foregroundColor(Theme.textColor(scheme))
+                                .padding(.leading, 10)
+                            
+                            Spacer()
+                        }.padding(.leading, 20)
+                    })
+                        .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
+                        .padding(.bottom, 30)
+
                     Spacer()
                     
                     HStack {
@@ -61,6 +78,8 @@ struct MainView: View {
                             showSidebar.toggle()
                         }) {
                             Image(systemName: "text.justify")
+                                .font(.system(size: 20))
+                                .frame(width: 44, height: 44)
                                 .padding(.all)
                                 .foregroundColor(Theme.textColor(scheme))
                         }

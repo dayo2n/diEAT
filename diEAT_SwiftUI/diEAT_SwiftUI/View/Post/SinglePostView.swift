@@ -14,6 +14,8 @@ struct SinglePostView: View {
     @Environment(\.colorScheme) var scheme
     @State var editPostMode: Bool = false
     @State var selectedDate: Date
+    @ObservedObject var viewModel: FetchPostViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         if editPostMode {
@@ -60,12 +62,22 @@ struct SinglePostView: View {
             }
             .background(Theme.bgColor(scheme))
             .toolbar {
-                Button(action: { editPostMode.toggle() }, label: {
-                    HStack {
-                        Image(systemName: "pencil")
-                            .foregroundColor(Theme.textColor(scheme))
-                    }
-                })
+                Group {
+                    Button(action: { editPostMode.toggle() }, label: {
+                        HStack {
+                            Image(systemName: "pencil")
+                                .foregroundColor(Theme.textColor(scheme))
+                        }
+                    })
+                    Button(action: {
+                        viewModel.deletePost(id: post.id!)
+                        dismiss()
+                        
+                    }, label: {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    })
+                }
             }
         }
     }

@@ -21,4 +21,9 @@ class FetchPostViewModel: ObservableObject {
             print("=== DEBUG: fetch posts on \(Date2OnlyDate(date: UTC2KST(date: selectedDate)))")
         }
     }
+    
+    func deletePost(id: String) {
+        print("=== DEBUG: delete \(id)")
+        Firestore.firestore().collection("posts").document(id).delete()
+    }
 }

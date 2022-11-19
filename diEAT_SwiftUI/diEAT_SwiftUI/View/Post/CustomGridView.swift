@@ -18,7 +18,7 @@ struct CustomGridView: View {
     var body: some View {
         LazyVGrid(columns: items, content: {
             ForEach(viewModel.posts) { post in
-                NavigationLink(destination: SinglePostView(post: post, selectedDate: post.timestamp.dateValue())) {
+                NavigationLink(destination: SinglePostView(post: post, selectedDate: post.timestamp.dateValue(), viewModel: viewModel)) {
                     ZStack {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()

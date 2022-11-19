@@ -174,7 +174,7 @@ struct EditPostView: View {
                     Button(action: {
                         if editMode {
                             uploadPostProgress = true
-                            viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
+                            viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
 
                                 print("=== DEBUG: upload sucess on \(selectedDate)!")
                                 uploadPostProgress = false
@@ -189,7 +189,7 @@ struct EditPostView: View {
                                 print("=== DEBUG: no selected icon")
                             } else {
                                 uploadPostProgress = true
-                                viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue) { _ in
+                                viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
                                     print("=== DEBUG: upload sucess on \(selectedDate)!")
                                     uploadPostProgress = false
                                     mode.wrappedValue.dismiss()

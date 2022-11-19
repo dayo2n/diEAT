@@ -64,7 +64,7 @@ struct EditPostView: View {
                     Button(action: { imagePickMode.toggle() }, label: {
                         Text("Select image")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .padding(.bottom)
+                            .padding(.bottom, 10)
                     })
                     .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                     
@@ -142,14 +142,14 @@ struct EditPostView: View {
                             TextField("Enter the caption...", text: $caption, axis: .vertical)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .padding([.horizontal, .bottom])
+                                .padding()
                         } else {
                             // Fallback on earlier versions
                             TextField("Enter the caption...(0 to 30)", text: $caption)
                                 .frame(height: 30)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .padding([.horizontal, .bottom])
+                                .padding()
                         }
                     }.padding(.bottom, 50)
                 }

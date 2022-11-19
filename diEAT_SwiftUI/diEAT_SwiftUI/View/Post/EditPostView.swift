@@ -225,6 +225,7 @@ struct EditPostView: View {
             }
             .onAppear() {
                 getExistedLog()
+                if editMode { selectedIcon = post!.icon }
             }
         }
         .ignoresSafeArea()

@@ -42,7 +42,7 @@ struct SinglePostView: View {
                     .background(Color.black.opacity(0.2))
                     
                     Spacer()
-                }.padding(.leading)
+                }.padding([.leading, .bottom])
                 
                 HStack {
                     Image(systemName: "highlighter")
@@ -65,7 +65,7 @@ struct SinglePostView: View {
                 Group {
                     Button(action: { editPostMode.toggle() }, label: {
                         HStack {
-                            Image(systemName: "pencil")
+                            Image(systemName: "pencil.tip")
                                 .foregroundColor(Theme.textColor(scheme))
                         }
                     })

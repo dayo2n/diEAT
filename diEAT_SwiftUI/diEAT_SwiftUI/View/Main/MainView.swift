@@ -60,7 +60,7 @@ struct MainView: View {
                         Button(action: {
                             showSidebar.toggle()
                         }) {
-                            Image(systemName: "tray")
+                            Image(systemName: "text.justify")
                                 .padding(.all)
                                 .foregroundColor(Theme.textColor(scheme))
                         }

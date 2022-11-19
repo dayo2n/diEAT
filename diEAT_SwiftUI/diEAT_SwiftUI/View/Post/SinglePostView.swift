@@ -29,14 +29,25 @@ struct SinglePostView: View {
                     .padding()
 
                 HStack {
+                    Text("# \(Date2OnlyDate(date: post.timestamp.dateValue()))'s ")
+                        .font(.system(size: 14, weight: .medium, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                        .frame(height: 20)
+                        .padding(5)
+                        .background(Color.black.opacity(0.2))
+                        
+                    Text("# \(post.mealtime)")
+                        .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                        .frame(height: 20)
+                        .padding(5)
+                        .background(Color.black.opacity(0.2))
+                    
                     HStack {
-                        Text("\(Date2OnlyDate(date: post.timestamp.dateValue()))'s ")
-                            .font(.system(size: 14, weight: .medium, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                            
-                        Text(post.mealtime)
-                            .font(.system(size: 16, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
+                        Text("#")
+                        Image("\(post.icon)")
+                            .resizable()
+                            .frame(width: 20, height: 20)
                     }
                     .padding(5)
                     .background(Color.black.opacity(0.2))
@@ -53,7 +64,7 @@ struct SinglePostView: View {
                     Text(post.caption)
                         .font(.system(size: 16, weight: .semibold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
-                        .padding(.leading)
+                        .padding(.horizontal)
                         .multilineTextAlignment(.leading)
                     
                     Spacer()

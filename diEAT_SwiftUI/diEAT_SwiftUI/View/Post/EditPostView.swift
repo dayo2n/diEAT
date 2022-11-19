@@ -96,10 +96,10 @@ struct EditPostView: View {
                     
                     HStack {
                         Button(action: {
-                            selectedIcon = scheme == .dark ? "exercise_dark" : "exercise_light"
+                            selectedIcon = "exercise"
                         }, label: {
-                            CustomIcon(iconName: scheme == .dark ? "exercise_dark" : "exercise_light")
-                                .shadow(color: .orange, radius: selectedIcon == (scheme == .dark ? "exercise_dark" : "exercise_light") ? 5 : 0)
+                            CustomIcon(iconName: "exercise")
+                                .shadow(color: .orange, radius: selectedIcon == "exercise" ? 5 : 0)
                         })
                         Spacer()
                         Button(action: {
@@ -110,10 +110,10 @@ struct EditPostView: View {
                         })
                         Spacer()
                         Button(action: {
-                            selectedIcon = scheme == .dark ? "full_dark" : "full_light"
+                            selectedIcon = "full"
                         }, label: {
-                            CustomIcon(iconName: scheme == .dark ? "full_dark" : "full_light")
-                                .shadow(color: .orange, radius: selectedIcon == (scheme == .dark ? "full_dark" : "full_light") ? 5 : 0)
+                            CustomIcon(iconName: "full")
+                                .shadow(color: .orange, radius: selectedIcon == "full" ? 5 : 0)
                         })
                         Spacer()
                         Button(action: {

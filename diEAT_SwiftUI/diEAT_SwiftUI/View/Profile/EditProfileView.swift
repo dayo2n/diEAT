@@ -21,6 +21,17 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             VStack {
+                HStack {
+                    Spacer()
+
+                    Button(action: {
+                        dismiss()
+                        // AuthViewModel에서 유저 네임 변경 함수 구현
+                        AuthViewModel.shared.editUsername(newUsername: newUsername)
+                    }, label: {
+                        Text("변경")
+                    }).padding(10)
+                }
                 ZStack {
                     Circle()
                         .frame(width: 122, height: 122)
@@ -76,20 +87,8 @@ struct EditProfileView: View {
                 
                 Spacer()
             }
+            .padding(.top)
             .background(Theme.bgColor(scheme))
-        }
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button(action: {
-                    // AuthViewModel에서 유저 네임 변경 함수 구현
-                    AuthViewModel.shared.editUsername(newUsername: newUsername)
-                    dismiss()
-                }, label: {
-                    Text("변경")
-                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                        .foregroundColor(Theme.textColor(scheme))
-                })
-            }
         }
     }
     

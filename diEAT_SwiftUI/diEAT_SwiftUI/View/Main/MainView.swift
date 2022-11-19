@@ -18,14 +18,16 @@ struct MainView: View {
     @State private var popLoginToast: Bool = false
     @State private var freezePop: Bool = false
     @State var showSidebar: Bool = false
+    @State var showEditProfile: Bool = false
 
     var body: some View {
         SidebarMenu(sidebarWidth: UIScreen.main.bounds.width / 3 * 2, showSidebar: $showSidebar) {
             NavigationView {
                 VStack {
-                    NavigationLink(destination: { EditProfileView(user: user)}, label: {
-                        Button(action: { showSidebar.toggle()} ) { ProfileHeaderView(user: user) }
-                    })
+                    Button(action: {
+                        showEditProfile.toggle()
+                    }) { ProfileHeaderView(user: user) }
+                        .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
                     
                     Spacer()
                     
@@ -56,18 +58,6 @@ struct MainView: View {
                         }
                         Spacer()
                     }
-
-//                    HStack {
-//                        NavigationLink(destination: { EditProfileView(user: user)}, label: {
-//                            ProfileHeaderView(user: user)
-//                        })
-//
-//                        Button(action: AuthViewModel.shared.logout) {
-//                            Image(systemName: scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")
-//                                .padding(.trailing)
-//                                .foregroundColor(Theme.textColor(scheme))
-//                        }
-//                    }
                     
                     // Calendar
                     CustomDatePicker(currentDate: $currentDate, selectedDate: $selectedDate, viewModel: viewModel)

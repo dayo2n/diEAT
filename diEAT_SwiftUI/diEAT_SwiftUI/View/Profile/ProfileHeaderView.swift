@@ -19,7 +19,7 @@ struct ProfileHeaderView: View {
                 KFImage(URL(string: profileImageUrl))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 50, height: 50)
                     .clipShape(Circle())
                     .padding(.leading)
             } else {
@@ -27,14 +27,14 @@ struct ProfileHeaderView: View {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 50, height: 50)
                     .clipShape(Circle())
                     .padding(.leading)
                     .foregroundColor(Theme.textColor(scheme))
             }
             
             Text("\(user.username)")
-                .font(.system(size: 20, weight: .bold, design: .monospaced))
+                .font(.system(size: 18, weight: .bold, design: .monospaced))
                 .foregroundColor(Theme.textColor(scheme))
                 .padding(.leading)
             

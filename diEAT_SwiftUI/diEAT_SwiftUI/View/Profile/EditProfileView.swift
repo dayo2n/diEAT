@@ -27,9 +27,10 @@ struct EditProfileView: View {
                     Button(action: {
                         dismiss()
                         // AuthViewModel에서 유저 네임 변경 함수 구현
+                        if newUsername.isEmpty { newUsername = user.username }
                         AuthViewModel.shared.editUsername(newUsername: newUsername)
                     }, label: {
-                        Text("변경")
+                        Text("완료")
                     }).padding(10)
                 }
                 ZStack {

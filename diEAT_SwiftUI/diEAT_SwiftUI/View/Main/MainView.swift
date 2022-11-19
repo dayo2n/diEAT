@@ -45,6 +45,14 @@ struct MainView: View {
                     }
                 }
             }
+            .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                .onEnded({ value in
+                    if showSidebar {
+                        if value.translation.width < 0 { // left 방향으로 슬라이드하면
+                            showSidebar.toggle()
+                        }
+                    }
+                }))
         } content: {
             NavigationView {
                 VStack {

@@ -59,7 +59,7 @@ struct EditPostView: View {
                             }
                         }
                     }
-                    .padding(.top, 60)
+                    .padding(.top, editMode ? 100 : 60)
                     
                     Button(action: { imagePickMode.toggle() }, label: {
                         Text("Select image")
@@ -165,7 +165,7 @@ struct EditPostView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { mode.wrappedValue.dismiss() }, label: {
-                        Text("Cancel")
+                        Text(editMode ? "" : "Cancel")
                             .font(.system(size: 14, weight: .semibold, design: .monospaced))
                             .foregroundColor(Color.red)
                     })

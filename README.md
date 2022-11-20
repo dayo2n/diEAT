@@ -1,35 +1,23 @@
 # diEAT
 
 ## 🥗 Summary
-- 다이어트 중 식단🍳을 한번에 기록하고 한눈에 확인하고싶어서 만들어보는 식단 관리 프로그램 (iOS 어플)
+- 다이어트 중 식단🍳을 한 번에 기록하고 한눈에 확인하고 싶어서 만들어보는 식단 관리 프로그램 (iOS 어플)
 - It's a dieat management ios application to record dieat🍳 at once
 
-## 💻 Tools
-- Swift
+## 📌 Verison : Directory
+- ver 2.0 : 📁 diEAT_SwiftUI
+- ~~ver 1.0 : 📁 diEAT~~
+
+## 💻 Tech Stack
 - Xcode
-
-### Library
-- FSCalendar
-- Realm
-
-## ✏️ History
-- 게으른 개발일지 https://velog.io/tags/diEAT
+- Swift, SwiftUI
+- Firebase
+- SPM(Kingfisher, etc.)
 
 ## 📷 Design
+[🎨 Figma](https://www.figma.com/file/4SF29rHAFImlq1D6M7zVSp/diEAT?t=ykeT39tsee6kGosm-0)
 
-## 📸 ScreenShot
-<img width="653" alt="image" src="https://user-images.githubusercontent.com/57654681/144611314-6b651572-5e7a-42b6-b478-33267cddff88.png">
-
-
-## 📌 Version
-
-
-## 🎒 TODO
-
-✔️ UI 개선
-
-✔️ 로그 삭제 / 수정 기능
-
-✔️ 일기장 modal 창 만들기
-
-✔️ 이미지를 로컬이 아닌 서버로 업로드
+## 📸 Demo
+| 로그인 | 프로필변경 | 식사 기록 생성 | 식단 기록 단일 조회 및 수정 |
+|---|---|---|---|
+| <img src="https://user-images.githubusercontent.com/57654681/202905866-4ae8a1fc-9c99-49f8-925d-ca77b19ef94a.gif" width="200"/> | <img src="https://user-images.githubusercontent.com/57654681/202905856-96c04b05-bf3a-4ba7-a8a1-613afc61132f.gif" width="200"/> | <img src="https://user-images.githubusercontent.com/57654681/202908991-eba45c00-0ea4-4799-a5e9-9e0df0b8de99.gif" width="200"/> | <img src="https://user-images.githubusercontent.com/57654681/202905897-fa8546f4-3c29-4320-8209-99abd76e2ce5.gif" width="200"/> |

@@ -39,7 +39,7 @@ struct CustomGridView: View {
                                         Text("#")
                                             .font(.system(size: 12, weight: .regular, design: .monospaced))
                                             .foregroundColor(Theme.textColor(scheme))
-                                        Image("\(post.icon ?? "pig")")
+                                        Image("\(post.icon)")
                                             .resizable()
                                             .frame(width: 20, height: 20)
                                     }

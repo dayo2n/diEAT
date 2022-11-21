@@ -30,36 +30,44 @@ struct MainView: View {
                         .padding(.all)
                     
                     Button(action: { showEditProfile.toggle() }, label: {
-                        HStack {
-                            Image(systemName: "person.fill.viewfinder")
-                                .font(.system(size: 16))
-                                .foregroundColor(Theme.textColor(scheme))
-                            
-                            Text("프로필 변경")
-                                .font(.system(size: 16, weight: .medium, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                                .padding(.leading, 10)
-                            
-                            Spacer()
-                        }.padding(.leading, 20)
+                        CustomSidebarMenu(imageName: "person.fill.viewfinder", menuTitle: "프로필 수정")
                     })
                         .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
-                        .padding(.bottom, 30)
 
+                    Divider()
+                        .padding(.all)
+                    
+                    Button(action: AuthViewModel.shared.logout) {
+                        CustomSidebarMenu(imageName: "\(scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")",
+                                          menuTitle: "로그아웃")
+                    }
+                    
                     Spacer()
                     
+                    Divider()
+                    
+                    Button(action: {}, label: {
+                        CustomSidebarMenu(imageName: "person.crop.circle.fill.badge.xmark", menuTitle: "회원 탈퇴")
+                    })
+                    
+                    // 개발자 정보
                     HStack {
-                        Button(action: AuthViewModel.shared.logout) {
-                            HStack {
-                                Image(systemName: scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")
-                                    .padding(.trailing)
-                                    .foregroundColor(Theme.textColor(scheme))
-                                Text("Sign Out")
-                                    .foregroundColor(Theme.textColor(scheme))
-                            }.padding([.leading, .bottom])
-                        }
+                        Image("octocat")
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16)
+                        
+                        Text("github.com/dayo2n")
+                            .font(.system(size: 12, weight: .medium, design: .monospaced))
+                            .padding(.leading, 10)
+                        
                         Spacer()
                     }
+                    .foregroundColor(Theme.textColor(scheme))
+                    .padding(.leading, 20)
+                    .padding(.vertical)
+                    .padding(.bottom, 30)
                 }
             }
             .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)

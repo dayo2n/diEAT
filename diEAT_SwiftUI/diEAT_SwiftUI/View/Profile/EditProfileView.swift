@@ -79,12 +79,29 @@ struct EditProfileView: View {
                     }
                 }
                 
+                HStack {
+                    Image(systemName: "envelope")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                    
+                    Text("\(user.email)")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                    
+                    Spacer()
+                }
+                .padding(20)
+                .frame(height: 50)
+                .border(Theme.defaultColor(scheme), width: 0.7)
+                .padding(.horizontal)
+                .padding(.vertical, 10)
+                
                 CustomTextField(text: $newUsername, placeholder: Text("\(user.username) "), imageName: scheme == .dark ? "person.fill" : "person")
                     .font(.system(size: 15, weight: .medium, design: .monospaced))
                     .padding(20)
                     .frame(height: 50)
                     .border(Theme.defaultColor(scheme), width: 0.7)
-                    .padding([.leading, .trailing])
+                    .padding(.horizontal)
                 
                 Spacer()
             }

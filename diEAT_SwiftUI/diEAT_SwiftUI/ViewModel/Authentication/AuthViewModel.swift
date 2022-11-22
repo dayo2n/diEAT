@@ -77,8 +77,10 @@ class AuthViewModel: ObservableObject {
         try? Auth.auth().signOut()
     }
 
-    func resetPassword() {
-        
+    func resetPassword(email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email) { _ in
+            
+        }
     }
     
     func editUsername(newUsername: String) {

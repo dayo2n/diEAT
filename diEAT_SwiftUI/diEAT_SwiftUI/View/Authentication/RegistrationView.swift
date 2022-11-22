@@ -37,7 +37,7 @@ struct RegistrationView: View {
                         .frame(height: 50)
                         .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 20)
+                        .padding([.top, .bottom], 10)
                     
                     CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
@@ -51,7 +51,7 @@ struct RegistrationView: View {
                         .frame(height: 50)
                         .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 20)
+                        .padding([.top, .bottom], 10)
                     
                     Button(action: {
                         if username.count == 0 || email.count == 0 || pw.count == 0 { showAlert.toggle() }

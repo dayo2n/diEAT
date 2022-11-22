@@ -36,7 +36,7 @@ struct LoginView: View {
                         .frame(height: 50)
                         .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 20)
+                        .padding([.top, .bottom], 10)
                     
                     Button(action: { viewModel.login(email: email, pw: pw) }, label: {
                         Text("LOGIN")

@@ -18,7 +18,7 @@ struct RegistrationView: View {
     @Environment(\.colorScheme) var scheme
     
     // alert flag
-    @State private var showAlert: Bool = false
+    @State private var noBlank: Bool = false
     @State private var alreadyRegistered: Bool = false
     
     var body: some View {
@@ -54,7 +54,7 @@ struct RegistrationView: View {
                         .padding([.top, .bottom], 10)
                     
                     Button(action: {
-                        if username.count == 0 || email.count == 0 || pw.count == 0 { showAlert.toggle() }
+                        if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
                         else { viewModel.register(username: username, email: email, pw: pw) { bool in
                             if !bool { alreadyRegistered.toggle() }
                         }}
@@ -82,8 +82,8 @@ struct RegistrationView: View {
                     })
                 }.padding(.bottom, 30)
             }
-            .popup(isPresented: $showAlert, type: .floater(), position: .top, autohideIn: 3) {
-                CustomPopUpView(alertText: "항목을 모두 작성해주세요!", bgColor: .red)
+            .popup(isPresented: $noBlank, type: .floater(), position: .top, autohideIn: 3) {
+                CustomPopUpView(alertText: "항목을 모두 작성하세요!", bgColor: .red)
             }
             .popup(isPresented: $alreadyRegistered, type: .floater(), position: .top, autohideIn: 3) {
                 CustomPopUpView(alertText: "이미 가입되어 있는 이메일입니다.", bgColor: .red)

@@ -55,16 +55,20 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func login(email: String, pw: String) {
+    func login(email: String, pw: String, _ completion: @escaping(Bool) -> Void?) {
         Auth.auth().signIn(withEmail: email, password: pw) { result, error in
             if let error = error {
                 print("=== DEBUG: \(error.localizedDescription)")
+                if error._code == 17009 {
+                    completion(false)
+                }
                 return
             }
             
             guard let user = result?.user else { return }
             self.userSession = user
             self.fetchUser()
+            completion(true)
         }
     }
     

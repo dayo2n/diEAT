@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct LoginView: View {
     
@@ -13,6 +14,10 @@ struct LoginView: View {
     @State private var pw: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var scheme
+    
+    // alert
+    @State private var noBlank: Bool = false
+    @State private var alertInvalidPassword: Bool = false
     
     var body: some View {
         NavigationView {
@@ -38,7 +43,14 @@ struct LoginView: View {
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 10)
                     
-                    Button(action: { viewModel.login(email: email, pw: pw) }, label: {
+                    Button(action: {
+                        if email.count == 0 || pw.count == 0 {
+                            noBlank.toggle()
+                        } else {
+                            viewModel.login(email: email, pw: pw) { bool in
+                                if !bool { alertInvalidPassword.toggle() }
+                            }
+                        }}, label: {
                         Text("LOGIN")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
@@ -61,6 +73,12 @@ struct LoginView: View {
                     })
                 }.padding(.bottom, 30)
             }
+        }
+        .popup(isPresented: $noBlank, type: .floater(), position: .top, autohideIn: 3) {
+            CustomPopUpView(alertText: "로그인 정보를 모두 입력하세요!", bgColor: .red)
+        }
+        .popup(isPresented: $alertInvalidPassword, type: .floater(), position: .top, autohideIn: 3) {
+            CustomPopUpView(alertText: "잘못된 비밀번호입니다.", bgColor: .red)
         }
         .ignoresSafeArea()
         .background()

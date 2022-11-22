@@ -16,6 +16,7 @@ struct SinglePostView: View {
     @State var selectedDate: Date
     @ObservedObject var viewModel: FetchPostViewModel
     @Environment(\.dismiss) private var dismiss
+    @State var showDeleteAlert: Bool = false
     
     var body: some View {
         if editPostMode {
@@ -80,14 +81,20 @@ struct SinglePostView: View {
                                 .foregroundColor(Theme.textColor(scheme))
                         }
                     })
-                    Button(action: {
-                        viewModel.deletePost(id: post.id!)
-                        dismiss()
-                        
+                    Button(action: { self.showDeleteAlert.toggle()
                     }, label: {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
                     })
+                    .alert("기록 삭제", isPresented: $showDeleteAlert) {
+                        Button("취소", role: .cancel, action: { self.showDeleteAlert.toggle() })
+                        Button("삭제", role: .destructive, action: {
+                            viewModel.deletePost(id: post.id!)
+                            dismiss()
+                        })
+                    } message: {
+                        Text("기록을 삭제하면 되돌릴 수 없습니다.")
+                    }
                 }
             }
         }

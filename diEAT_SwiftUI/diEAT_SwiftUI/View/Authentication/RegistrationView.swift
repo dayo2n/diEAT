@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct RegistrationView: View {
     
@@ -15,6 +16,7 @@ struct RegistrationView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
     @Environment(\.colorScheme) var scheme
+    @State private var showAlert: Bool = false
     
     var body: some View {
         NavigationView {
@@ -48,7 +50,11 @@ struct RegistrationView: View {
                         .padding([.leading, .trailing])
                         .padding([.top, .bottom], 20)
                     
-                    Button(action: { viewModel.register(username: username, email: email, pw: pw) }, label: {
+                    Button(action: {
+                        if username.count == 0 || email.count == 0 || pw.count == 0 { showAlert.toggle() }
+                        else { viewModel.register(username: username, email: email, pw: pw) }
+                        
+                    }, label: {
                         Text("SIGN UP")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
@@ -70,6 +76,9 @@ struct RegistrationView: View {
                         .padding(.bottom, 16)
                     })
                 }.padding(.bottom, 30)
+            }
+            .popup(isPresented: $showAlert, type: .floater(), position: .top, autohideIn: 3) {
+                CustomPopUpView(alertText: "항목을 모두 작성해주세요!", bgColor: .red)
             }
         }
         .ignoresSafeArea()

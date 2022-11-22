@@ -114,13 +114,7 @@ struct MainView: View {
                     }
                 }
                 .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
-                    Text("\(user.username)님 반갑습니다 :)")
-                        .font(.system(size: 17, weight: .medium, design: .monospaced))
-                        .padding([.leading, .trailing], 20)
-                        .padding([.bottom, .top], 10)
-                        .foregroundColor(Theme.textColor(scheme))
-                        .background(.blue)
-                        .cornerRadius(30.0)
+                    CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
                 }
             }
         }.edgesIgnoringSafeArea(.all)

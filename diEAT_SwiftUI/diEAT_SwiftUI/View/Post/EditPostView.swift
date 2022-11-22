@@ -211,24 +211,10 @@ struct EditPostView: View {
                 }
             }
             .popup(isPresented: $popNoImageWarning, type: .floater(), position: .top, autohideIn: 3) {
-                Text("업로드 실패!\n 식단 이미지를 첨부해 주세요 :(")
-                    .font(.system(size: 17, weight: .medium, design: .monospaced))
-                    .padding([.leading, .trailing], 20)
-                    .padding([.bottom, .top], 10)
-                    .foregroundColor(Theme.textColor(scheme))
-                    .background(.red)
-                    .cornerRadius(30.0)
-                    .multilineTextAlignment(.center)
+                CustomPopUpView(alertText: "업로드 실패!\n 식단 이미지를 첨부해 주세요 :(", bgColor: .red)
             }
             .popup(isPresented: $popNoSelectedIconWarning, type: .floater(), position: .top, autohideIn: 3) {
-                Text("업로드 실패!\n 오늘의 스티커를 선택해 주세요 :(")
-                    .font(.system(size: 17, weight: .medium, design: .monospaced))
-                    .padding([.leading, .trailing], 20)
-                    .padding([.bottom, .top], 10)
-                    .foregroundColor(Theme.textColor(scheme))
-                    .background(.red)
-                    .cornerRadius(30.0)
-                    .multilineTextAlignment(.center)
+                CustomPopUpView(alertText: "업로드 실패!\n 오늘의 스티커를 선택해 주세요 :(", bgColor: .red)
             }
             .onAppear() {
                 getExistedLog()

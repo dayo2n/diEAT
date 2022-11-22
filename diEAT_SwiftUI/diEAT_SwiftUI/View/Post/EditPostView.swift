@@ -152,6 +152,13 @@ struct EditPostView: View {
                                 .padding()
                         }
                     }.padding(.bottom, 50)
+                    
+                    HStack {
+                        Rectangle()
+                            .fill(Color.blue)
+                            .frame(height: 300)
+                            .opacity(0.0)
+                    }
                 }
                 if uploadPostProgress {
                     LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)

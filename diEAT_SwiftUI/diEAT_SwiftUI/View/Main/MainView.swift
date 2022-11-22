@@ -15,10 +15,13 @@ struct MainView: View {
     @State var selectedDate: Date = Date()
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel = FetchPostViewModel()
+    
+    // show flag
     @State private var popLoginToast: Bool = false
     @State private var freezePop: Bool = false
-    @State var showSidebar: Bool = false
-    @State var showEditProfile: Bool = false
+    @State private var showSidebar: Bool = false
+    @State private var showEditProfile: Bool = false
+    @State private var sureToDeleteUser: Bool = false
 
     var body: some View {
         SidebarMenu(sidebarWidth: UIScreen.main.bounds.width / 3 * 2, showSidebar: $showSidebar) {
@@ -46,9 +49,21 @@ struct MainView: View {
                     
                     Divider()
                     
-                    Button(action: {}, label: {
+                    Button(action: {
+                        sureToDeleteUser.toggle()
+                    }, label: {
                         CustomSidebarMenu(imageName: "person.crop.circle.fill.badge.xmark", menuTitle: "회원 탈퇴")
                     })
+                    .alert("회원 탈퇴", isPresented: $sureToDeleteUser) {
+                        Button("취소", role: .cancel, action: {
+                            sureToDeleteUser = false
+                        })
+                        Button("탈퇴", role: .destructive, action: {
+                            AuthViewModel.shared.deleteUser()
+                        })
+                    } message: {
+                        Text("탈퇴 후 데이터를 복원할 수 없습니다.")
+                    }
                     
                     // 개발자 정보
                     HStack {

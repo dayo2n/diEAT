@@ -16,7 +16,10 @@ struct RegistrationView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
     @Environment(\.colorScheme) var scheme
+    
+    // alert flag
     @State private var showAlert: Bool = false
+    @State private var alreadyRegistered: Bool = false
     
     var body: some View {
         NavigationView {
@@ -52,7 +55,9 @@ struct RegistrationView: View {
                     
                     Button(action: {
                         if username.count == 0 || email.count == 0 || pw.count == 0 { showAlert.toggle() }
-                        else { viewModel.register(username: username, email: email, pw: pw) }
+                        else { viewModel.register(username: username, email: email, pw: pw) { bool in
+                            if !bool { alreadyRegistered.toggle() }
+                        }}
                         
                     }, label: {
                         Text("SIGN UP")
@@ -79,6 +84,9 @@ struct RegistrationView: View {
             }
             .popup(isPresented: $showAlert, type: .floater(), position: .top, autohideIn: 3) {
                 CustomPopUpView(alertText: "항목을 모두 작성해주세요!", bgColor: .red)
+            }
+            .popup(isPresented: $alreadyRegistered, type: .floater(), position: .top, autohideIn: 3) {
+                CustomPopUpView(alertText: "이미 가입되어 있는 이메일입니다.", bgColor: .red)
             }
         }
         .ignoresSafeArea()

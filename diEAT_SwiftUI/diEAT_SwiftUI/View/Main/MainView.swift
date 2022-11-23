@@ -21,9 +21,9 @@ struct MainView: View {
     @State private var freezePop: Bool = false
     @State private var showSidebar: Bool = false
     @State private var showEditProfile: Bool = false
-    @State private var sureToDeleteUser: Bool = false
 
     var body: some View {
+        // 사이드바 메뉴 구성
         SidebarMenu(sidebarWidth: UIScreen.main.bounds.width / 3 * 2, showSidebar: $showSidebar) {
             NavigationView {
                 VStack {
@@ -48,22 +48,6 @@ struct MainView: View {
                     Spacer()
                     
                     Divider()
-                    
-                    Button(action: {
-                        sureToDeleteUser.toggle()
-                    }, label: {
-                        CustomSidebarMenu(imageName: "person.crop.circle.fill.badge.xmark", menuTitle: "회원 탈퇴")
-                    })
-                    .alert("회원 탈퇴", isPresented: $sureToDeleteUser) {
-                        Button("취소", role: .cancel, action: {
-                            sureToDeleteUser = false
-                        })
-                        Button("탈퇴", role: .destructive, action: {
-                            AuthViewModel.shared.deleteUser()
-                        })
-                    } message: {
-                        Text("탈퇴 후 데이터를 복원할 수 없습니다.")
-                    }
                     
                     // 개발자 정보
                     HStack {
@@ -94,9 +78,11 @@ struct MainView: View {
                     }
                 }))
         } content: {
+            // 메인 뷰
             NavigationView {
                 VStack {
                     HStack {
+                        // open side menu bar
                         Button(action: {
                             showSidebar.toggle()
                         }) {
@@ -128,6 +114,7 @@ struct MainView: View {
                         freezePop = true
                     }
                 }
+                // login 인사
                 .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
                     CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
                 }

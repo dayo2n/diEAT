@@ -18,6 +18,10 @@ struct EditProfileView: View {
     @State var selectedImage: UIImage?
     @State var progressGuage: Double = 1.0
     
+    // sheet
+    @State private var resetEmailSended: Bool = false
+    @State private var sureToDeleteUser: Bool = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -103,7 +107,69 @@ struct EditProfileView: View {
                     .border(Theme.defaultColor(scheme), width: 0.7)
                     .padding(.horizontal)
                 
+                Divider()
+                    .padding(.all)
+                
+                Button(action: {
+                    AuthViewModel.shared.resetPassword(email: user.email)
+                    resetEmailSended.toggle()
+                }, label: {
+                    HStack {
+                        Spacer()
+                        
+                        Image(systemName: scheme == .dark ? "key.fill" : "key")
+                            .frame(width: 20, height: 20)
+                        
+                        Text("비밀번호 재설정")
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        
+                        Spacer()
+                    }
+                    .foregroundColor(Theme.bgColor(scheme))
+                    .padding(20)
+                    .frame(height: 50)
+                    .background(Theme.defaultColor(scheme))
+                    .padding(.horizontal)
+                })
+                .alert("전송 성공", isPresented: $resetEmailSended) {
+                    Button("확인", role: .cancel, action: {
+                        resetEmailSended.toggle()
+                        AuthViewModel.shared.logout()
+                    })
+                } message: {
+                    Text("수신한 이메일을 통해 비밀번호를 재설정 후 다시 로그인하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.")
+                }
+                
                 Spacer()
+                
+                Button(action: {
+                    sureToDeleteUser.toggle()
+                }, label: {
+                    HStack {
+                        Spacer()
+                        
+                        Image(systemName: "person.crop.circle.fill.badge.xmark")
+                            .foregroundColor(Theme.textColor(scheme))
+                        
+                        Text("회원 탈퇴")
+                            .font(.system(size: 16, weight: .medium, design: .monospaced))
+                            .foregroundColor(Theme.textColor(scheme))
+                            .opacity(0.8)
+                            .padding(.leading, 10)
+                    }
+                    .padding(.trailing, 30)
+                    .padding(.vertical)
+                })
+                .alert("회원 탈퇴", isPresented: $sureToDeleteUser) {
+                    Button("취소", role: .cancel, action: {
+                        sureToDeleteUser = false
+                    })
+                    Button("탈퇴", role: .destructive, action: {
+                        AuthViewModel.shared.deleteUser()
+                    })
+                } message: {
+                    Text("탈퇴 후 데이터를 복원할 수 없습니다.")
+                }
             }
             .padding(.top)
             .background(Theme.bgColor(scheme))

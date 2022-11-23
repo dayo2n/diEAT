@@ -21,6 +21,7 @@ struct MainView: View {
     @State private var freezePop: Bool = false
     @State private var showSidebar: Bool = false
     @State private var showEditProfile: Bool = false
+    @State private var showInquiry: Bool = false
 
     var body: some View {
         // 사이드바 메뉴 구성
@@ -33,40 +34,47 @@ struct MainView: View {
                         .padding(.all)
                     
                     Button(action: { showEditProfile.toggle() }, label: {
-                        CustomSidebarMenu(imageName: "person.fill.viewfinder", menuTitle: "프로필 수정")
+                        CustomSidebarMenu(imageName: "person.fill.viewfinder", menuTitle: "회원정보 수정")
                     })
-                        .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
-
-                    Divider()
-                        .padding(.all)
+                    .sheet(isPresented: $showEditProfile, content: { EditProfileView(user: user) })
                     
                     Button(action: AuthViewModel.shared.logout) {
                         CustomSidebarMenu(imageName: "\(scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")",
                                           menuTitle: "로그아웃")
                     }
+
+                    Divider()
+                        .padding(.all)
+                    
+                    Button(action: { showInquiry.toggle() }) {
+                        CustomSidebarMenu(imageName: "macwindow",
+                                          menuTitle: "문의 및 버그 제보")
+                    }
+                    .sheet(isPresented: $showInquiry, content: { InquiryView() })
                     
                     Spacer()
                     
                     Divider()
                     
                     // 개발자 정보
-                    HStack {
-                        Image("octocat")
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 16)
-                        
-                        Text("github.com/dayo2n")
-                            .font(.system(size: 12, weight: .medium, design: .monospaced))
-                            .padding(.leading, 10)
-                        
-                        Spacer()
-                    }
-                    .foregroundColor(Theme.textColor(scheme))
-                    .padding(.leading, 20)
-                    .padding(.vertical)
-                    .padding(.bottom, 30)
+                    Button(action: {}, label: {
+                        HStack {
+                            Image("octocat")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 16)
+                            
+                            Text("github.com/dayo2n")
+                                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                                .padding(.leading, 10)
+                            
+                            Spacer()
+                        }
+                        .foregroundColor(Theme.textColor(scheme))
+                        .padding(.leading, 20)
+                        .padding(.vertical)
+                    })
                 }
             }
             .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)

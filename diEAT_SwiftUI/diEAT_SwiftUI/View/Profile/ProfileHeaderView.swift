@@ -19,7 +19,7 @@ struct ProfileHeaderView: View {
                 KFImage(URL(string: profileImageUrl))
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 50, height: 50)
+                    .frame(width: 70, height: 70)
                     .clipShape(Circle())
                     .padding(.leading)
             } else {

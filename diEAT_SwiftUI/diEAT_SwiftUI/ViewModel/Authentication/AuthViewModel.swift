@@ -84,8 +84,12 @@ class AuthViewModel: ObservableObject {
     }
     
     func deleteUser() {
-        Auth.auth().currentUser?.delete() { _ in
-            self.userSession = nil
+        guard let uid = userSession?.uid else { return }
+        
+        Firestore.firestore().collection("users").document(uid).delete() { _ in
+            Auth.auth().currentUser?.delete() { _ in
+                self.logout()
+            }
         }
     }
     

@@ -9,4 +9,13 @@ import SwiftUI
 import Firebase
 
 class InquiryViewModel: ObservableObject {
+    func uploadInquiry(title: String, contents: String, completion: FirestoreCompletion) {
+        guard let user = AuthViewModel.shared.currentUser else { return }
+        
+        let data = ["uid": user.id,
+                    "writerEmail": user.email,
+                    "title": title,
+                    "contents": contents] as [String: Any]
+        Firestore.firestore().collection("inquiries").addDocument(data: data, completion: completion)
+    }
 }

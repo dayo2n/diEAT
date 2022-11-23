@@ -46,13 +46,11 @@ struct MainView: View {
                     Divider()
                         .padding(.all)
                     
-                    Button(action: { showInquiry.toggle() }) {
-                        CustomSidebarMenu(imageName: "macwindow",
-                                          menuTitle: "문의 및 버그 제보")
-                    }
-                    .sheet(isPresented: $showInquiry, content: { InquiryView() })
-                    
                     Spacer()
+                    
+                    Button(action: { showInquiry.toggle() }) {
+                        CustomSidebarMenu(imageName: "macwindow", menuTitle: "문의 및 버그 제보") }
+                    .sheet(isPresented: $showInquiry, content: { InquiryView() })
                     
                     Divider()
                     

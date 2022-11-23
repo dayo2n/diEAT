@@ -39,6 +39,19 @@ struct CustomDatePicker: View {
                         .font(.title.bold())
                 }
                 
+                // go to today
+                Button(action: {
+                    selectedDate = Date()
+                    viewModel.fetchPost(selectedDate: selectedDate)
+                    currentMonth = 0
+                }) {
+                    Text("TODAY")
+                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                        .padding(.all, 10)
+                        .foregroundColor(Theme.textColor(scheme))
+                        .border(Theme.defaultColor(scheme), width: 0.7)
+                }
+                
                 Spacer(minLength: 0)
                 
                 Button(action: {

@@ -125,6 +125,19 @@ struct MainView: View {
                     CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
                 }
             }
-        }.edgesIgnoringSafeArea(.all)
+        }
+        .edgesIgnoringSafeArea(.all)
+        .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+            .onEnded({ value in
+                if showSidebar {
+                    if value.translation.width < 0 { // left 방향으로 슬라이드하면
+                        showSidebar.toggle()
+                    }
+                } else {
+                    if value.translation.width > 0 { // left 방향으로 슬라이드하면
+                        showSidebar.toggle()
+                    }
+                }
+            }))
     }
 }

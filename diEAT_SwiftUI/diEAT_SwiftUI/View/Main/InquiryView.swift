@@ -59,6 +59,7 @@ struct InquiryView: View {
                         .frame(height: 50)
                         .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
+                    
                     ZStack {
                         VStack {
                             if #available(iOS 16.0, *) {
@@ -66,21 +67,12 @@ struct InquiryView: View {
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Theme.textColor(scheme))
                                     .padding(20)
+                                    .border(Theme.defaultColor(scheme), width: 0.7)
                                     .padding([.leading, .trailing])
                             } else {
                                 // Fallback on earlier versions
                             }
                             Spacer()
-                        }
-                        
-                        VStack {
-                            Rectangle()
-                                .fill(Theme.bgColor(scheme))
-                                .frame(height: UIScreen.main.bounds.height / 3)
-                                .opacity(0.0)
-                                .padding(20)
-                                .border(Theme.defaultColor(scheme), width: 0.7)
-                                .padding([.leading, .trailing])
                             
                             Text("작성하신 내용은 검토 후 등록하신 계정의 이메일로 결과를 전달해 드리겠습니다. 감사합니다 :))")
                                 .font(.system(size: 15, weight: .medium, design: .monospaced))

@@ -55,14 +55,14 @@ struct CustomDatePicker: View {
                 Spacer(minLength: 0)
                 
                 Button(action: {
-                    withAnimation { currentMonth -= 1 }
+                    currentMonth -= 1
                 }, label: {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                 })
                 
                 Button(action: {
-                    withAnimation { currentMonth += 1 }
+                    currentMonth += 1
                 }, label: {
                     Image(systemName: "chevron.right")
                         .font(.title2)
@@ -101,7 +101,7 @@ struct CustomDatePicker: View {
                             .frame(height: 35)
                             .onTapGesture {
                                 selectedDate = value.date
-                                viewModel.fetchPost(selectedDate: selectedDate)
+                                viewModel.fetchPost(selectedDate: value.date)
                             }
                             .foregroundColor(value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))
                     }

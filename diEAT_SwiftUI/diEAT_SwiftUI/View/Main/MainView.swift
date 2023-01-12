@@ -114,8 +114,8 @@ struct MainView: View {
                 .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
                 .background(Theme.bgColor(scheme))
                 .onAppear() {
-                    viewModel.fetchPost(selectedDate: selectedDate)
                     if !freezePop {
+                        viewModel.fetchPost(selectedDate: selectedDate)
                         popLoginToast.toggle()
                         freezePop = true
                     }

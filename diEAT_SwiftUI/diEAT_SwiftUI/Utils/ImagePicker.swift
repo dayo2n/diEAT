@@ -16,6 +16,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> some UIViewController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
+        picker.allowsEditing = true // 이미지 편집 기능 on
         return picker
     }
     
@@ -36,7 +37,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            guard let image = info[.originalImage] as? UIImage else { return }
+            guard let image = info[.editedImage] as? UIImage else { return }
             self.parent.image = image
             self.parent.mode.wrappedValue.dismiss()
         }

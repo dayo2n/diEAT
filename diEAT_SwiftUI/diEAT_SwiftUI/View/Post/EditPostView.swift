@@ -159,7 +159,6 @@ struct EditPostView: View {
                     
                     HStack {
                         Rectangle()
-                            .fill(Theme.bgColor(scheme))
                             .frame(height: 300)
                             .opacity(0.0)
                     }

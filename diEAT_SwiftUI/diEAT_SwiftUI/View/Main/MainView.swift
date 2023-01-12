@@ -114,8 +114,8 @@ struct MainView: View {
                 .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
                 .background(Theme.bgColor(scheme))
                 .onAppear() {
+                    viewModel.fetchPost(selectedDate: selectedDate)
                     if !freezePop {
-                        viewModel.fetchPost(selectedDate: selectedDate)
                         popLoginToast.toggle()
                         freezePop = true
                     }
@@ -124,20 +124,21 @@ struct MainView: View {
                 .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
                     CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
                 }
+                .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
+                    .onEnded({ value in
+                        if showSidebar {
+                            if value.translation.width < 0 { // left 방향으로 슬라이드하면
+                                showSidebar.toggle()
+                            }
+                        } else {
+                            if value.translation.width > 0 { // right 방향으로 슬라이드하면
+                                showSidebar.toggle()
+                            }
+                        }
+                    }))
             }
         }
         .edgesIgnoringSafeArea(.all)
-        .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
-            .onEnded({ value in
-                if showSidebar {
-                    if value.translation.width < 0 { // left 방향으로 슬라이드하면
-                        showSidebar.toggle()
-                    }
-                } else {
-                    if value.translation.width > 0 { // left 방향으로 슬라이드하면
-                        showSidebar.toggle()
-                    }
-                }
-            }))
+
     }
 }

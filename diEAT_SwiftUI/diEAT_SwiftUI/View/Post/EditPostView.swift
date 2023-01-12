@@ -35,6 +35,7 @@ struct EditPostView: View {
     @Environment(\.colorScheme) var scheme
     @Environment(\.presentationMode) var mode
     @ObservedObject var viewModel: EditPostViewModel = EditPostViewModel()
+    @FocusState private var focused: Bool
     
     var body: some View {
         ScrollView {
@@ -138,23 +139,17 @@ struct EditPostView: View {
                             .foregroundColor(Theme.textColor(scheme))
                             .padding(.leading)
                         
-                        if #available(iOS 16.0, *) {
-                            TextField("Enter the caption...", text: $caption, axis: .vertical)
+                            TextField("Enter the caption...", text: $caption)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .padding(10)
+                                .padding(15)
                                 .border(Theme.defaultColor(scheme), width: 0.7)
                                 .padding()
-                        } else {
-                            // Fallback on earlier versions
-                            TextField("Enter the caption...(0 to 30)", text: $caption)
-                                .frame(height: 30)
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                                .padding(10)
-                                .border(Theme.defaultColor(scheme), width: 0.7)
-                                .padding()
-                        }
+                                .focused($focused)
+                                .submitLabel(SubmitLabel.done)
+                                .onSubmit {
+                                    focused.toggle()
+                                }
                     }.padding(.bottom, 50)
                     
                     HStack {
@@ -226,6 +221,9 @@ struct EditPostView: View {
         }
         .ignoresSafeArea()
         .background(Theme.bgColor(scheme))
+        .onDisappear() {
+            focused = false
+        }
     }
 }
 
@@ -253,6 +251,5 @@ extension EditPostView {
     
     func selectedIconEvent(iconName: String) {
         selectedIcon = iconName
-        
     }
 }

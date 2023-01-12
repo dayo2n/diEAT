@@ -142,6 +142,8 @@ struct EditPostView: View {
                             TextField("Enter the caption...", text: $caption, axis: .vertical)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
+                                .padding(10)
+                                .border(Theme.defaultColor(scheme), width: 0.7)
                                 .padding()
                         } else {
                             // Fallback on earlier versions
@@ -149,6 +151,8 @@ struct EditPostView: View {
                                 .frame(height: 30)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
+                                .padding(10)
+                                .border(Theme.defaultColor(scheme), width: 0.7)
                                 .padding()
                         }
                     }.padding(.bottom, 50)

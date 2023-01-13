@@ -95,7 +95,7 @@ struct MainView: View {
                             Image(systemName: "text.justify")
                                 .font(.system(size: 20))
                                 .frame(width: 44, height: 44)
-                                .padding(.all)
+                                .padding(.all, 5)
                                 .foregroundColor(Theme.textColor(scheme))
                         }
                         Spacer()
@@ -105,7 +105,7 @@ struct MainView: View {
                     CustomDatePicker(currentDate: $currentDate, selectedDate: $selectedDate, viewModel: viewModel)
                         .foregroundColor(Theme.textColor(scheme))
                         .padding([.leading, .trailing], 10)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 10)
                         .onChange(of: selectedDate, perform: { value in selectedDate = value })
                     
                     // Eat log

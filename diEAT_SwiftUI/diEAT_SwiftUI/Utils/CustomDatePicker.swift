@@ -30,7 +30,7 @@ struct CustomDatePicker: View {
     var body: some View {
         VStack {
             HStack(spacing: 20) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text(extraDate()[0])
                         .font(.caption)
                         .fontWeight(.semibold)
@@ -47,7 +47,7 @@ struct CustomDatePicker: View {
                 }) {
                     Text("TODAY")
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                        .padding(.all, 10)
+                        .padding(.all, 5)
                         .foregroundColor(Theme.textColor(scheme))
                         .border(Theme.defaultColor(scheme), width: 0.7)
                 }
@@ -68,8 +68,8 @@ struct CustomDatePicker: View {
                         .font(.title2)
                 })
             }
-            .padding(.horizontal)
-            .padding(.bottom)
+            .padding(.horizontal, 10)
+            .padding(.bottom, 10)
             
             // Day View
             HStack() {

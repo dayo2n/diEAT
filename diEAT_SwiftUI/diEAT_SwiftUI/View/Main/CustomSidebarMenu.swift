@@ -17,6 +17,7 @@ struct CustomSidebarMenu: View {
         HStack {
             Image(systemName: imageName)
                 .foregroundColor(Theme.textColor(scheme))
+                .font(.system(size: 16))
             
             Text(menuTitle)
                 .font(.system(size: 16, weight: .medium, design: .monospaced))

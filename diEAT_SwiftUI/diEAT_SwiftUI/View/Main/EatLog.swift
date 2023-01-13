@@ -36,8 +36,16 @@ struct EatLog: View {
                 Button(action: {
                     editPostMode.toggle()
                 }, label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(Theme.textColor(scheme))
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 35, height: 35)
+                            .cornerRadius(10)
+                            .foregroundColor(Theme.btnColor(scheme))
+                            .opacity(0.7)
+                        
+                        Image(systemName: "plus")
+                            .foregroundColor(Theme.textColor(scheme))
+                    }
                 }).sheet(isPresented: $editPostMode, onDismiss: { viewModel.fetchPost(selectedDate: selectedDate) }, content: {
                     NavigationView {
                         EditPostView(editMode: false, selectedDate: $selectedDate)

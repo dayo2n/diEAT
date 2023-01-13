@@ -86,30 +86,35 @@ struct MainView: View {
         } content: {
             // 메인 뷰
             NavigationView {
-                VStack {
-                    HStack {
-                        // open side menu bar
-                        Button(action: {
-                            showSidebar.toggle()
-                        }) {
-                            Image(systemName: "text.justify")
-                                .font(.system(size: 20))
-                                .frame(width: 44, height: 44)
-                                .padding(.all, 5)
-                                .foregroundColor(Theme.textColor(scheme))
+                VStack(spacing: 0) {
+                    ZStack {
+                        // Calendar
+                        CustomDatePicker(currentDate: $currentDate, selectedDate: $selectedDate, viewModel: viewModel)
+                            .foregroundColor(Theme.textColor(scheme))
+                            .padding([.leading, .trailing], 10)
+                            .onChange(of: selectedDate, perform: { value in selectedDate = value })
+                        
+                        VStack(spacing: 0) {
+                            HStack {
+                                // open side menu bar
+                                Button(action: {
+                                    showSidebar.toggle()
+                                }) {
+                                    Image(systemName: "text.justify")
+                                        .font(.system(size: 20, weight: .heavy))
+                                        .frame(width: 44, height: 44)
+                                        .padding(.all, 10)
+                                        .foregroundColor(Theme.textColor(scheme))
+                                }
+                                Spacer()
+                            }
+                            Spacer()
                         }
-                        Spacer()
                     }
-                    
-                    // Calendar
-                    CustomDatePicker(currentDate: $currentDate, selectedDate: $selectedDate, viewModel: viewModel)
-                        .foregroundColor(Theme.textColor(scheme))
-                        .padding([.leading, .trailing], 10)
-                        .padding(.bottom, 10)
-                        .onChange(of: selectedDate, perform: { value in selectedDate = value })
                     
                     // Eat log
                     EatLog(selectedDate: $selectedDate, viewModel: viewModel)
+                        .frame(minHeight: UIScreen.main.bounds.height * 0.52)
                 }
                 .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
                 .background(Theme.bgColor(scheme))

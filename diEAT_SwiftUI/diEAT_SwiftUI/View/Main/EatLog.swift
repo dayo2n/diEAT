@@ -14,7 +14,7 @@ struct EatLog: View {
     @ObservedObject var viewModel: FetchPostViewModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 5) {
             // Eat Log
             HStack {
                 Image(systemName: "quote.opening")
@@ -52,7 +52,7 @@ struct EatLog: View {
                     }
                 })
             }
-            .padding([.leading, .trailing], 20)
+            .padding([.leading, .trailing], 10)
             
             ScrollView {
                 CustomGridView(viewModel: viewModel)

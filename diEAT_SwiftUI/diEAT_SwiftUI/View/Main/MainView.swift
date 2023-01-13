@@ -63,7 +63,7 @@ struct MainView: View {
                                 .scaledToFit()
                                 .frame(width: 16)
                             
-                            Text("github.com/dayo2n")
+                            Text("Github @dayo2n")
                                 .font(.system(size: 12, weight: .medium, design: .monospaced))
                                 .padding(.leading, 10)
                             

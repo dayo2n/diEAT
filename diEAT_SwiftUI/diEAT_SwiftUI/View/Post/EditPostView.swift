@@ -70,7 +70,7 @@ struct EditPostView: View {
                     .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                     
                     HStack {
-                        Text("# 식사 시간대")
+                        Text("# 식사")
                             .font(.system(size: 16, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
                             .padding([.horizontal, .top])
@@ -88,7 +88,7 @@ struct EditPostView: View {
                     .padding([.leading, .trailing, .bottom])
                     
                     HStack {
-                        Text("# 오늘의 스티커")
+                        Text("# 스티커")
                             .font(.system(size: 16, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
                             .padding([.horizontal, .top])
@@ -127,7 +127,7 @@ struct EditPostView: View {
                     }
                     
                     HStack {
-                        Text("# 짧은 기록")
+                        Text("# 기록")
                             .font(.system(size: 16, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
                             .padding([.horizontal, .top])
@@ -139,7 +139,7 @@ struct EditPostView: View {
                             .foregroundColor(Theme.textColor(scheme))
                             .padding(.leading)
                         
-                            TextField("Enter the caption...", text: $caption)
+                            TextField("스스로 피드백을 남기는 공간", text: $caption)
                                 .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(15)

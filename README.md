@@ -11,8 +11,7 @@
 ## 💻 Tech Stack
 - Xcode
 - Swift, SwiftUI
-- Firebase
-- SPM(Kingfisher, etc.)
+- Firebase, SPM
 
 ## 🎨 Design
 [Figma](https://www.figma.com/file/4SF29rHAFImlq1D6M7zVSp/diEAT?t=ykeT39tsee6kGosm-0)

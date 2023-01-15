@@ -23,6 +23,7 @@ struct diEAT_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(AuthViewModel.shared)
+                .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

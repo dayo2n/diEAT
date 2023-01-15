@@ -12,6 +12,7 @@ struct CustomDatePicker: View {
     var today: Date = Date()
     @Binding var currentDate: Date
     @Binding var selectedDate: Date
+    @Binding var showSidebar: Bool
     
     // Month update on arrow button clicks
     @State var currentMonth: Int = 0
@@ -30,6 +31,16 @@ struct CustomDatePicker: View {
     var body: some View {
         VStack(spacing: 5) {
             HStack {
+                // open side menu bar
+                Button(action: {
+                    showSidebar.toggle()
+                }) {
+                    Image(systemName: "text.justify")
+                        .font(.system(size: 20, weight: .heavy))
+                        .frame(width: 44, height: 44)
+                        .foregroundColor(Theme.textColor(scheme))
+                }
+                
                 Spacer()
                 
                 // go to today
@@ -47,7 +58,7 @@ struct CustomDatePicker: View {
                 }
             }
             .padding(.trailing, 5)
-            .padding(.top, 5)
+            .padding(.top, 15)
             
             HStack(spacing: 20) {
                 VStack(alignment: .leading, spacing: 5) {

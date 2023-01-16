@@ -64,7 +64,7 @@ struct LoginView: View {
                             .cornerRadius(10)
                     })
                     
-                    NavigationLink(destination: RegistrationView().navigationBarHidden(true), label: {
+                    NavigationLink(destination: RegistrationView().navigationBarHidden(true).navigationViewStyle(StackNavigationViewStyle()), label: {
                         HStack {
                             Text("계정이 없다면")
                                 .font(.system(size: 13))

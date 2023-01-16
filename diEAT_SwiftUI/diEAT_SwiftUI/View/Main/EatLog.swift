@@ -46,6 +46,7 @@ struct EatLog: View {
                         Image(systemName: "plus")
                             .foregroundColor(Theme.textColor(scheme))
                     }
+                    .frame(width: 44, height: 44)
                 }).sheet(isPresented: $editPostMode, onDismiss: { viewModel.fetchPost(selectedDate: selectedDate) }, content: {
                     NavigationView {
                         EditPostView(editMode: false, selectedDate: $selectedDate)

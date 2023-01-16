@@ -51,7 +51,8 @@ struct CustomDatePicker: View {
                 }) {
                     Text("TODAY")
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                        .padding(.all, 10)
+                        .frame(height: 44)
+                        .padding(.horizontal, 5)
                         .cornerRadius(30)
                         .foregroundColor(Theme.textColor(scheme))
                         .border(Theme.defaultColor(scheme), width: 0.7)
@@ -78,6 +79,7 @@ struct CustomDatePicker: View {
                 }, label: {
                     Image(systemName: "chevron.left")
                         .font(.title2)
+                        .frame(width: 44, height: 44)
                 })
                 
                 Button(action: {
@@ -85,6 +87,7 @@ struct CustomDatePicker: View {
                 }, label: {
                     Image(systemName: "chevron.right")
                         .font(.title2)
+                        .frame(width: 44, height: 44)
                 })
             }
             .padding(.horizontal, 10)

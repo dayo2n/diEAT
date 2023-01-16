@@ -93,7 +93,13 @@ struct EditPostView: View {
                             Text("# 스티커")
                                 .font(.system(size: 16, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .padding([.horizontal, .top])
+                                .padding([.leading, .top])
+                            
+                            Text("반드시 하나를 선택해 주세요")
+                                .font(.system(size: 12, weight: .light, design: .monospaced))
+                                .foregroundColor(Color.gray)
+                                .padding([.leading, .top])
+                            
                             Spacer()
                         }
                         

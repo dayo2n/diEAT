@@ -2,7 +2,7 @@
 
 ## 🥗 Summary
 - 다이어트 중 식단을 한 번에 기록하고 한눈에 확인하고 싶어서 만들어 본 식단 관리  iOS 앱
-- It's a dieat management iOS application to record dieat at once
+- It's a dieat management iOS application to record diet at once
 
 ## 📌 Verison
 - 📁 diEAT_SwiftUI: 1.0

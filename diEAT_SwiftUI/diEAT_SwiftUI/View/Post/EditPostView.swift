@@ -132,6 +132,7 @@ struct EditPostView: View {
                             })
                             
                         }
+                        .padding(.horizontal, 10)
                         
                         HStack {
                             Text("# 기록")

@@ -14,7 +14,7 @@ struct CustomIcon: View {
         Image(iconName)
             .resizable()
             .scaledToFit()
-            .frame(width: 60, height: 60)
+            .frame(width: 44, height: 44)
             .padding(.horizontal)
     }
 }

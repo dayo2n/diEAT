@@ -26,7 +26,7 @@ struct CustomSidebarMenu: View {
             
             Spacer()
         }
-        .padding(.leading, 20)
+        .padding(.horizontal, 20)
         .padding(.vertical)
     }
 }

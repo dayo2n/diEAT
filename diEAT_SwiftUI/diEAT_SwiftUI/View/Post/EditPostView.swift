@@ -67,7 +67,6 @@ struct EditPostView: View {
                             Text("Select image")
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .frame(height: 44)
-                                .padding(.bottom, 10)
                         })
                         .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                         

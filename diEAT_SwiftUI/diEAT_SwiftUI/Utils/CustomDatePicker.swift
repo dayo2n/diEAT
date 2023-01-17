@@ -61,7 +61,7 @@ struct CustomDatePicker: View {
             .padding(.trailing, 5)
             .padding(.top, 15)
             
-            HStack(spacing: 20) {
+            HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(extraDate()[0])
                         .font(.caption)

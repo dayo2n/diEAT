@@ -11,19 +11,20 @@ import Kingfisher
 struct CustomGridView: View {
     
     private let items = [GridItem(), GridItem()]
-    private let width = UIScreen.main.bounds.width / 2
+    private let length = UIScreen.main.bounds.width / 2
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel
     
     var body: some View {
-        LazyVGrid(columns: items, content: {
+        LazyVGrid(columns: items, spacing: 2, content: {
             ForEach(viewModel.posts) { post in
                 NavigationLink(destination: SinglePostView(post: post, selectedDate: post.timestamp.dateValue(), viewModel: viewModel)) {
                     ZStack {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()
-                            .frame(width: width - 5, height: width)
+                            .frame(width: length, height: length)
                             .scaledToFill()
+                            .cornerRadius(10)
                         
                         HStack {
                             VStack{

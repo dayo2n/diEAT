@@ -4,14 +4,17 @@
 - 다이어트 중 식단을 한 번에 기록하고 한눈에 확인하고 싶어서 만들어 본 식단 관리  iOS 앱
 - It's a dieat management iOS application to record dieat at once
 
-## 📌 Verison : Directory
-- ver 2.0 : 📁 diEAT_SwiftUI
-- ~~ver 1.0 : 📁 diEAT~~
+## 📌 Verison
+- 📁 diEAT_SwiftUI: 1.0
+- ~~old version : 📁 diEAT~~
 
 ## 💻 Tech Stack
 - Xcode
 - Swift, SwiftUI
 - Firebase, SPM
+
+## 📱 App Store
+[diEAT 다이트](https://apps.apple.com/app/id1665060736)
 
 ## 🎨 Design
 [Figma](https://www.figma.com/file/4SF29rHAFImlq1D6M7zVSp/diEAT?t=ykeT39tsee6kGosm-0)

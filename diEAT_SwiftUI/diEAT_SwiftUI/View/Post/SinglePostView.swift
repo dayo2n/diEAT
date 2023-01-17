@@ -81,6 +81,7 @@ struct SinglePostView: View {
                                 .foregroundColor(Theme.textColor(scheme))
                         }
                     })
+                    .padding(.trailing, 15)
                     Button(action: { self.showDeleteAlert.toggle()
                     }, label: {
                         Image(systemName: "trash")

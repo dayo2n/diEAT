@@ -58,7 +58,7 @@ struct CustomDatePicker: View {
                         .border(Theme.defaultColor(scheme), width: 0.7)
                 }
             }
-            .padding(.trailing, 5)
+            .padding(.trailing, 22)
             .padding(.top, 15)
             
             HStack(spacing: 0) {

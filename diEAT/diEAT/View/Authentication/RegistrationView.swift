@@ -56,7 +56,12 @@ struct RegistrationView: View {
                     Button(action: {
                         if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
                         else { viewModel.register(username: username, email: email, pw: pw) { bool in
-                            if !bool { alreadyRegistered.toggle() }
+                            if !bool {
+                                alreadyRegistered.toggle()
+                            }
+                            else {
+                                mode.wrappedValue.dismiss()
+                            }
                         }}
                         
                     }, label: {

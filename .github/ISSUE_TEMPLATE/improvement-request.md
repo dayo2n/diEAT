@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: "[✨feat]"
-labels: ''
+name: Improvement request
+about: 개선할 점, 보완할 점
+title: "[\U0001F98BImprovement]"
+labels: "\U0001F98Bimprovement"
 assignees: dayo2n
 
 ---

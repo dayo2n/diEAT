@@ -20,6 +20,8 @@ struct RegistrationView: View {
     // alert flag
     @State private var noBlank: Bool = false
     @State private var alreadyRegistered: Bool = false
+    @State private var badFormatEmail: Bool = false
+    @State private var badFormatPassword: Bool = false
     
     var body: some View {
         NavigationView {
@@ -55,11 +57,15 @@ struct RegistrationView: View {
                     
                     Button(action: {
                         if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
-                        else { viewModel.register(username: username, email: email, pw: pw) { bool in
-                            if !bool {
+                        else { viewModel.register(username: username, email: email, pw: pw) { code in
+                            switch code {
+                            case 17007:
                                 alreadyRegistered.toggle()
-                            }
-                            else {
+                            case 17008:
+                                badFormatEmail.toggle()
+                            case 17026:
+                                badFormatPassword.toggle()
+                            default: // code == 0
                                 mode.wrappedValue.dismiss()
                             }
                         }}
@@ -92,6 +98,12 @@ struct RegistrationView: View {
             }
             .popup(isPresented: $alreadyRegistered, type: .floater(), position: .top, autohideIn: 3) {
                 CustomPopUpView(alertText: "이미 가입되어 있는 이메일입니다.", bgColor: .red)
+            }
+            .popup(isPresented: $badFormatEmail, type: .floater(), position: .top, autohideIn: 3) {
+                CustomPopUpView(alertText: "이메일 형식이 올바르지 않습니다.", bgColor: .red)
+            }
+            .popup(isPresented: $badFormatPassword, type: .floater(), position: .top, autohideIn: 3) {
+                CustomPopUpView(alertText: "비밀번호를 6자리 이상 입력하세요.", bgColor: .red)
             }
         }
         .ignoresSafeArea()

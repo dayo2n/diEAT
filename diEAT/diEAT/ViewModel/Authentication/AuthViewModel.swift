@@ -31,13 +31,11 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func register(username: String, email: String, pw: String, _ completion: @escaping(Bool) -> Void?) {
+    func register(username: String, email: String, pw: String, _ completion: @escaping(Int) -> Void?) {
         Auth.auth().createUser(withEmail: email, password: pw) { result, error in
             if let error = error {
-                print("=== DEBUG: \(error.localizedDescription)")
-                if error._code == 17007 {
-                    completion(false)
-                }
+                print("=== DEBUG: \(error.localizedDescription), \(error._code)")
+                completion(error._code)
                 return
             }
             
@@ -48,7 +46,7 @@ class AuthViewModel: ObservableObject {
                         "uid": user.uid]
             
             Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
-                completion(true)
+                completion(0)
             }
         }
     }

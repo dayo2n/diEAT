@@ -19,7 +19,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct diEATApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    init() {
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(AuthViewModel.shared)

@@ -5,7 +5,6 @@
 //  Created by 문다 on 2022/10/03.
 //
 
-import SwiftUI
 import Firebase
 
 class AuthViewModel: ObservableObject {

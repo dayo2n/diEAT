@@ -8,7 +8,6 @@
 import Foundation
 import FirebaseStorage
 import UIKit
-import Kingfisher
 
 // profile 또는 Post 타입에 따라 파일 경로 설정
 enum UploadType {

@@ -1,6 +1,6 @@
 //
-//  diEAT_SwiftUIApp.swift
-//  diEAT_SwiftUI
+//  diEAT.swift
+//  diEAT
 //
 //  Created by 문다 on 2022/10/03.
 //

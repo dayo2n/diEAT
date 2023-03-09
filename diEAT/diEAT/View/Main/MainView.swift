@@ -131,6 +131,5 @@ struct MainView: View {
             }
         }
         .edgesIgnoringSafeArea(.all)
-
     }
 }

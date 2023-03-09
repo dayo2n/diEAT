@@ -109,6 +109,7 @@ struct RegistrationView: View {
                         .scaleEffect(5)
                 }
             }
+            .background(Theme.bgColor(scheme))
             .popup(isPresented: $noBlank) {
                 CustomPopUpView(alertText: "항목을 모두 작성하세요!", bgColor: .red)
             } customize: { pop in
@@ -151,6 +152,5 @@ struct RegistrationView: View {
             }
         }
         .ignoresSafeArea()
-        .background(Color("bgColor"))
     }
 }

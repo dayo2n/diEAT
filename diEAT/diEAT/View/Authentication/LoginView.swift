@@ -23,7 +23,7 @@ struct LoginView: View {
     
     // alert
     @State private var noBlank: Bool = false
-    @State private var alertInvalidPassword: Bool = false
+    @State private var alertInvalidInput: Bool = false
     @State private var resetEmailSended: Bool = false
     
     var body: some View {
@@ -58,7 +58,7 @@ struct LoginView: View {
                                 loginInProgress = true
                                 viewModel.login(email: email, pw: pw) { bool in
                                     if !bool {
-                                        alertInvalidPassword.toggle()
+                                        alertInvalidInput.toggle()
                                     }
                                     loginInProgress = false
                                 }
@@ -99,6 +99,7 @@ struct LoginView: View {
                     }.padding(.bottom, 30)
                 }
             }
+            .background(Theme.bgColor(scheme))
             
             if loginInProgress {
                 LinearGradient(colors: [.black.opacity(0.0)], startPoint: .top, endPoint: .bottom)
@@ -120,8 +121,8 @@ struct LoginView: View {
                 .autohideIn(2)
                 .isOpaque(true)
         }
-        .popup(isPresented: $alertInvalidPassword) {
-            CustomPopUpView(alertText: "잘못된 비밀번호입니다.", bgColor: .red)
+        .popup(isPresented: $alertInvalidInput) {
+            CustomPopUpView(alertText: "아이디 또는 비밀번호를 확인하세요.", bgColor: .red)
         } customize: { pop in
             pop
                 .type(.floater())
@@ -175,7 +176,5 @@ struct LoginView: View {
             }
         })
         .ignoresSafeArea()
-        .background()
-        .background(Theme.bgColor(scheme))
     }
 }

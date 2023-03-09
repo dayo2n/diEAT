@@ -15,6 +15,8 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var scheme
     
+    @State private var loginInProgress: Bool = false
+    
     // sheet
     @State private var resetPassword: Bool = false
     @State private var resetTargetEmail: String = ""
@@ -26,70 +28,85 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("diEAT")
-                    .font(.system(size: 30, weight: .heavy, design: .monospaced))
-                Text("Sign in")
-                    .font(.system(size: 13, weight: .light, design: .monospaced))
-                
-                Spacer()
+            ZStack {
                 VStack {
-                    CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
+                    Text("diEAT")
+                        .font(.system(size: 30, weight: .heavy, design: .monospaced))
+                    Text("Sign in")
+                        .font(.system(size: 13, weight: .light, design: .monospaced))
                     
-                    CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 10)
-                    
-                    Button(action: {
-                        if email.count == 0 || pw.count == 0 {
-                            noBlank.toggle()
-                        } else {
-                            viewModel.login(email: email, pw: pw) { bool in
-                                if !bool { alertInvalidPassword.toggle() }
+                    Spacer()
+                    VStack {
+                        CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .padding(20)
+                            .frame(height: 50)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
+                        
+                        CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
+                            .padding(20)
+                            .frame(height: 50)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
+                            .padding([.top, .bottom], 10)
+                        
+                        Button(action: {
+                            if email.count == 0 || pw.count == 0 {
+                                noBlank.toggle()
+                            } else {
+                                loginInProgress = true
+                                viewModel.login(email: email, pw: pw) { bool in
+                                    if !bool {
+                                        alertInvalidPassword.toggle()
+                                    }
+                                    loginInProgress = false
+                                }
+                            }}, label: {
+                            Text("LOGIN")
+                                .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                                .foregroundColor(Theme.textColor(scheme))
+                                .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                                .background(Theme.btnColor(scheme))
+                                .cornerRadius(10)
+                        })
+                        
+                        NavigationLink(destination: RegistrationView().navigationBarHidden(true).navigationViewStyle(StackNavigationViewStyle()), label: {
+                            HStack {
+                                Text("계정이 없다면")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(Theme.defaultColor(scheme))
+                                
+                                Text("회원가입")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(Theme.textColor(scheme))
                             }
-                        }}, label: {
-                        Text("LOGIN")
-                            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                            .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Theme.btnColor(scheme))
-                            .cornerRadius(10)
-                    })
-                    
-                    NavigationLink(destination: RegistrationView().navigationBarHidden(true).navigationViewStyle(StackNavigationViewStyle()), label: {
-                        HStack {
-                            Text("계정이 없다면")
-                                .font(.system(size: 13))
-                                .foregroundColor(Theme.defaultColor(scheme))
-                            
-                            Text("회원가입")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(Theme.textColor(scheme))
-                        }
-                        .padding(.vertical, 10)
-                    })
-                    
-                    Button(action: { resetPassword.toggle() }, label: {
-                        HStack {
-                            Text("비밀번호를 잊어버렸다면")
-                                .font(.system(size: 13))
-                                .foregroundColor(Theme.defaultColor(scheme))
-                            
-                            Text("비밀번호 재설정")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(Theme.textColor(scheme))
-                        }
-                        .padding(.bottom, 16)
-                    })
-                }.padding(.bottom, 30)
+                            .padding(.vertical, 10)
+                        })
+                        
+                        Button(action: { resetPassword.toggle() }, label: {
+                            HStack {
+                                Text("비밀번호를 잊어버렸다면")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(Theme.defaultColor(scheme))
+                                
+                                Text("비밀번호 재설정")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(Theme.textColor(scheme))
+                            }
+                            .padding(.bottom, 16)
+                        })
+                    }.padding(.bottom, 30)
+                }
+            }
+            
+            if loginInProgress {
+                LinearGradient(colors: [.black.opacity(0.0)], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(5)
             }
         }
         .popup(isPresented: $noBlank) {

@@ -17,6 +17,8 @@ struct RegistrationView: View {
     @Environment(\.presentationMode) var mode
     @Environment(\.colorScheme) var scheme
     
+    @State private var registerInProgress: Bool = false
+    
     // alert flag
     @State private var noBlank: Bool = false
     @State private var alreadyRegistered: Bool = false
@@ -25,73 +27,87 @@ struct RegistrationView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("diEAT")
-                    .font(.system(size: 30, weight: .heavy, design: .monospaced))
-                Text("Sign up")
-                    .font(.system(size: 13, weight: .light, design: .monospaced))
-                
-                Spacer()
+            ZStack {
                 VStack {
-                    CustomTextField(text: $username, placeholder: Text("USERNAME"), imageName: "person")
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 10)
+                    Text("diEAT")
+                        .font(.system(size: 30, weight: .heavy, design: .monospaced))
+                    Text("Sign up")
+                        .font(.system(size: 13, weight: .light, design: .monospaced))
                     
-                    CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
-                    
-                    CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
-                        .padding([.top, .bottom], 10)
-                    
-                    Button(action: {
-                        if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
-                        else { viewModel.register(username: username, email: email, pw: pw) { code in
-                            switch code {
-                            case 17007:
-                                alreadyRegistered.toggle()
-                            case 17008:
-                                badFormatEmail.toggle()
-                            case 17026:
-                                badFormatPassword.toggle()
-                            default: // code == 0
-                                mode.wrappedValue.dismiss()
-                            }
-                        }}
+                    Spacer()
+                    VStack {
+                        CustomTextField(text: $username, placeholder: Text("USERNAME"), imageName: "person")
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .padding(20)
+                            .frame(height: 50)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
+                            .padding([.top, .bottom], 10)
                         
-                    }, label: {
-                        Text("SIGN UP")
-                            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                            .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Theme.btnColor(scheme))
-                            .cornerRadius(10)
-                    })
-                    
-                    Button(action: { mode.wrappedValue.dismiss() }, label: {
-                        HStack {
-                            Text("Already have an account?")
-                                .font(.system(size: 13))
-                                .foregroundColor(Theme.defaultColor(scheme))
+                        CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .padding(20)
+                            .frame(height: 50)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
+                        
+                        CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
+                            .padding(20)
+                            .frame(height: 50)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
+                            .padding([.top, .bottom], 10)
+                        
+                        Button(action: {
+                            if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
+                            else {
+                                registerInProgress = true
+                                viewModel.register(username: username, email: email, pw: pw) { code in
+                                switch code {
+                                case 17007:
+                                    alreadyRegistered.toggle()
+                                case 17008:
+                                    badFormatEmail.toggle()
+                                case 17026:
+                                    badFormatPassword.toggle()
+                                default: // code == 0
+                                    mode.wrappedValue.dismiss()
+                                }
+                                registerInProgress = false
+                            }}
                             
-                            Text("Sign in")
-                                .font(.system(size: 14, weight: .semibold))
+                        }, label: {
+                            Text("SIGN UP")
+                                .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                        }
-                        .padding(.bottom, 16)
-                    })
-                }.padding(.bottom, 30)
+                                .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                                .background(Theme.btnColor(scheme))
+                                .cornerRadius(10)
+                        })
+                        
+                        Button(action: { mode.wrappedValue.dismiss() }, label: {
+                            HStack {
+                                Text("Already have an account?")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(Theme.defaultColor(scheme))
+                                
+                                Text("Sign in")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(Theme.textColor(scheme))
+                            }
+                            .padding(.bottom, 16)
+                        })
+                    }.padding(.bottom, 30)
+                    
+                }
+                if registerInProgress {
+                    LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+                        .ignoresSafeArea()
+                    
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(5)
+                }
             }
             .popup(isPresented: $noBlank) {
                 CustomPopUpView(alertText: "항목을 모두 작성하세요!", bgColor: .red)

@@ -16,7 +16,7 @@ struct CustomPopUpView: View {
             .font(.system(size: 17, weight: .medium, design: .monospaced))
             .padding([.leading, .trailing], 20)
             .padding([.bottom, .top], 10)
-            .foregroundColor(Theme.textColor(scheme))
+            .foregroundColor(.white)
             .background(bgColor)
             .cornerRadius(30.0)
             .multilineTextAlignment(.center)

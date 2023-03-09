@@ -93,17 +93,45 @@ struct RegistrationView: View {
                     })
                 }.padding(.bottom, 30)
             }
-            .popup(isPresented: $noBlank, type: .floater(), position: .top, autohideIn: 3) {
+            .popup(isPresented: $noBlank) {
                 CustomPopUpView(alertText: "항목을 모두 작성하세요!", bgColor: .red)
+            } customize: { pop in
+                pop
+                    .type(.floater())
+                    .position(.top)
+                    .closeOnTap(true)
+                    .dragToDismiss(true)
+                    .autohideIn(3)
             }
-            .popup(isPresented: $alreadyRegistered, type: .floater(), position: .top, autohideIn: 3) {
+            .popup(isPresented: $alreadyRegistered) {
                 CustomPopUpView(alertText: "이미 가입되어 있는 이메일입니다.", bgColor: .red)
+            } customize: { pop in
+                pop
+                    .type(.floater())
+                    .position(.top)
+                    .closeOnTap(true)
+                    .dragToDismiss(true)
+                    .autohideIn(3)
             }
-            .popup(isPresented: $badFormatEmail, type: .floater(), position: .top, autohideIn: 3) {
+            .popup(isPresented: $badFormatEmail) {
                 CustomPopUpView(alertText: "이메일 형식이 올바르지 않습니다.", bgColor: .red)
+            } customize: { pop in
+                pop
+                    .type(.floater())
+                    .position(.top)
+                    .closeOnTap(true)
+                    .dragToDismiss(true)
+                    .autohideIn(3)
             }
-            .popup(isPresented: $badFormatPassword, type: .floater(), position: .top, autohideIn: 3) {
+            .popup(isPresented: $badFormatPassword) {
                 CustomPopUpView(alertText: "비밀번호를 6자리 이상 입력하세요.", bgColor: .red)
+            } customize: { pop in
+                pop
+                    .type(.floater())
+                    .position(.top)
+                    .closeOnTap(true)
+                    .dragToDismiss(true)
+                    .autohideIn(3)
             }
         }
         .ignoresSafeArea()

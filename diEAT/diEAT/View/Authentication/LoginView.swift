@@ -92,11 +92,27 @@ struct LoginView: View {
                 }.padding(.bottom, 30)
             }
         }
-        .popup(isPresented: $noBlank, type: .floater(), position: .top, autohideIn: 3) {
+        .popup(isPresented: $noBlank) {
             CustomPopUpView(alertText: "로그인 정보를 모두 입력하세요!", bgColor: .red)
+        } customize: { pop in
+            pop
+                .type(.floater())
+                .position(.top)
+                .closeOnTap(true)
+                .dragToDismiss(true)
+                .autohideIn(2)
+                .isOpaque(true)
         }
-        .popup(isPresented: $alertInvalidPassword, type: .floater(), position: .top, autohideIn: 3) {
+        .popup(isPresented: $alertInvalidPassword) {
             CustomPopUpView(alertText: "잘못된 비밀번호입니다.", bgColor: .red)
+        } customize: { pop in
+            pop
+                .type(.floater())
+                .position(.top)
+                .closeOnTap(true)
+                .dragToDismiss(true)
+                .autohideIn(2)
+                .isOpaque(true)
         }
         .sheet(isPresented: $resetPassword, content: {
             if #available(iOS 16.0, *) {

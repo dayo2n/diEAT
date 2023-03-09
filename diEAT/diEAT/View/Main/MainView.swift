@@ -106,8 +106,15 @@ struct MainView: View {
                     }
                 }
                 // login 인사
-                .popup(isPresented: $popLoginToast, type: .floater(), position: .bottom, autohideIn: 3) {
+                .popup(isPresented: $popLoginToast) {
                     CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
+                } customize: { pop in
+                    pop
+                        .type(.floater())
+                        .position(.bottom)
+                        .dragToDismiss(true)
+                        .closeOnTap(true)
+                        .autohideIn(3)
                 }
                 .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .local)
                     .onEnded({ value in

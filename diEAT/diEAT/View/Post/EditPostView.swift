@@ -216,11 +216,25 @@ struct EditPostView: View {
                         })
                     }
                 }
-                .popup(isPresented: $popNoImageWarning, type: .floater(), position: .top, autohideIn: 3) {
+                .popup(isPresented: $popNoImageWarning) {
                     CustomPopUpView(alertText: "업로드 실패!\n 식단 이미지를 첨부해 주세요 :(", bgColor: .red)
+                } customize: { pop in
+                    pop
+                        .type(.floater())
+                        .position(.top)
+                        .dragToDismiss(true)
+                        .closeOnTap(true)
+                        .autohideIn(3)
                 }
-                .popup(isPresented: $popNoSelectedIconWarning, type: .floater(), position: .top, autohideIn: 3) {
+                .popup(isPresented: $popNoSelectedIconWarning) {
                     CustomPopUpView(alertText: "업로드 실패!\n 오늘의 스티커를 선택해 주세요 :(", bgColor: .red)
+                } customize: { pop in
+                    pop
+                        .type(.floater())
+                        .position(.top)
+                        .dragToDismiss(true)
+                        .closeOnTap(true)
+                        .autohideIn(3)
                 }
                 .onAppear() {
                     getExistedLog()

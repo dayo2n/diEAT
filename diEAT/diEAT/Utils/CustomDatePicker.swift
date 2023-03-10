@@ -95,18 +95,20 @@ struct CustomDatePicker: View {
             
             // Day View
             HStack() {
-                ForEach(days, id: \.self) {day in
-                    Text(day)
+                ForEach(0..<days.count, id: \.self) { index in
+                    Text(days[index])
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
                         .frame(maxWidth: .infinity) // 자동 간격 최대
+                        .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : Theme.textColor(scheme)))
                 }
             }
             // Dates
             // Lazy Grid
             let columns = Array(repeating: GridItem() , count: 7)
+            let extractedDate: [DateValue] = extractDate()
             
             LazyVGrid(columns: columns) {
-                ForEach(extractDate()) { value in
+                ForEach(Array(extractedDate.enumerated()), id: \.element) { index, value in
                     ZStack {
                         if value.date == selectedDate {
                             Circle()
@@ -125,7 +127,7 @@ struct CustomDatePicker: View {
                                 selectedDate = value.date
                                 viewModel.fetchPost(selectedDate: value.date)
                             }
-                            .foregroundColor(value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))
+                            .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : (value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))))
                     }
                 }
             }
@@ -210,7 +212,7 @@ extension Date {
 }
 
 
-struct DateValue: Identifiable {
+struct DateValue: Identifiable, Hashable {
     var id = UUID().uuidString
     var day: Int
     var date: Date

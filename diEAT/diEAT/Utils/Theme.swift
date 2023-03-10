@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct Theme {
+    
+    static let saturdayTextColor = Color("saturdayTextColor")
+    static let sundayTextColor = Color("sundayTextColor")
+    
     static func bgColor(_ scheme: ColorScheme) -> Color {
         let lightColor = Color("bgColor")
         let darkColor = Color("bgColor")

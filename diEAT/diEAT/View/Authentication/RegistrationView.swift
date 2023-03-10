@@ -28,12 +28,10 @@ struct RegistrationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                
                 Image("backgroundImageDark")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                
                 
                 VStack {
                     Text("diEAT")
@@ -110,7 +108,6 @@ struct RegistrationView: View {
                 }
                 .padding(.top, 50)
                 .padding(.bottom, 30)
-                
                 if registerInProgress {
                     LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                         .ignoresSafeArea()

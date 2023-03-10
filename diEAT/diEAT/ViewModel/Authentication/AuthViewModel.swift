@@ -35,7 +35,6 @@ class AuthViewModel: ObservableObject {
             if let error = error {
                 print("=== DEBUG: \(error.localizedDescription), \(error._code)")
                 completion(error._code)
-//                return
             }
             
             guard let user = result?.user else { return }

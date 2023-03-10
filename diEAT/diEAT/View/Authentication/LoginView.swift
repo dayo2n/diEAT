@@ -29,6 +29,11 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                Image("backgroundImageDark")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                
                 VStack {
                     Text("diEAT")
                         .font(.system(size: 30, weight: .heavy, design: .monospaced))
@@ -96,13 +101,16 @@ struct LoginView: View {
                             }
                             .padding(.bottom, 16)
                         })
-                    }.padding(.bottom, 30)
+                    }
+                    .padding(.bottom, 30)
                 }
+                .padding(.top, 50)
+                .padding(.bottom, 30)
             }
             .background(Theme.bgColor(scheme))
             
             if loginInProgress {
-                LinearGradient(colors: [.black.opacity(0.0)], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 
                 ProgressView()

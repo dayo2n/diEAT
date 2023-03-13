@@ -39,7 +39,7 @@ struct EatLog: View {
                     ZStack {
                         Rectangle()
                             .frame(width: 35, height: 35)
-                            .cornerRadius(10)
+                            .cornerRadius(8)
                             .foregroundColor(Theme.btnColor(scheme))
                             .opacity(0.7)
                         
@@ -47,11 +47,13 @@ struct EatLog: View {
                             .foregroundColor(Theme.textColor(scheme))
                     }
                     .frame(width: 44, height: 44)
-                }).sheet(isPresented: $editPostMode, onDismiss: { viewModel.fetchPost(selectedDate: selectedDate) }, content: {
+                }).fullScreenCover(isPresented: $editPostMode) {
+                    viewModel.fetchPost(selectedDate: selectedDate)
+                } content: {
                     NavigationView {
                         EditPostView(editMode: false, selectedDate: $selectedDate)
                     }
-                })
+                }
             }
             .padding([.leading, .trailing], 10)
             

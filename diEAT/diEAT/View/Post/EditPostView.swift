@@ -48,20 +48,23 @@ struct EditPostView: View {
                                     .resizable()
                                     .frame(width: geo.size.width - 20, height: geo.size.width - 20)
                                     .scaledToFit()
+                                    .cornerRadius(8)
                             } else {
                                 if image == nil {
                                     Rectangle()
                                         .frame(width: geo.size.width - 20, height: geo.size.width - 20)
                                         .foregroundColor(Theme.defaultColor(scheme))
+                                        .cornerRadius(8)
                                 } else if let image = image {
                                     image
                                         .resizable()
                                         .frame(width: geo.size.width - 20, height: geo.size.width - 20)
                                         .scaledToFit()
+                                        .cornerRadius(8)
                                 }
                             }
                         }
-                        .padding(.top, editMode ? 100 : 60)
+                        .padding(.top, 100)
                         
                         Button(action: { imagePickMode.toggle() }, label: {
                             Text("Select image")

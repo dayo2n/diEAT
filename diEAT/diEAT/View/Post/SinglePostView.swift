@@ -27,6 +27,7 @@ struct SinglePostView: View {
                     .resizable()
                     .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
                     .scaledToFit()
+                    .cornerRadius(8)
                     .padding()
 
                 HStack {

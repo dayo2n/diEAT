@@ -24,7 +24,7 @@ struct CustomGridView: View {
                             .resizable()
                             .frame(width: length, height: length)
                             .scaledToFill()
-                            .cornerRadius(10)
+                            .cornerRadius(8)
                         
                         HStack {
                             VStack{
@@ -41,6 +41,7 @@ struct CustomGridView: View {
                                         Text("\(post.icon == nil ? "" : "#")")
                                             .font(.system(size: 12, weight: .regular, design: .monospaced))
                                             .foregroundColor(Theme.textColor(scheme))
+                                        
                                         Image("\(post.icon ?? "")")
                                             .resizable()
                                             .frame(width: 20, height: 20)

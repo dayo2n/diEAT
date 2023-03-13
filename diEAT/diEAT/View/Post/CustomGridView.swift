@@ -36,16 +36,17 @@ struct CustomGridView: View {
                                         .padding(5)
                                         .background(Theme.bgColor(scheme).opacity(0.7))
                                         .padding([.leading, .top], 5)
+                                    
                                     HStack {
-                                        Text("#")
+                                        Text("\(post.icon == nil ? "" : "#")")
                                             .font(.system(size: 12, weight: .regular, design: .monospaced))
                                             .foregroundColor(Theme.textColor(scheme))
-                                        Image("\(post.icon)")
+                                        Image("\(post.icon ?? "")")
                                             .resizable()
                                             .frame(width: 20, height: 20)
                                     }
                                     .padding(5)
-                                    .background(Theme.bgColor(scheme).opacity(0.7))
+                                    .background(Theme.bgColor(scheme).opacity(post.icon == nil ? 0.0 : 0.7))
                                     .padding(.top, 5)
                                 }
                                 

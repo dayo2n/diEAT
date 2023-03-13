@@ -12,7 +12,7 @@ typealias FirestoreCompletion = ((Error?) -> Void)?
 
 class EditPostViewModel: ObservableObject{
     
-    func uploadPost(selectedDate: Date, image: UIImage, caption: String, mealtime: String, icon: String, completion: FirestoreCompletion) {
+    func uploadPost(selectedDate: Date, image: UIImage, caption: String, mealtime: String, icon: String?, completion: FirestoreCompletion) {
         guard let user = AuthViewModel.shared.currentUser else { return }
         
         ImageUploader.uploadImage(image: image, type: .post) { imageUrl in
@@ -27,7 +27,7 @@ class EditPostViewModel: ObservableObject{
         }
     }
     
-    func updatePost(id: String, selectedDate: Date, image: UIImage, caption: String, mealtime: String, icon: String, completion: FirestoreCompletion) {
+    func updatePost(id: String, selectedDate: Date, image: UIImage, caption: String, mealtime: String, icon: String?, completion: FirestoreCompletion) {
         print("=== DEBUG: update \(id)")
         Firestore.firestore().collection("posts").document(id).delete() { _ in
             self.uploadPost(selectedDate: selectedDate, image: image, caption: caption, mealtime: mealtime, icon: icon, completion: completion)

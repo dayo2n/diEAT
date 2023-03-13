@@ -29,7 +29,7 @@ struct EditPostView: View {
     @State private var caption: String = ""
     @State private var mealTime: MealTime = .Breakfast
     
-    @State private var selectedIcon: String = ""
+    @State private var selectedIcon: String?
     @State private var popNoSelectedIconWarning: Bool = false
     
     @Environment(\.colorScheme) var scheme
@@ -197,9 +197,6 @@ struct EditPostView: View {
                                 if selectedImage == nil {
                                     popNoImageWarning.toggle()
                                     print("=== DEBUG: no selected image")
-                                } else if selectedIcon.count == 0 {
-                                    popNoSelectedIconWarning.toggle()
-                                    print("=== DEBUG: no selected icon")
                                 } else {
                                     uploadPostProgress = true
                                     viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
@@ -226,19 +223,9 @@ struct EditPostView: View {
                         .closeOnTap(true)
                         .autohideIn(3)
                 }
-                .popup(isPresented: $popNoSelectedIconWarning) {
-                    CustomPopUpView(alertText: "업로드 실패!\n 오늘의 스티커를 선택해 주세요 :(", bgColor: .red)
-                } customize: { pop in
-                    pop
-                        .type(.floater())
-                        .position(.top)
-                        .dragToDismiss(true)
-                        .closeOnTap(true)
-                        .autohideIn(3)
-                }
                 .onAppear() {
                     getExistedLog()
-                    if editMode { selectedIcon = post!.icon }
+                    if editMode { selectedIcon = post?.icon }
                 }
             }
         }

@@ -35,7 +35,7 @@ struct CustomDatePicker: View {
                 Button(action: {
                     showSidebar.toggle()
                 }) {
-                    Image(systemName: "line.3.horizontal")
+                    Image(systemName: "text.justify")
                         .font(.system(size: 20, weight: .heavy))
                         .frame(width: 44, height: 44)
                         .foregroundColor(Theme.textColor(scheme))
@@ -52,10 +52,10 @@ struct CustomDatePicker: View {
                     Text("TODAY")
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
                         .frame(height: 44)
-                        .padding(.horizontal, 8)
-                        .foregroundColor(Theme.bgColor(scheme))
-                        .background(Theme.defaultColor(scheme))
-                        .cornerRadius(8)
+                        .padding(.horizontal, 5)
+                        .cornerRadius(30)
+                        .foregroundColor(Theme.textColor(scheme))
+                        .border(Theme.defaultColor(scheme), width: 0.7)
                 }
             }
             .padding(.trailing, 22)
@@ -70,7 +70,6 @@ struct CustomDatePicker: View {
                     Text(extraDate()[1])
                         .font(.title.bold())
                 }
-                .padding(.top, 5)
                 
                 
                 Spacer(minLength: 0)
@@ -92,7 +91,7 @@ struct CustomDatePicker: View {
                 })
             }
             .padding(.horizontal, 10)
-            .padding(.bottom, 8)
+            .padding(.bottom, 10)
             
             // Day View
             HStack() {
@@ -141,9 +140,12 @@ struct CustomDatePicker: View {
     
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
-        if value.day != -1 {
-            Text("\(value.day)")
-                .font(.system(size: 14, weight: .regular, design: .monospaced))
+        HStack {
+            if value.day != -1 {
+                Text("\(value.day)")
+                    .font(.system(size: 14, weight: .regular, design: .monospaced))
+                    .padding(10)
+            }
         }
     }
     

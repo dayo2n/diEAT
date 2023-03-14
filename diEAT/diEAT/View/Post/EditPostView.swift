@@ -20,6 +20,7 @@ struct EditPostView: View {
     @State var editMode: Bool // true: 수정모드, false: 새 글 작성 모드
     @Binding var selectedDate: Date
     
+    @State private var didPressedUploadButton: Bool = false
     @State private var uploadPostProgress: Bool = false
     @State private var imagePickMode: Bool = false
     @State private var selectedImage: UIImage?
@@ -178,44 +179,6 @@ struct EditPostView: View {
                             .scaleEffect(5)
                     }
                 }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: { mode.wrappedValue.dismiss() }, label: {
-                            Text(editMode ? "" : "Cancel")
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Color.red)
-                        })
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            if editMode {
-                                uploadPostProgress = true
-                                viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
-
-                                    print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                    uploadPostProgress = false
-                                    mode.wrappedValue.dismiss()
-                                }
-                            } else {
-                                if selectedImage == nil {
-                                    popNoImageWarning.toggle()
-                                    print("=== DEBUG: no selected image")
-                                } else {
-                                    uploadPostProgress = true
-                                    viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
-                                        print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                        uploadPostProgress = false
-                                        mode.wrappedValue.dismiss()
-                                    }
-                                }
-                            }
-                        }, label: {
-                            Text(editMode ? "Edit" : "Add")
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                        })
-                    }
-                }
                 .popup(isPresented: $popNoImageWarning) {
                     CustomPopUpView(alertText: "업로드 실패!\n 식단 이미지를 첨부해 주세요 :(", bgColor: .red)
                 } customize: { pop in
@@ -229,6 +192,53 @@ struct EditPostView: View {
                 .onAppear() {
                     getExistedLog()
                     if editMode { selectedIcon = post?.icon }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        mode.wrappedValue.dismiss()
+                    }, label: {
+                        Text(editMode ? "" : "Cancel")
+                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .foregroundColor(Color.red)
+                            .opacity(didPressedUploadButton ? 0.2 : 1.0)
+                    })
+                    .disabled(didPressedUploadButton)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        didPressedUploadButton = true
+                        
+                        if editMode {
+                            uploadPostProgress = true
+                            viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
+
+                                print("=== DEBUG: upload sucess on \(selectedDate)!")
+                                uploadPostProgress = false
+                                mode.wrappedValue.dismiss()
+                            }
+                        } else {
+                            if selectedImage == nil {
+                                popNoImageWarning.toggle()
+                                print("=== DEBUG: no selected image")
+                            } else {
+                                uploadPostProgress = true
+                                viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
+                                    print("=== DEBUG: upload sucess on \(selectedDate)!")
+                                    uploadPostProgress = false
+                                    mode.wrappedValue.dismiss()
+                                }
+                            }
+                        }
+                    }, label: {
+                        Text(editMode ? "Edit" : "Add")
+                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .foregroundColor(Theme.textColor(scheme))
+                            .opacity(didPressedUploadButton ? 0.2 : 1.0)
+                    })
+                    .disabled(didPressedUploadButton)
                 }
             }
         }

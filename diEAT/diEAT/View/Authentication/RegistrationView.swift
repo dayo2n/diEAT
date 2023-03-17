@@ -17,7 +17,7 @@ struct RegistrationView: View {
     @Environment(\.presentationMode) var mode
     @Environment(\.colorScheme) var scheme
     
-    @State private var registerInProgress: Bool = false
+    @State private var isRegisterInProgress: Bool = false
     
     // alert flag
     @State private var noBlank: Bool = false
@@ -66,7 +66,7 @@ struct RegistrationView: View {
                         Button(action: {
                             if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
                             else {
-                                registerInProgress = true
+                                isRegisterInProgress = true
                                 viewModel.register(username: username, email: email, pw: pw) { code in
                                 switch code {
                                 case 17007:
@@ -78,7 +78,7 @@ struct RegistrationView: View {
                                 default: // code == 0
                                     mode.wrappedValue.dismiss()
                                 }
-                                registerInProgress = false
+                                isRegisterInProgress = false
                             }}
                             
                         }, label: {
@@ -108,7 +108,7 @@ struct RegistrationView: View {
                 }
                 .padding(.top, 50)
                 .padding(.bottom, 30)
-                if registerInProgress {
+                if isRegisterInProgress {
                     LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                         .ignoresSafeArea()
                     

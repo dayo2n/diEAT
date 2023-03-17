@@ -15,14 +15,14 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var scheme
     
-    @State private var loginInProgress: Bool = false
+    @State private var isLoginInProgress: Bool = false
     
     // sheet
     @State private var resetPassword: Bool = false
     @State private var resetTargetEmail: String = ""
     
     // alert
-    @State private var noBlank: Bool = false
+    @State private var hasNoBlank: Bool = false
     @State private var alertInvalidInput: Bool = false
     @State private var resetEmailSended: Bool = false
     
@@ -58,14 +58,14 @@ struct LoginView: View {
                         
                         Button(action: {
                             if email.count == 0 || pw.count == 0 {
-                                noBlank.toggle()
+                                hasNoBlank.toggle()
                             } else {
-                                loginInProgress = true
+                                isLoginInProgress = true
                                 viewModel.login(email: email, pw: pw) { bool in
                                     if !bool {
                                         alertInvalidInput.toggle()
                                     }
-                                    loginInProgress = false
+                                    isLoginInProgress = false
                                 }
                             }}, label: {
                             Text("LOGIN")
@@ -109,7 +109,7 @@ struct LoginView: View {
             }
             .background(Theme.bgColor(scheme))
             
-            if loginInProgress {
+            if isLoginInProgress {
                 LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 
@@ -118,7 +118,7 @@ struct LoginView: View {
                     .scaleEffect(5)
             }
         }
-        .popup(isPresented: $noBlank) {
+        .popup(isPresented: $hasNoBlank) {
             CustomPopUpView(alertText: "로그인 정보를 모두 입력하세요!", bgColor: .red)
         } customize: { pop in
             pop

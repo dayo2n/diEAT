@@ -14,7 +14,7 @@ struct EditProfileView: View {
     @State var newUsername: String = ""
     @Environment(\.dismiss) private var dismiss
     
-    @State var imagePickMode: Bool = false
+    @State var isImagePickMode: Bool = false
     @State var selectedImage: UIImage?
     @State var progressGuage: Double = 1.0
     
@@ -63,7 +63,7 @@ struct EditProfileView: View {
                         .foregroundColor(Theme.bgColor(scheme))
                         .opacity(0.7)
                     
-                    Button(action: { imagePickMode.toggle() }, label: {
+                    Button(action: { isImagePickMode.toggle() }, label: {
                         VStack {
                             Spacer()
                             
@@ -73,7 +73,7 @@ struct EditProfileView: View {
                                 .padding(.bottom, 8)
                         }.frame(width: 120, height: 120)
                     })
-                    .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                    .sheet(isPresented: $isImagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                     
                     if progressGuage == 0.0 {
                         ProgressView()

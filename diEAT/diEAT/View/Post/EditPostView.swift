@@ -17,12 +17,12 @@ enum MealTime: String, CaseIterable, Identifiable {
 struct EditPostView: View {
     
     var post: Post?
-    @State var editMode: Bool // true: 수정모드, false: 새 글 작성 모드
+    @State var isEditMode: Bool
     @Binding var selectedDate: Date
     
     @State private var didPressedUploadButton: Bool = false
-    @State private var uploadPostProgress: Bool = false
-    @State private var imagePickMode: Bool = false
+    @State private var isUploadPostInProgress: Bool = false
+    @State private var isImagePickMode: Bool = false
     @State private var selectedImage: UIImage?
     @State private var image: Image?
     @State private var popNoImageWarning: Bool = false
@@ -44,7 +44,7 @@ struct EditPostView: View {
                 ZStack {
                     VStack {
                         ZStack {
-                            if editMode {
+                            if isEditMode {
                                 KFImage(URL(string: post!.imageUrl))
                                     .resizable()
                                     .frame(width: geo.size.width - 20, height: geo.size.width - 20)
@@ -67,12 +67,12 @@ struct EditPostView: View {
                         }
                         .padding(.top, 100)
                         
-                        Button(action: { imagePickMode.toggle() }, label: {
+                        Button(action: { isImagePickMode.toggle() }, label: {
                             Text("Select image")
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .frame(height: 44)
                         })
-                        .sheet(isPresented: $imagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                        .sheet(isPresented: $isImagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
                         
                         HStack {
                             Text("# 식사")
@@ -170,7 +170,7 @@ struct EditPostView: View {
                                 .opacity(0.0)
                         }
                     }
-                    if uploadPostProgress {
+                    if isUploadPostInProgress {
                         LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                             .ignoresSafeArea()
                         
@@ -191,7 +191,7 @@ struct EditPostView: View {
                 }
                 .onAppear() {
                     getExistedLog()
-                    if editMode { selectedIcon = post?.icon }
+                    if isEditMode { selectedIcon = post?.icon }
                 }
             }
             .toolbar {
@@ -199,7 +199,7 @@ struct EditPostView: View {
                     Button(action: {
                         mode.wrappedValue.dismiss()
                     }, label: {
-                        Text(editMode ? "" : "Cancel")
+                        Text(isEditMode ? "" : "Cancel")
                             .font(.system(size: 14, weight: .semibold, design: .monospaced))
                             .foregroundColor(Color.red)
                             .opacity(didPressedUploadButton ? 0.2 : 1.0)
@@ -211,12 +211,12 @@ struct EditPostView: View {
                     Button(action: {
                         didPressedUploadButton = true
                         
-                        if editMode {
-                            uploadPostProgress = true
+                        if isEditMode {
+                            isUploadPostInProgress = true
                             viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
 
                                 print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                uploadPostProgress = false
+                                isUploadPostInProgress = false
                                 mode.wrappedValue.dismiss()
                             }
                         } else {
@@ -224,16 +224,16 @@ struct EditPostView: View {
                                 popNoImageWarning.toggle()
                                 print("=== DEBUG: no selected image")
                             } else {
-                                uploadPostProgress = true
+                                isUploadPostInProgress = true
                                 viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
                                     print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                    uploadPostProgress = false
+                                    isUploadPostInProgress = false
                                     mode.wrappedValue.dismiss()
                                 }
                             }
                         }
                     }, label: {
-                        Text(editMode ? "Edit" : "Add")
+                        Text(isEditMode ? "Edit" : "Add")
                             .font(.system(size: 14, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
                             .opacity(didPressedUploadButton ? 0.2 : 1.0)
@@ -257,7 +257,7 @@ extension EditPostView {
     }
     
     func getExistedLog() {
-        if editMode {
+        if isEditMode {
             mealTime = MealTime(rawValue: post!.mealtime)!
             caption = post!.caption
             KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: post!.imageUrl)!)) { result in

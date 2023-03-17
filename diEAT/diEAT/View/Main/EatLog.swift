@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EatLog: View {
-    @State var editPostMode: Bool = false
+    @State var isEditPostMode: Bool = false
     @Binding var selectedDate: Date
     @Environment(\.colorScheme) var scheme
     @ObservedObject var viewModel: FetchPostViewModel
@@ -34,7 +34,7 @@ struct EatLog: View {
                 Spacer()
                 
                 Button(action: {
-                    editPostMode.toggle()
+                    isEditPostMode.toggle()
                 }, label: {
                     ZStack {
                         Rectangle()
@@ -47,11 +47,11 @@ struct EatLog: View {
                             .foregroundColor(Theme.textColor(scheme))
                     }
                     .frame(width: 44, height: 44)
-                }).fullScreenCover(isPresented: $editPostMode) {
+                }).fullScreenCover(isPresented: $isEditPostMode) {
                     viewModel.fetchPost(selectedDate: selectedDate)
                 } content: {
                     NavigationView {
-                        EditPostView(editMode: false, selectedDate: $selectedDate)
+                        EditPostView(isEditMode: false, selectedDate: $selectedDate)
                     }
                 }
             }

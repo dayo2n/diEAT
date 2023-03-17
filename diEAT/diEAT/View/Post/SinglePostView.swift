@@ -12,15 +12,15 @@ struct SinglePostView: View {
     
     var post: Post
     @Environment(\.colorScheme) var scheme
-    @State var editPostMode: Bool = false
+    @State var isEditPostMode: Bool = false
     @State var selectedDate: Date
     @ObservedObject var viewModel: FetchPostViewModel
     @Environment(\.dismiss) private var dismiss
     @State var showDeleteAlert: Bool = false
     
     var body: some View {
-        if editPostMode {
-            EditPostView(post: post, editMode: true, selectedDate: $selectedDate)
+        if isEditPostMode {
+            EditPostView(post: post, isEditMode: true, selectedDate: $selectedDate)
         } else {
             VStack {
                 KFImage(URL(string: post.imageUrl))
@@ -76,7 +76,7 @@ struct SinglePostView: View {
             .background(Theme.bgColor(scheme))
             .toolbar {
                 Group {
-                    Button(action: { editPostMode.toggle() }, label: {
+                    Button(action: { isEditPostMode.toggle() }, label: {
                         HStack {
                             Image(systemName: "pencil.tip")
                                 .foregroundColor(Theme.textColor(scheme))

@@ -22,8 +22,8 @@ struct CustomGridView: View {
                     ZStack {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()
-                            .frame(width: length, height: length)
                             .scaledToFill()
+                            .frame(width: length, height: length)
                             .cornerRadius(8)
                         
                         HStack {

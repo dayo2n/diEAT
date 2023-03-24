@@ -25,8 +25,8 @@ struct SinglePostView: View {
             VStack {
                 KFImage(URL(string: post.imageUrl))
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
                     .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
                     .cornerRadius(8)
                     .padding()
 

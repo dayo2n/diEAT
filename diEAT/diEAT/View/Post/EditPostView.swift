@@ -47,8 +47,8 @@ struct EditPostView: View {
                             if isEditMode {
                                 KFImage(URL(string: post!.imageUrl))
                                     .resizable()
-                                    .frame(width: geo.size.width - 20, height: geo.size.width - 20)
                                     .scaledToFit()
+                                    .frame(width: geo.size.width - 20, height: geo.size.width - 20)
                                     .cornerRadius(8)
                             } else {
                                 if image == nil {
@@ -58,10 +58,10 @@ struct EditPostView: View {
                                         .cornerRadius(8)
                                 } else if let image = image {
                                     image
-                                        .resizable()
-                                        .frame(width: geo.size.width - 20, height: geo.size.width - 20)
-                                        .scaledToFit()
-                                        .cornerRadius(8)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geo.size.width - 20, height: geo.size.width - 20)
+                                    .cornerRadius(8)
                                 }
                             }
                         }

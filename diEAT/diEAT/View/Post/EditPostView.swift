@@ -98,11 +98,6 @@ struct EditPostView: View {
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding([.leading, .top])
                             
-                            Text("반드시 하나를 선택해 주세요")
-                                .font(.system(size: 12, weight: .light, design: .monospaced))
-                                .foregroundColor(Color.gray)
-                                .padding([.leading, .top])
-                            
                             Spacer()
                         }
                         

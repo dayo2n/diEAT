@@ -20,7 +20,7 @@ struct SinglePostView: View {
     
     var body: some View {
         if isEditPostMode {
-            EditPostView(post: post, isEditMode: true, selectedDate: $selectedDate)
+            EditPostView(post: post, isEditMode: true, selectedDate: $selectedDate, isShownThisView: $isEditPostMode)
         } else {
             VStack {
                 KFImage(URL(string: post.imageUrl))

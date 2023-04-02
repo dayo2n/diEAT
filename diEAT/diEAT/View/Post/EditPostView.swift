@@ -19,6 +19,7 @@ struct EditPostView: View {
     var post: Post?
     @State var isEditMode: Bool
     @Binding var selectedDate: Date
+    @Binding var isShownThisView: Bool
     
     @State private var didPressedUploadButton: Bool = false
     @State private var isUploadPostInProgress: Bool = false
@@ -43,6 +44,58 @@ struct EditPostView: View {
             ScrollView {
                 ZStack {
                     VStack {
+                        // toolbar
+                        HStack {
+                            // cancel
+                            Button(action: {
+                                self.isShownThisView.toggle()
+                            }, label: {
+                                Text("Cancel")
+                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                    .foregroundColor(Color.red)
+                                    .opacity(didPressedUploadButton ? 0.2 : 1.0)
+                            })
+                            .disabled(didPressedUploadButton)
+                            
+                            Spacer()
+                            
+                            // add || edit
+                            Button(action: {
+                                didPressedUploadButton = true
+                                
+                                if isEditMode {
+                                    isUploadPostInProgress = true
+                                    viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
+
+                                        print("=== DEBUG: upload sucess on \(selectedDate)!")
+                                        isUploadPostInProgress = false
+                                        mode.wrappedValue.dismiss()
+                                    }
+                                } else {
+                                    if selectedImage == nil {
+                                        popNoImageWarning.toggle()
+                                        print("=== DEBUG: no selected image")
+                                    } else {
+                                        isUploadPostInProgress = true
+                                        viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
+                                            print("=== DEBUG: upload sucess on \(selectedDate)!")
+                                            isUploadPostInProgress = false
+                                            mode.wrappedValue.dismiss()
+                                        }
+                                    }
+                                }
+                            }, label: {
+                                Text(isEditMode ? "Edit" : "Add")
+                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                    .foregroundColor(Theme.textColor(scheme))
+                                    .opacity(didPressedUploadButton ? 0.2 : 1.0)
+                            })
+                            .disabled(didPressedUploadButton)
+                        }
+                        .padding(.top, 80)
+                        .padding(.horizontal, 20)
+                        
+                        // editor
                         ZStack {
                             if isEditMode {
                                 KFImage(URL(string: post!.imageUrl))
@@ -65,7 +118,7 @@ struct EditPostView: View {
                                 }
                             }
                         }
-                        .padding(.top, 100)
+                        .padding(.top, 20)
                         
                         Button(action: { isImagePickMode.toggle() }, label: {
                             Text("Select image")
@@ -189,55 +242,9 @@ struct EditPostView: View {
                     if isEditMode { selectedIcon = post?.icon }
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        mode.wrappedValue.dismiss()
-                    }, label: {
-                        Text(isEditMode ? "" : "Cancel")
-                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Color.red)
-                            .opacity(didPressedUploadButton ? 0.2 : 1.0)
-                    })
-                    .disabled(didPressedUploadButton)
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        didPressedUploadButton = true
-                        
-                        if isEditMode {
-                            isUploadPostInProgress = true
-                            viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
-
-                                print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                isUploadPostInProgress = false
-                                mode.wrappedValue.dismiss()
-                            }
-                        } else {
-                            if selectedImage == nil {
-                                popNoImageWarning.toggle()
-                                print("=== DEBUG: no selected image")
-                            } else {
-                                isUploadPostInProgress = true
-                                viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
-                                    print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                    isUploadPostInProgress = false
-                                    mode.wrappedValue.dismiss()
-                                }
-                            }
-                        }
-                    }, label: {
-                        Text(isEditMode ? "Edit" : "Add")
-                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                            .opacity(didPressedUploadButton ? 0.2 : 1.0)
-                    })
-                    .disabled(didPressedUploadButton)
-                }
-            }
+            .ignoresSafeArea()
+            .navigationBarBackButtonHidden(true)
         }
-        .ignoresSafeArea()
         .background(Theme.bgColor(scheme))
         .onDisappear() {
             focused = false

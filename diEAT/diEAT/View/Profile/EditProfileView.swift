@@ -9,33 +9,34 @@ import SwiftUI
 import Kingfisher
 
 struct EditProfileView: View {
+    
     let user: User
     @Environment(\.colorScheme) var scheme
-    @State var newUsername: String = ""
+    @State var newUsername = ""
     @Environment(\.dismiss) private var dismiss
     
-    @State var isImagePickMode: Bool = false
+    @State var isImagePickMode = false
     @State var selectedImage: UIImage?
-    @State var progressGuage: Double = 1.0
+    @State var progressGuage = 1.0
     
     // sheet
-    @State private var resetEmailSended: Bool = false
-    @State private var sureToDeleteUser: Bool = false
+    @State private var resetEmailSended = false
+    @State private var sureToDeleteUser = false
     
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
                     Spacer()
-
-                    Button(action: {
+                    Button {
                         dismiss()
                         // AuthViewModel에서 유저 네임 변경 함수 구현
                         if newUsername.isEmpty { newUsername = user.username }
                         AuthViewModel.shared.editUsername(newUsername: newUsername)
-                    }, label: {
+                    } label: {
                         Text("완료")
-                    }).padding(10)
+                    }
+                    .padding(10)
                 }
                 ZStack {
                     Circle()
@@ -43,11 +44,11 @@ struct EditProfileView: View {
                         .foregroundColor(Theme.bgColor(scheme))
                     
                     if let profileImgUrl = user.profileImageUrl {
-                            KFImage(URL(string: profileImgUrl))
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 120, height: 120)
-                                .clipShape(Circle())
+                        KFImage(URL(string: profileImgUrl))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
                     } else {
                         Image("defaultProfileImg")
                             .renderingMode(.template)
@@ -63,17 +64,22 @@ struct EditProfileView: View {
                         .foregroundColor(Theme.bgColor(scheme))
                         .opacity(0.7)
                     
-                    Button(action: { isImagePickMode.toggle() }, label: {
+                    Button {
+                        isImagePickMode.toggle()
+                    } label: {
                         VStack {
                             Spacer()
-                            
                             Text("편집")
                                 .font(.system(size: 16, weight: .heavy, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.bottom, 8)
                         }.frame(width: 120, height: 120)
-                    })
-                    .sheet(isPresented: $isImagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                    }
+                    .sheet(
+                        isPresented: $isImagePickMode,
+                        onDismiss: loadImage) {
+                            ImagePicker(image: $selectedImage)
+                        }
                     
                     if progressGuage == 0.0 {
                         ProgressView()
@@ -82,7 +88,6 @@ struct EditProfileView: View {
                             .padding(20)
                     }
                 }
-                
                 HStack {
                     Image(systemName: "envelope")
                         .resizable()
@@ -100,29 +105,30 @@ struct EditProfileView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 10)
                 
-                CustomTextField(text: $newUsername, placeholder: Text("\(user.username) "), imageName: scheme == .dark ? "person.fill" : "person")
-                    .font(.system(size: 15, weight: .medium, design: .monospaced))
-                    .padding(20)
-                    .frame(height: 50)
-                    .border(Theme.defaultColor(scheme), width: 0.7)
-                    .padding(.horizontal)
+                CustomTextField(
+                    text: $newUsername,
+                    placeholder: Text("\(user.username) "),
+                    imageName: scheme == .dark ? "person.fill" : "person"
+                )
+                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                .padding(20)
+                .frame(height: 50)
+                .border(Theme.defaultColor(scheme), width: 0.7)
+                .padding(.horizontal)
                 
                 Divider()
                     .padding(.all)
                 
-                Button(action: {
+                Button {
                     AuthViewModel.shared.resetPassword(email: user.email)
                     resetEmailSended.toggle()
-                }, label: {
+                } label: {
                     HStack {
                         Spacer()
-                        
                         Image(systemName: scheme == .dark ? "key.fill" : "key")
                             .frame(width: 20, height: 20)
-                        
                         Text("비밀번호 재설정")
                             .font(.system(size: 15, weight: .medium, design: .monospaced))
-                        
                         Spacer()
                     }
                     .foregroundColor(Theme.bgColor(scheme))
@@ -130,12 +136,15 @@ struct EditProfileView: View {
                     .frame(height: 50)
                     .background(Theme.defaultColor(scheme))
                     .padding(.horizontal)
-                })
+                }
                 .alert("전송 성공", isPresented: $resetEmailSended) {
-                    Button("확인", role: .cancel, action: {
+                    Button(
+                        "확인",
+                        role: .cancel
+                    ) {
                         resetEmailSended.toggle()
                         AuthViewModel.shared.logout()
-                    })
+                    }
                 } message: {
                     Text("수신한 이메일을 통해 비밀번호를 재설정 후 다시 로그인하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.")
                 }
@@ -161,12 +170,18 @@ struct EditProfileView: View {
                     .padding(.vertical)
                 })
                 .alert("회원 탈퇴", isPresented: $sureToDeleteUser) {
-                    Button("취소", role: .cancel, action: {
+                    Button(
+                        "취소",
+                        role: .cancel
+                    ) {
                         sureToDeleteUser = false
-                    })
-                    Button("탈퇴", role: .destructive, action: {
+                    }
+                    Button(
+                        "탈퇴",
+                        role: .destructive
+                    ) {
                         AuthViewModel.shared.deleteUser()
-                    })
+                    }
                 } message: {
                     Text("탈퇴 후 데이터를 복원할 수 없습니다.")
                 }

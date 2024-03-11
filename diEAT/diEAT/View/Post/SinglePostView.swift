@@ -20,16 +20,24 @@ struct SinglePostView: View {
     
     var body: some View {
         if isEditPostMode {
-            EditPostView(post: post, isEditMode: true, selectedDate: $selectedDate, isShownThisView: $isEditPostMode)
+            EditPostView(
+                post: post,
+                isEditMode: true,
+                selectedDate: $selectedDate,
+                isShownThisView: $isEditPostMode
+            )
         } else {
             VStack {
                 KFImage(URL(string: post.imageUrl))
                     .resizable()
                     .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.width - 20)
+                    .frame(
+                        width: UIScreen.main.bounds.width - 20,
+                        height: UIScreen.main.bounds.width - 20
+                    )
                     .cornerRadius(8)
                     .padding()
-
+                
                 HStack {
                     Text("# \(Date2OnlyDate(date: post.timestamp.dateValue()))'s ")
                         .font(.system(size: 14, weight: .medium, design: .monospaced))
@@ -37,7 +45,7 @@ struct SinglePostView: View {
                         .frame(height: 20)
                         .padding(5)
                         .background(Color.black.opacity(0.2))
-                        
+                    
                     Text("# \(post.mealtime)")
                         .font(.system(size: 16, weight: .semibold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
@@ -55,7 +63,8 @@ struct SinglePostView: View {
                     .background(Color.black.opacity(post.icon == nil ? 0.0 : 0.2))
                     
                     Spacer()
-                }.padding([.leading, .bottom])
+                }
+                .padding([.leading, .bottom])
                 
                 HStack {
                     Image(systemName: "highlighter")
@@ -76,24 +85,33 @@ struct SinglePostView: View {
             .background(Theme.bgColor(scheme))
             .toolbar {
                 Group {
-                    Button(action: { isEditPostMode.toggle() }, label: {
+                    Button { isEditPostMode.toggle()
+                    } label: {
                         HStack {
                             Image(systemName: "pencil.tip")
                                 .foregroundColor(Theme.textColor(scheme))
                         }
-                    })
+                    }
                     .padding(.trailing, 15)
-                    Button(action: { self.showDeleteAlert.toggle()
-                    }, label: {
+                    Button { self.showDeleteAlert.toggle()
+                    } label: {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
-                    })
+                    }
                     .alert("기록 삭제", isPresented: $showDeleteAlert) {
-                        Button("취소", role: .cancel, action: { self.showDeleteAlert.toggle() })
-                        Button("삭제", role: .destructive, action: {
+                        Button(
+                            "취소",
+                            role: .cancel
+                        ) {
+                            self.showDeleteAlert.toggle()
+                        }
+                        Button(
+                            "삭제",
+                            role: .destructive
+                        ) {
                             viewModel.deletePost(id: post.id!)
                             dismiss()
-                        })
+                        }
                     } message: {
                         Text("기록을 삭제하면 되돌릴 수 없습니다.")
                     }

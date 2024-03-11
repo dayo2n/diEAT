@@ -16,27 +16,34 @@ enum MealTime: String, CaseIterable, Identifiable {
 
 struct EditPostView: View {
     
+    enum Icon: String {
+        case exercise
+        case elephant
+        case full
+        case pig
+    }
+    
     var post: Post?
     @State var isEditMode: Bool
     @Binding var selectedDate: Date
     @Binding var isShownThisView: Bool
     
-    @State private var didPressedUploadButton: Bool = false
-    @State private var isUploadPostInProgress: Bool = false
-    @State private var isImagePickMode: Bool = false
+    @State private var didPressedUploadButton = false
+    @State private var isUploadPostInProgress = false
+    @State private var isImagePickMode = false
     @State private var selectedImage: UIImage?
     @State private var image: Image?
-    @State private var popNoImageWarning: Bool = false
+    @State private var popNoImageWarning = false
     
-    @State private var caption: String = ""
-    @State private var mealTime: MealTime = .Breakfast
+    @State private var caption = ""
+    @State private var mealTime = MealTime.Breakfast
     
     @State private var selectedIcon: String?
-    @State private var popNoSelectedIconWarning: Bool = false
+    @State private var popNoSelectedIconWarning = false
     
     @Environment(\.colorScheme) var scheme
     @Environment(\.presentationMode) var mode
-    @ObservedObject var viewModel: EditPostViewModel = EditPostViewModel()
+    @ObservedObject var viewModel = EditPostViewModel()
     @FocusState private var focused: Bool
     
     var body: some View {
@@ -47,14 +54,14 @@ struct EditPostView: View {
                         // toolbar
                         HStack {
                             // cancel
-                            Button(action: {
+                            Button {
                                 self.isShownThisView.toggle()
-                            }, label: {
+                            } label: {
                                 Text("Cancel")
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Color.red)
                                     .opacity(didPressedUploadButton ? 0.2 : 1.0)
-                            })
+                            }
                             .disabled(didPressedUploadButton)
                             
                             Spacer()
@@ -65,8 +72,14 @@ struct EditPostView: View {
                                 
                                 if isEditMode {
                                     isUploadPostInProgress = true
-                                    viewModel.updatePost(id: "\(post!.id ?? "")", selectedDate: post?.timestamp.dateValue() ?? selectedDate, image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
-
+                                    viewModel.updatePost(
+                                        id: "\(post!.id ?? "")",
+                                        selectedDate: post?.timestamp.dateValue() ?? selectedDate,
+                                        image: selectedImage!,
+                                        caption: caption,
+                                        mealtime: mealTime.rawValue,
+                                        icon: selectedIcon
+                                    ) { _ in
                                         print("=== DEBUG: upload sucess on \(selectedDate)!")
                                         isUploadPostInProgress = false
                                         mode.wrappedValue.dismiss()
@@ -77,7 +90,13 @@ struct EditPostView: View {
                                         print("=== DEBUG: no selected image")
                                     } else {
                                         isUploadPostInProgress = true
-                                        viewModel.uploadPost(selectedDate: UTC2KST(date: selectedDate), image: selectedImage!, caption: caption, mealtime: mealTime.rawValue, icon: selectedIcon) { _ in
+                                        viewModel.uploadPost(
+                                            selectedDate: UTC2KST(date: selectedDate),
+                                            image: selectedImage!,
+                                            caption: caption,
+                                            mealtime: mealTime.rawValue,
+                                            icon: selectedIcon
+                                        ) { _ in
                                             print("=== DEBUG: upload sucess on \(selectedDate)!")
                                             isUploadPostInProgress = false
                                             mode.wrappedValue.dismiss()
@@ -101,20 +120,29 @@ struct EditPostView: View {
                                 KFImage(URL(string: post!.imageUrl))
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: geo.size.width - 20, height: geo.size.width - 20)
+                                    .frame(
+                                        width: geo.size.width - 20,
+                                        height: geo.size.width - 20
+                                    )
                                     .cornerRadius(8)
                             } else {
                                 if image == nil {
                                     Rectangle()
-                                        .frame(width: geo.size.width - 20, height: geo.size.width - 20)
+                                        .frame(
+                                            width: geo.size.width - 20,
+                                            height: geo.size.width - 20
+                                        )
                                         .foregroundColor(Theme.defaultColor(scheme))
                                         .cornerRadius(8)
                                 } else if let image = image {
                                     image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geo.size.width - 20, height: geo.size.width - 20)
-                                    .cornerRadius(8)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(
+                                            width: geo.size.width - 20,
+                                            height: geo.size.width - 20
+                                        )
+                                        .cornerRadius(8)
                                 }
                             }
                         }
@@ -125,7 +153,11 @@ struct EditPostView: View {
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .frame(height: 44)
                         })
-                        .sheet(isPresented: $isImagePickMode, onDismiss: loadImage, content: { ImagePicker(image: $selectedImage) })
+                        .sheet(
+                            isPresented: $isImagePickMode,
+                            onDismiss: loadImage,
+                            content: { ImagePicker(image: $selectedImage) }
+                        )
                         
                         HStack {
                             Text("# 식사")
@@ -150,39 +182,49 @@ struct EditPostView: View {
                                 .font(.system(size: 16, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding([.leading, .top])
-                            
                             Spacer()
                         }
                         
                         HStack {
-                            Button(action: {
-                                selectedIcon = "exercise"
-                            }, label: {
-                                CustomIcon(iconName: "exercise")
-                                    .shadow(color: .orange, radius: selectedIcon == "exercise" ? 5 : 0)
-                            })
+                            Button {
+                                selectedIcon = Icon.exercise.rawValue
+                            } label: {
+                                CustomIcon(iconName: Icon.exercise.rawValue)
+                                    .shadow(
+                                        color: .orange,
+                                        radius: selectedIcon == "exercise" ? 5 : 0
+                                    )
+                            }
                             Spacer()
-                            Button(action: {
-                                selectedIcon = "elephant"
-                            }, label: {
-                                CustomIcon(iconName: "elephant")
-                                    .shadow(color: .orange, radius: selectedIcon == "elephant" ? 5 : 0)
-                            })
+                            Button {
+                                selectedIcon = Icon.elephant.rawValue
+                            } label: {
+                                CustomIcon(iconName: Icon.elephant.rawValue)
+                                    .shadow(
+                                        color: .orange,
+                                        radius: selectedIcon == Icon.elephant.rawValue ? 5 : 0
+                                    )
+                            }
                             Spacer()
-                            Button(action: {
-                                selectedIcon = "full"
-                            }, label: {
-                                CustomIcon(iconName: "full")
-                                    .shadow(color: .orange, radius: selectedIcon == "full" ? 5 : 0)
-                            })
+                            Button {
+                                selectedIcon = Icon.full.rawValue
+                            } label: {
+                                CustomIcon(iconName: Icon.full.rawValue)
+                                    .shadow(
+                                        color: .orange,
+                                        radius: selectedIcon == Icon.full.rawValue ? 5 : 0
+                                    )
+                            }
                             Spacer()
-                            Button(action: {
-                                selectedIcon = "pig"
-                            }, label: {
-                                CustomIcon(iconName: "pig")
-                                    .shadow(color: .orange, radius: selectedIcon == "pig" ? 5 : 0)
-                            })
-                            
+                            Button {
+                                selectedIcon = Icon.pig.rawValue
+                            } label: {
+                                CustomIcon(iconName: Icon.pig.rawValue)
+                                    .shadow(
+                                        color: .orange,
+                                        radius: selectedIcon == Icon.pig.rawValue ? 5 : 0
+                                    )
+                            }
                         }
                         .padding(.horizontal, 10)
                         
@@ -199,18 +241,19 @@ struct EditPostView: View {
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.leading)
                             
-                                TextField("스스로 피드백을 남기는 공간", text: $caption)
-                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                    .foregroundColor(Theme.textColor(scheme))
-                                    .padding(15)
-                                    .border(Theme.defaultColor(scheme), width: 0.7)
-                                    .padding()
-                                    .focused($focused)
-                                    .submitLabel(SubmitLabel.done)
-                                    .onSubmit {
-                                        focused.toggle()
-                                    }
-                        }.padding(.bottom, 50)
+                            TextField("스스로 피드백을 남기는 공간", text: $caption)
+                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                .foregroundColor(Theme.textColor(scheme))
+                                .padding(15)
+                                .border(Theme.defaultColor(scheme), width: 0.7)
+                                .padding()
+                                .focused($focused)
+                                .submitLabel(SubmitLabel.done)
+                                .onSubmit {
+                                    focused.toggle()
+                                }
+                        }
+                        .padding(.bottom, 50)
                         
                         HStack {
                             Rectangle()
@@ -219,7 +262,7 @@ struct EditPostView: View {
                         }
                     }
                     if isUploadPostInProgress {
-                        LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+                        Color.black.opacity(0.5)
                             .ignoresSafeArea()
                         
                         ProgressView()
@@ -262,19 +305,19 @@ extension EditPostView {
         if isEditMode {
             mealTime = MealTime(rawValue: post!.mealtime)!
             caption = post!.caption
-            KingfisherManager.shared.retrieveImage(with: ImageResource(downloadURL: URL(string: post!.imageUrl)!)) { result in
-                switch result {
-                case .success(let value):
-                    selectedImage = value.image as UIImage
-                    loadImage()
-                case .failure(let error):
-                    print("=== DEBUG: \(error)")
+            if let url = URL(string: post!.imageUrl) {
+                KingfisherManager.shared.retrieveImage(
+                    with: url
+                ) { result in
+                    switch result {
+                    case .success(let value):
+                        selectedImage = value.image as UIImage
+                        loadImage()
+                    case .failure(let error):
+                        print("=== DEBUG: \(error)")
+                    }
                 }
             }
         }
-    }
-    
-    func selectedIconEvent(iconName: String) {
-        selectedIcon = iconName
     }
 }

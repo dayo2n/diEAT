@@ -11,7 +11,6 @@ import Firebase
 class InquiryViewModel: ObservableObject {
     func uploadInquiry(title: String, contents: String, completion: FirestoreCompletion) {
         guard let user = AuthViewModel.shared.currentUser else { return }
-        
         let data = ["uid": user.id,
                     "writerEmail": user.email,
                     "title": title,

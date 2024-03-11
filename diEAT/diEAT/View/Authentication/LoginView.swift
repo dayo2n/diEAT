@@ -10,21 +10,21 @@ import PopupView
 
 struct LoginView: View {
     
-    @State private var email: String = ""
-    @State private var pw: String = ""
+    @State private var email = ""
+    @State private var pw = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.colorScheme) var scheme
     
-    @State private var isLoginInProgress: Bool = false
+    @State private var isLoginInProgress = false
     
     // sheet
-    @State private var resetPassword: Bool = false
-    @State private var resetTargetEmail: String = ""
+    @State private var resetPassword = false
+    @State private var resetTargetEmail = ""
     
     // alert
-    @State private var hasNoBlank: Bool = false
-    @State private var alertInvalidInput: Bool = false
-    @State private var resetEmailSended: Bool = false
+    @State private var hasNoBlank = false
+    @State private var alertInvalidInput = false
+    @State private var resetEmailSended = false
     
     var body: some View {
         NavigationView {
@@ -42,14 +42,20 @@ struct LoginView: View {
                     
                     Spacer()
                     VStack {
-                        CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
+                        CustomTextField(
+                            text: $email, placeholder:
+                                Text("EMAIL"), imageName: "envelope"
+                        )
                             .font(.system(size: 15, weight: .medium, design: .monospaced))
                             .padding(20)
                             .frame(height: 50)
                             .border(Theme.defaultColor(scheme), width: 0.7)
                             .padding([.leading, .trailing])
                         
-                        CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
+                        CustomSecureField(
+                            password: $pw,
+                            placeholder: Text("PASSWORD")
+                        )
                             .padding(20)
                             .frame(height: 50)
                             .border(Theme.defaultColor(scheme), width: 0.7)
@@ -71,12 +77,19 @@ struct LoginView: View {
                             Text("LOGIN")
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                                .frame(
+                                    width: UIScreen.main.bounds.size.width - 20,
+                                    height: 50, alignment: .center
+                                )
                                 .background(Theme.btnColor(scheme))
                                 .cornerRadius(10)
                         })
                         
-                        NavigationLink(destination: RegistrationView().navigationBarHidden(true).navigationViewStyle(StackNavigationViewStyle()), label: {
+                        NavigationLink(
+                            destination: RegistrationView()
+                                .navigationBarHidden(true)
+                                .navigationViewStyle(StackNavigationViewStyle())
+                        ) {
                             HStack {
                                 Text("계정이 없다면")
                                     .font(.system(size: 13))
@@ -87,7 +100,7 @@ struct LoginView: View {
                                     .foregroundColor(Theme.textColor(scheme))
                             }
                             .padding(.vertical, 10)
-                        })
+                        }
                         
                         Button(action: { resetPassword.toggle() }, label: {
                             HStack {
@@ -110,8 +123,7 @@ struct LoginView: View {
             .background(Theme.bgColor(scheme))
             
             if isLoginInProgress {
-                LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
+                Color.black.opacity(0.5).ignoresSafeArea()
                 
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
@@ -140,7 +152,7 @@ struct LoginView: View {
                 .autohideIn(2)
                 .isOpaque(true)
         }
-        .sheet(isPresented: $resetPassword, content: {
+        .sheet(isPresented: $resetPassword) {
             if #available(iOS 16.0, *) {
                 VStack {
                     HStack {
@@ -150,17 +162,21 @@ struct LoginView: View {
                             .padding(20)
                         Spacer()
                     }
-                    CustomTextField(text: $resetTargetEmail, placeholder: Text("EMAIL"), imageName: "envelope")
+                    CustomTextField(
+                        text: $resetTargetEmail,
+                        placeholder: Text("EMAIL"),
+                        imageName: "envelope"
+                    )
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .padding(20)
                         .frame(height: 50)
                         .border(Theme.defaultColor(scheme), width: 0.7)
                         .padding([.leading, .trailing])
                     
-                    Button(action: {
+                    Button {
                         viewModel.resetPassword(email: resetTargetEmail)
                         resetEmailSended.toggle()
-                    }, label: {
+                    } label: {
                         Text("재설정 메일 전송")
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
@@ -168,21 +184,25 @@ struct LoginView: View {
                             .background(Theme.btnColor(scheme))
                             .cornerRadius(10)
                             .padding(.top)
-                    })
+                    }
                     .alert("전송 성공", isPresented: $resetEmailSended) {
-                        Button("확인", role: .cancel, action: {
+                        Button(
+                            "확인",
+                            role: .cancel
+                        ) {
                             resetEmailSended.toggle()
                             resetPassword = false
                             resetTargetEmail = ""
-                        })
+                        }
                     } message: {
                         Text("수신한 이메일을 통해 비밀번호를 재설정하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.")
                     }
-                }.presentationDetents([.height(UIScreen.main.bounds.height / 3)])
+                }
+                .presentationDetents([.height(UIScreen.main.bounds.height / 3)])
             } else {
                 // Fallback on earlier versions
             }
-        })
+        }
         .ignoresSafeArea()
     }
 }

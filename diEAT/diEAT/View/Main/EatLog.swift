@@ -33,9 +33,9 @@ struct EatLog: View {
                 
                 Spacer()
                 
-                Button(action: {
+                Button {
                     self.isEditPostMode.toggle()
-                }, label: {
+                } label: {
                     ZStack {
                         Rectangle()
                             .frame(width: 35, height: 35)
@@ -47,10 +47,15 @@ struct EatLog: View {
                             .foregroundColor(Theme.textColor(scheme))
                     }
                     .frame(width: 44, height: 44)
-                }).fullScreenCover(isPresented: $isEditPostMode) {
+                }
+                .fullScreenCover(isPresented: $isEditPostMode) {
                     viewModel.fetchPost(selectedDate: selectedDate)
                 } content: {
-                    EditPostView(isEditMode: false, selectedDate: $selectedDate, isShownThisView: $isEditPostMode)
+                    EditPostView(
+                        isEditMode: false,
+                        selectedDate: $selectedDate,
+                        isShownThisView: $isEditPostMode
+                    )
                 }
             }
             .padding([.leading, .trailing], 10)

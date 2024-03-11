@@ -24,7 +24,6 @@ struct ContentView: View {
                     MainView(user: user)
                 }
             }
-            
             // Launch screen
             if isInLoading {
                 launchScreenView
@@ -41,11 +40,8 @@ struct ContentView: View {
 extension ContentView {
     var launchScreenView: some View {
         ZStack(alignment: .center) {
-//            LinearGradient(gradient: Gradient(colors: [Theme.bgColor(scheme), Theme.defaultColor(scheme)]), startPoint: .top, endPoint: .bottom)
             LinearGradient(gradient: Gradient(colors: [.white]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-            
-            
             Image("launchScreenImage")
                 .resizable()
                 .scaledToFit()

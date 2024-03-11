@@ -10,20 +10,20 @@ import PopupView
 
 struct RegistrationView: View {
     
-    @State private var username: String = ""
-    @State private var email: String = ""
-    @State private var pw: String = ""
+    @State private var username = ""
+    @State private var email = ""
+    @State private var pw = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.presentationMode) var mode
     @Environment(\.colorScheme) var scheme
     
-    @State private var isRegisterInProgress: Bool = false
+    @State private var isRegisterInProgress = false
     
     // alert flag
-    @State private var noBlank: Bool = false
-    @State private var alreadyRegistered: Bool = false
-    @State private var badFormatEmail: Bool = false
-    @State private var badFormatPassword: Bool = false
+    @State private var noBlank = false
+    @State private var alreadyRegistered = false
+    @State private var badFormatEmail = false
+    @State private var badFormatPassword = false
     
     var body: some View {
         NavigationView {
@@ -63,32 +63,40 @@ struct RegistrationView: View {
                             .padding([.leading, .trailing])
                             .padding([.top, .bottom], 10)
                         
-                        Button(action: {
+                        Button {
                             if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
                             else {
                                 isRegisterInProgress = true
-                                viewModel.register(username: username, email: email, pw: pw) { code in
-                                switch code {
-                                case 17007:
-                                    alreadyRegistered.toggle()
-                                case 17008:
-                                    badFormatEmail.toggle()
-                                case 17026:
-                                    badFormatPassword.toggle()
-                                default: // code == 0
-                                    mode.wrappedValue.dismiss()
+                                viewModel.register(
+                                    username: username,
+                                    email: email,
+                                    pw: pw
+                                ) { code in
+                                    switch code {
+                                    case 17007:
+                                        alreadyRegistered.toggle()
+                                    case 17008:
+                                        badFormatEmail.toggle()
+                                    case 17026:
+                                        badFormatPassword.toggle()
+                                    default: // code == 0
+                                        mode.wrappedValue.dismiss()
+                                    }
+                                    isRegisterInProgress = false
                                 }
-                                isRegisterInProgress = false
-                            }}
-                            
-                        }, label: {
+                            }
+                        } label: {
                             Text("SIGN UP")
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
-                                .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                                .frame(
+                                    width: UIScreen.main.bounds.size.width - 20,
+                                    height: 50,
+                                    alignment: .center
+                                )
                                 .background(Theme.btnColor(scheme))
                                 .cornerRadius(10)
-                        })
+                        }
                         
                         Button(action: { mode.wrappedValue.dismiss() }, label: {
                             HStack {
@@ -109,7 +117,7 @@ struct RegistrationView: View {
                 .padding(.top, 50)
                 .padding(.bottom, 30)
                 if isRegisterInProgress {
-                    LinearGradient(colors: [.black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
+                    Color.black.opacity(0.5)
                         .ignoresSafeArea()
                     
                     ProgressView()

@@ -9,30 +9,30 @@ import SwiftUI
 
 struct InquiryView: View {
     
-    @State private var title: String = ""
-    @State private var contents: String = ""
-    @State private var noBlank: Bool = false
+    @State private var title = ""
+    @State private var contents = ""
+    @State private var noBlank = false
     
     @Environment(\.colorScheme) var scheme
     @Environment(\.dismiss) private var dismiss
     
-    @ObservedObject private var viewModel: InquiryViewModel = InquiryViewModel()
+    @ObservedObject private var viewModel = InquiryViewModel()
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
                     HStack {
-                        Button(action: {
+                        Button {
                             dismiss()
-                        }, label: {
+                        } label: {
                             Text("취소")
-                        })
+                        }
                         .padding(10)
                         
                         Spacer()
-
-                        Button(action: {
+                        
+                        Button {
                             if title.count == 0 || contents.count == 0 {
                                 noBlank.toggle()
                             } else {
@@ -40,35 +40,46 @@ struct InquiryView: View {
                                     dismiss()
                                 }
                             }
-                        }, label: {
+                        } label: {
                             Text("완료")
-                        })
+                        }
                         .padding(10)
                         .alert("작성 실패", isPresented: $noBlank) {
-                            Button("확인", role: .cancel, action: {
+                            Button(
+                                "확인",
+                                role: .cancel
+                            ) {
                                 noBlank = false
-                            })
+                            }
                         } message: {
                             Text("제목 또는 내용을 입력해야 합니다.")
                         }
                     }
                     
-                    CustomTextField(text: $title, placeholder: Text("제목을 입력하세요"), imageName: "envelope.open.fill")
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
-                        .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
+                    CustomTextField(
+                        text: $title,
+                        placeholder: Text("제목을 입력하세요"),
+                        imageName: "envelope.open.fill"
+                    )
+                    .font(.system(size: 15, weight: .medium, design: .monospaced))
+                    .padding(20)
+                    .frame(height: 50)
+                    .border(Theme.defaultColor(scheme), width: 0.7)
+                    .padding([.leading, .trailing])
                     
                     ZStack {
                         VStack {
                             if #available(iOS 16.0, *) {
-                                TextField("개발팀에 전달할 내용을 입력하세요", text: $contents, axis: .vertical)
-                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                    .foregroundColor(Theme.textColor(scheme))
-                                    .padding(20)
-                                    .border(Theme.defaultColor(scheme), width: 0.7)
-                                    .padding([.leading, .trailing])
+                                TextField(
+                                    "개발팀에 전달할 내용을 입력하세요",
+                                    text: $contents,
+                                    axis: .vertical
+                                )
+                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                .foregroundColor(Theme.textColor(scheme))
+                                .padding(20)
+                                .border(Theme.defaultColor(scheme), width: 0.7)
+                                .padding([.leading, .trailing])
                             } else {
                                 // Fallback on earlier versions
                             }

@@ -9,32 +9,42 @@ import SwiftUI
 
 struct CustomDatePicker: View {
     
-    var today: Date = Date()
+    let today = Date()
     @Binding var currentDate: Date
     @Binding var selectedDate: Date
     @Binding var showSidebar: Bool
     
     // Month update on arrow button clicks
-    @State var currentMonth: Int = 0
+    @State var currentMonth = 0
     @Environment(\.colorScheme) var scheme
     
     @ObservedObject var viewModel: FetchPostViewModel
     
     // Days
-    let days: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     // Months
-    let months: [String : String] = ["January": "01", "February": "02", "March": "03",
-                                     "April": "04", "May": "05", "June": "06",
-                                     "July": "07", "August": "08", "September": "09",
-                                     "October": "10", "November": "11", "December": "12"]
+    let months = [
+        "January": "01", 
+        "February": "02",
+        "March": "03",
+        "April": "04", 
+        "May": "05",
+        "June": "06",
+        "July": "07", 
+        "August": "08",
+        "September": "09",
+        "October": "10", 
+        "November": "11",
+        "December": "12"
+    ]
     
     var body: some View {
         VStack(spacing: 5) {
             HStack {
                 // open side menu bar
-                Button(action: {
+                Button {
                     showSidebar.toggle()
-                }) {
+                } label: {
                     Image(systemName: "line.3.horizontal")
                         .font(.system(size: 20, weight: .heavy))
                         .frame(width: 44, height: 44)
@@ -44,11 +54,10 @@ struct CustomDatePicker: View {
                 Spacer()
                 
                 // go to today
-                Button(action: {
-                    selectedDate = Date()
-                    viewModel.fetchPost(selectedDate: selectedDate)
+                Button {
+                    selectedDate = today
                     currentMonth = 0
-                }) {
+                } label: {
                     Text("TODAY")
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
                         .frame(height: 44)
@@ -75,21 +84,21 @@ struct CustomDatePicker: View {
                 
                 Spacer(minLength: 0)
                 
-                Button(action: {
+                Button {
                     currentMonth -= 1
-                }, label: {
+                } label: {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                         .frame(width: 44, height: 44)
-                })
+                }
                 
-                Button(action: {
+                Button {
                     currentMonth += 1
-                }, label: {
+                } label: {
                     Image(systemName: "chevron.right")
                         .font(.title2)
                         .frame(width: 44, height: 44)
-                })
+                }
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 8)
@@ -106,36 +115,48 @@ struct CustomDatePicker: View {
             // Dates
             // Lazy Grid
             let columns = Array(repeating: GridItem() , count: 7)
-            let extractedDate: [DateValue] = extractDate()
+            let extractedDate = extractDate()
             
             LazyVGrid(columns: columns) {
-                ForEach(Array(extractedDate.enumerated()), id: \.element) { index, value in
+                ForEach(
+                    Array(extractedDate.enumerated()),
+                    id: \.element
+                ) { index, value in
+                    
+                    let valueDate = Date2OnlyDate(date: UTC2KST(date: value.date))
+                    
                     ZStack {
-                        if value.date == selectedDate {
-                            Circle()
-                                .frame(height: 35)
+                        if value.day != -1 {
+                            if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
+                                Circle()
+                                    .frame(height: 35)
+                                    .foregroundStyle(.yellow)
+                            } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
+                                Circle()
+                                    .frame(height: 35)
+                                    .foregroundColor(.gray)
+                            } else if viewModel.postedDates.contains(valueDate) {
+                                Circle()
+                                    .frame(height: 3)
+                                    .foregroundStyle(.yellow)
+                                    .offset(y: 15)
+                            }
                         }
-                        
-                        if Date2OnlyDate(date: UTC2KST(date: value.date)) == Date2OnlyDate(date: UTC2KST(date: today)) && value.day != -1 {
-                            Circle()
-                                .frame(height: 35)
-                                .foregroundColor(.gray)
-                        }
-                        
                         CardView(value: value)
                             .frame(height: 35)
                             .onTapGesture {
                                 selectedDate = value.date
-                                viewModel.fetchPost(selectedDate: value.date)
                             }
-                            .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : (value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme))))
+                            .foregroundColor((value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme)))
                     }
                 }
             }
         }
         .onChange(of: currentMonth) { newValue in
-            // updating Month
             currentDate = getCurrentMonth()
+        }
+        .onChange(of: selectedDate) { _ in
+            viewModel.fetchPost(selectedDate: selectedDate)
         }
     }
     
@@ -151,9 +172,7 @@ struct CustomDatePicker: View {
     func extraDate() -> [String] {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY MMMM"
-        
         let date = formatter.string(from: currentDate)
-        
         return date.components(separatedBy: " ")
         // extraDate()[0]이면 "YYYY"년
         // extraDate()[1]이면 "MMMM"월

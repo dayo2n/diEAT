@@ -227,7 +227,6 @@
 			children = (
 				BF944B8D28ED6DD00036B41F /* CustomTextField.swift */,
 				BF944B8F28ED6F5E0036B41F /* CustomSecureField.swift */,
-				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
 				BF7EDA0428F2E5E600800DCA /* Theme.swift */,
 				BF01251F28F445F90081FBAC /* ImagePicker.swift */,
 				BF01253228F9B5600081FBAC /* DateConverter.swift */,
@@ -281,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				BF944B5A28EB21AB0036B41F /* ContentView.swift */,
+				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
 				BF78BBAD292BBA0900049314 /* CustomSidebarMenu.swift */,
 				BF944BB328ED9D780036B41F /* MainView.swift */,
 				BF01252D28F949EE0081FBAC /* EatLog.swift */,

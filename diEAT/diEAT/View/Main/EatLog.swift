@@ -59,10 +59,7 @@ struct EatLog: View {
                 }
             }
             .padding([.leading, .trailing], 10)
-            
-            ScrollView {
-                CustomGridView(viewModel: viewModel)
-            }
+            CustomGridView(viewModel: viewModel)
         }
     }
 }

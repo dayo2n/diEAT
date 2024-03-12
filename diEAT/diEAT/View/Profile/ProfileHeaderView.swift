@@ -15,24 +15,7 @@ struct ProfileHeaderView: View {
     
     var body: some View {
         HStack {
-            if let profileImageUrl = user.profileImageUrl {
-                KFImage(URL(string: profileImageUrl))
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 70, height: 70)
-                    .clipShape(Circle())
-                    .padding(.leading)
-            } else {
-                Image("defaultProfileImg")
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .padding(.leading)
-                    .foregroundColor(Theme.textColor(scheme))
-            }
-            
+            ProfileImageView(user: user, size: CGSize(width: 70, height: 70))
             Text("\(user.username)")
                 .font(.system(size: 20, weight: .bold, design: .monospaced))
                 .foregroundColor(Theme.textColor(scheme))

@@ -19,29 +19,49 @@ struct MainView: View {
     // show flag
     @State private var popLoginToast = false
     @State private var freezePop = false
-    @State private var showEditProfile = false
-    @State private var showInquiry = false
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // Sidebar button, Calendar
-                CustomDatePicker(
-                    currentDate: $currentDate,
-                    selectedDate: $selectedDate,
-                    viewModel: viewModel
-                )
-                .foregroundColor(Theme.textColor(scheme))
-                .padding([.leading, .trailing], 10)
-                .onChange(of: selectedDate) { value in
-                    selectedDate = value
+            ScrollView {
+                VStack(spacing: 0) {
+                    ZStack {
+                        CustomDatePicker(
+                            currentDate: $currentDate,
+                            selectedDate: $selectedDate,
+                            viewModel: viewModel
+                        )
+                        .foregroundColor(Theme.textColor(scheme))
+                        .padding([.leading, .trailing], 10)
+                        .onChange(of: selectedDate) { value in
+                            selectedDate = value
+                        }
+                        
+                        VStack {
+                            HStack {
+                                NavigationLink {
+                                    SettingsView(user: user)
+                                } label: {
+                                    ProfileImageView(
+                                        user: user,
+                                        size: CGSize(
+                                            width: 40,
+                                            height: 40
+                                        )
+                                    )
+                                }
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .padding(5)
+                    }
+
+                    // Eat log
+                    EatLog(
+                        selectedDate: $selectedDate,
+                        viewModel: viewModel
+                    )
                 }
-                
-                // Eat log
-                EatLog(
-                    selectedDate: $selectedDate,
-                    viewModel: viewModel
-                )
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
             .background(Theme.bgColor(scheme))
@@ -64,84 +84,5 @@ struct MainView: View {
                     .autohideIn(3)
             }
         }
-        // 사이드바 메뉴 구성
-        //        SidebarMenu(
-        //            sidebarWidth: UIScreen.main.bounds.width / 3 * 2,
-        //            showSidebar: $showSidebar
-        //        ) {
-        //            NavigationView {
-        //                VStack {
-        //                    ProfileHeaderView(user: user)
-        //                    
-        //                    Divider()
-        //                        .padding(.all)
-        //                    
-        //                    Button {
-        //                        showEditProfile.toggle()
-        //                    } label: {
-        //                        CustomSidebarMenu(
-        //                            imageName: "person.fill.viewfinder",
-        //                            menuTitle: "회원정보 수정"
-        //                        )
-        //                    }
-        //                    .sheet(isPresented: $showEditProfile) {
-        //                        EditProfileView(user: user)
-        //                    }
-        //                    
-        //                    Button(action: AuthViewModel.shared.logout) {
-        //                        CustomSidebarMenu(imageName: "\(scheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")",
-        //                                          menuTitle: "로그아웃")
-        //                    }
-        //                    
-        //                    Divider()
-        //                        .padding(.all)
-        //                    
-        //                    Spacer()
-        //                    
-        //                    Button(action: { showInquiry.toggle() }) {
-        //                        CustomSidebarMenu(imageName: "macwindow", menuTitle: "문의 및 버그 제보") }
-        //                    .sheet(isPresented: $showInquiry, content: { InquiryView() })
-        //                    
-        //                    Divider()
-        //                    
-        //                    // 개발자 정보
-        //                    Button(action: {}, label: {
-        //                        HStack {
-        //                            Image("octocat")
-        //                                .renderingMode(.template)
-        //                                .resizable()
-        //                                .scaledToFit()
-        //                                .frame(width: 16)
-        //                            
-        //                            Text("Github @dayo2n")
-        //                                .font(.system(size: 12, weight: .medium, design: .monospaced))
-        //                                .padding(.leading, 10)
-        //                            
-        //                            Spacer()
-        //                        }
-        //                        .foregroundColor(Theme.textColor(scheme))
-        //                        .padding(.leading, 20)
-        //                        .padding(.vertical)
-        //                    })
-        //                }
-        //            }
-        //            .gesture(
-        //                DragGesture(
-        //                    minimumDistance: 10,
-        //                    coordinateSpace: .local
-        //                )
-        //                .onEnded{ value in
-        //                    if showSidebar {
-        //                        if value.translation.width < 0 { // left 방향으로 슬라이드하면
-        //                            showSidebar.toggle()
-        //                        }
-        //                    }
-        //                }
-        //            )
-        //        } content: {
-        //            // 메인 뷰
-        //
-        //        }
-        //        .edgesIgnoringSafeArea(.all)
     }
 }

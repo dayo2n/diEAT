@@ -39,27 +39,9 @@ struct CustomDatePicker: View {
     
     var body: some View {
         VStack(spacing: 5) {
-            HStack {
-                Spacer()
-                
-                // go to today
-                Button {
-                    selectedDate = today
-                    currentMonth = 0
-                } label: {
-                    Text("TODAY")
-                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                        .frame(height: 44)
-                        .padding(.horizontal, 8)
-                        .background(.gray.opacity(0.5))
-                        .foregroundColor(Theme.textColor(scheme))
-                        .cornerRadius(8)
-                }
-            }
-            .padding(.trailing, 22)
-            .padding(.top, 15)
-            
-            HStack(spacing: 0) {
+            Spacer()
+                .frame(height: 50)
+            HStack(spacing: 2) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(extraDate()[0])
                         .font(.caption)
@@ -77,17 +59,26 @@ struct CustomDatePicker: View {
                     currentMonth -= 1
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title2)
-                        .frame(width: 44, height: 44)
+                        .font(.headline)
                 }
+                .buttonStyle(BorderedButtonStyle())
+                
+                Button {
+                    selectedDate = today
+                    currentMonth = 0
+                } label: {
+                    Text("TODAY")
+                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                }
+                .buttonStyle(BorderedButtonStyle())
                 
                 Button {
                     currentMonth += 1
                 } label: {
                     Image(systemName: "chevron.right")
-                        .font(.title2)
-                        .frame(width: 44, height: 44)
+                        .font(.headline)
                 }
+                .buttonStyle(BorderedButtonStyle())
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 8)

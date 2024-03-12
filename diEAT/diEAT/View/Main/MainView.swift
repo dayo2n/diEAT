@@ -19,7 +19,6 @@ struct MainView: View {
     // show flag
     @State private var popLoginToast = false
     @State private var freezePop = false
-    @State private var showSidebar = false
     @State private var showEditProfile = false
     @State private var showInquiry = false
     
@@ -30,7 +29,6 @@ struct MainView: View {
                 CustomDatePicker(
                     currentDate: $currentDate,
                     selectedDate: $selectedDate,
-                    showSidebar: $showSidebar,
                     viewModel: viewModel
                 )
                 .foregroundColor(Theme.textColor(scheme))
@@ -65,23 +63,6 @@ struct MainView: View {
                     .closeOnTap(true)
                     .autohideIn(3)
             }
-            .gesture(
-                DragGesture(
-                    minimumDistance: 10,
-                    coordinateSpace: .local
-                )
-                .onEnded{ value in
-                    if showSidebar {
-                        if value.translation.width < 0 { // left 방향으로 슬라이드하면
-                            showSidebar.toggle()
-                        }
-                    } else {
-                        if value.translation.width > 0 { // right 방향으로 슬라이드하면
-                            showSidebar.toggle()
-                        }
-                    }
-                }
-            )
         }
         // 사이드바 메뉴 구성
         //        SidebarMenu(

@@ -12,6 +12,7 @@ struct CustomDatePicker: View {
     let today = Date()
     @Binding var currentDate: Date
     @Binding var selectedDate: Date
+    @Binding var viewType: ViewType
     
     // Month update on arrow button clicks
     @State var currentMonth = 0
@@ -39,8 +40,6 @@ struct CustomDatePicker: View {
     
     var body: some View {
         VStack(spacing: 5) {
-            Spacer()
-                .frame(height: 50)
             HStack(spacing: 2) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(extraDate()[0])
@@ -83,60 +82,63 @@ struct CustomDatePicker: View {
             .padding(.horizontal, 10)
             .padding(.bottom, 8)
             
-            // Day View
-            HStack() {
-                ForEach(0..<days.count, id: \.self) { index in
-                    Text(days[index])
-                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                        .frame(maxWidth: .infinity) // 자동 간격 최대
-                        .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : Theme.textColor(scheme)))
+            if viewType == .day {
+                // Day View
+                HStack() {
+                    ForEach(0..<days.count, id: \.self) { index in
+                        Text(days[index])
+                            .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                            .frame(maxWidth: .infinity) // 자동 간격 최대
+                            .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : Theme.textColor(scheme)))
+                    }
                 }
-            }
-            // Dates
-            // Lazy Grid
-            let columns = Array(repeating: GridItem() , count: 7)
-            let extractedDate = extractDate()
-            
-            LazyVGrid(columns: columns) {
-                ForEach(
-                    Array(extractedDate.enumerated()),
-                    id: \.element
-                ) { index, value in
-                    
-                    let valueDate = Date2OnlyDate(date: UTC2KST(date: value.date))
-                    
-                    ZStack {
-                        if value.day != -1 {
-                            if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
-                                Circle()
-                                    .frame(height: 35)
-                                    .foregroundStyle(.yellow)
-                            } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
-                                Circle()
-                                    .frame(height: 35)
-                                    .foregroundColor(.gray)
-                            } else if viewModel.postedDates.contains(valueDate) {
-                                Circle()
-                                    .frame(height: 3)
-                                    .foregroundStyle(.yellow)
-                                    .offset(y: 15)
+                // Dates
+                // Lazy Grid
+                let columns = Array(repeating: GridItem() , count: 7)
+                let extractedDate = extractDate()
+                
+                LazyVGrid(columns: columns) {
+                    ForEach(
+                        Array(extractedDate.enumerated()),
+                        id: \.element
+                    ) { index, value in
+                        
+                        let valueDate = Date2OnlyDate(date: UTC2KST(date: value.date))
+                        
+                        ZStack {
+                            if value.day != -1 {
+                                if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
+                                    Circle()
+                                        .frame(height: 35)
+                                        .foregroundStyle(.yellow)
+                                } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
+                                    Circle()
+                                        .frame(height: 35)
+                                        .foregroundColor(.gray)
+                                } else if viewModel.postedDates.contains(valueDate) {
+                                    Circle()
+                                        .frame(height: 3)
+                                        .foregroundStyle(.yellow)
+                                        .offset(y: 15)
+                                }
                             }
+                            CardView(value: value)
+                                .frame(height: 35)
+                                .onTapGesture {
+                                    selectedDate = value.date
+                                }
+                                .foregroundColor((value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme)))
                         }
-                        CardView(value: value)
-                            .frame(height: 35)
-                            .onTapGesture {
-                                selectedDate = value.date
-                            }
-                            .foregroundColor((value.date == selectedDate ? Theme.bgColor(scheme) : Theme.textColor(scheme)))
                     }
                 }
             }
         }
         .onChange(of: currentMonth) { newValue in
             currentDate = getCurrentMonth()
+            viewModel.fetchPostByMonth(selectedDate: currentDate)
         }
         .onChange(of: selectedDate) { _ in
-            viewModel.fetchPost(selectedDate: selectedDate)
+            viewModel.fetchPostByDate(selectedDate: selectedDate)
         }
         
         .gesture(

@@ -19,7 +19,7 @@ struct CustomGridView: View {
         LazyVGrid(
             columns: items,
             spacing: 2) {
-                ForEach(viewModel.posts) { post in
+                ForEach(viewModel.postsByDay) { post in
                     NavigationLink(
                         destination: SinglePostView(
                             post: post,

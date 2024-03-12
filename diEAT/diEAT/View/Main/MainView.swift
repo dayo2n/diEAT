@@ -30,22 +30,8 @@ struct MainView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    HStack {
-                        NavigationLink {
-                            SettingsView(user: user)
-                        } label: {
-                            ProfileImageView(
-                                user: user,
-                                size: CGSize(
-                                    width: 40,
-                                    height: 40
-                                )
-                            )
-                        }
-                        Spacer()
-                    }
-                    .padding(5)
-                    
+                    Spacer()
+                        .frame(height: 10)
                     CustomDatePicker(
                         currentDate: $currentDate,
                         selectedDate: $selectedDate,
@@ -58,8 +44,8 @@ struct MainView: View {
                         selectedDate = value
                     }
                     
+                    // Eat log
                     if viewType == .day {
-                        // Eat log
                         DailyEatLog(
                             selectedDate: $selectedDate,
                             viewModel: viewModel
@@ -70,6 +56,8 @@ struct MainView: View {
                             viewModel: viewModel
                         )
                     }
+                    Spacer()
+                        .frame(height: 100)
                 }
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
@@ -101,6 +89,17 @@ struct MainView: View {
                             Image(systemName: viewType == .day ? "list.bullet" : "square.grid.2x2")
                         }
                         Spacer()
+                        NavigationLink {
+                            SettingsView(user: user)
+                        } label: {
+                            ProfileImageView(
+                                user: user,
+                                size: CGSize(
+                                    width: 30,
+                                    height: 30
+                                )
+                            )
+                        }
                     }
                 }
             }

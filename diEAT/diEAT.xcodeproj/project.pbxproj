@@ -100,7 +100,7 @@
 		BF7EDA0028F022B600800DCA /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		BF7EDA0228F2DE0700800DCA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF7EDA0428F2E5E600800DCA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		BF944B5528EB21AB0036B41F /* diEAT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diEAT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF944B5528EB21AB0036B41F /* diEAT 다이트.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "diEAT 다이트.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF944B5828EB21AB0036B41F /* diEATApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diEATApp.swift; sourceTree = "<group>"; };
 		BF944B5A28EB21AB0036B41F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BF944B8028EB25BB0036B41F /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 		BF944B5628EB21AB0036B41F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF944B5528EB21AB0036B41F /* diEAT.app */,
+				BF944B5528EB21AB0036B41F /* diEAT 다이트.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,7 +375,7 @@
 				AD21F7D52B9F588A0097DCEB /* FirebaseStorageCombine-Community */,
 			);
 			productName = diEAT_SwiftUI;
-			productReference = BF944B5528EB21AB0036B41F /* diEAT.app */;
+			productReference = BF944B5528EB21AB0036B41F /* diEAT 다이트.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -612,7 +612,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "diEAT 다이트";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -645,7 +645,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "diEAT 다이트";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

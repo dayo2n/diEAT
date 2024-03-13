@@ -12,13 +12,9 @@ struct CustomListView: View {
     private let length = UIScreen.main.bounds.width / 3
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: FetchPostViewModel
-    @State private var currentDate = ""
     
     var body: some View {
-        LazyVGrid(
-            columns: [GridItem()],
-            spacing: 2
-        ) {
+        VStack {
             ForEach(viewModel.postsByMonth) { post in
                 NavigationLink(
                     destination: SinglePostView(
@@ -29,28 +25,21 @@ struct CustomListView: View {
                 ) {
                     VStack {
                         let postDate = Date2OnlyDate(date: post.timestamp.dateValue())
-                        if currentDate != postDate {
-                            HStack {
-                                Image(systemName: "quote.opening")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Theme.textColor(colorScheme))
-                                    .padding(.bottom, 3)
-                                
-                                Text(postDate)
-                                    .font(.system(size: 15, weight: .bold, design: .monospaced))
-                                    .foregroundColor(Theme.textColor(colorScheme))
-                                
-                                Image(systemName: "quote.closing")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Theme.textColor(colorScheme))
-                                    .padding(.top, 3)
-                                Spacer()
-                            }
-                            .onAppear {
-                                currentDate = postDate
-                            }
-                            .padding(.top)
+                        HStack {
+                            Image(systemName: "quote.opening")
+                                .font(.system(size: 12))
+                                .foregroundColor(Theme.textColor(colorScheme))
+                                .padding(.bottom, 3)
+                            Text(postDate)
+                                .font(.system(size: 15, weight: .bold, design: .monospaced))
+                                .foregroundColor(Theme.textColor(colorScheme))
+                            Image(systemName: "quote.closing")
+                                .font(.system(size: 12))
+                                .foregroundColor(Theme.textColor(colorScheme))
+                                .padding(.top, 3)
+                            Spacer()
                         }
+                        .padding(.top)
                         HStack {
                             KFImage(URL(string: post.imageUrl))
                                 .resizable()

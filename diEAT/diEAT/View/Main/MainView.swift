@@ -31,7 +31,7 @@ struct MainView: View {
             ScrollView {
                 VStack {
                     Spacer()
-                        .frame(height: 10)
+                        .frame(height: 20)
                     CustomDatePicker(
                         currentDate: $currentDate,
                         selectedDate: $selectedDate,

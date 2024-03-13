@@ -610,7 +610,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = "diEAT 다이트";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -643,7 +643,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = "diEAT 다이트";
 				PROVISIONING_PROFILE_SPECIFIER = "";

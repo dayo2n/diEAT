@@ -10,14 +10,14 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.colorScheme) var scheme
+    @Environment(\.colorScheme) var colorScheme
     
     @State var isInLoading = true
     
     var body: some View {
         ZStack {
             // Main view screen
-            if viewModel.userSession == nil {
+            if $viewModel.userSession == nil {
                 LoginView()
             } else {
                 if let user = viewModel.currentUser {
@@ -35,14 +35,10 @@ struct ContentView: View {
             })
         }
     }
-}
-
-extension ContentView {
     var launchScreenView: some View {
         ZStack(alignment: .center) {
-            LinearGradient(gradient: Gradient(colors: [.white]), startPoint: .top, endPoint: .bottom)
-                .edgesIgnoringSafeArea(.all)
-            Image("launchScreenImage")
+            Theme.bgColor(colorScheme).ignoresSafeArea()
+            Image(colorScheme == .dark ? "launchScreenImageDark" : "launchScreenImage")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200)

@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             // Main view screen
-            if $viewModel.userSession == nil {
+            if viewModel.userSession == nil {
                 LoginView()
             } else {
                 if let user = viewModel.currentUser {

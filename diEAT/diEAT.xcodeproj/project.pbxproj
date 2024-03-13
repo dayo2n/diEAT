@@ -100,7 +100,7 @@
 		BF7EDA0028F022B600800DCA /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		BF7EDA0228F2DE0700800DCA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF7EDA0428F2E5E600800DCA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		BF944B5528EB21AB0036B41F /* diEAT 다이트.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "diEAT 다이트.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF944B5528EB21AB0036B41F /* diEAT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diEAT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF944B5828EB21AB0036B41F /* diEATApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diEATApp.swift; sourceTree = "<group>"; };
 		BF944B5A28EB21AB0036B41F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BF944B8028EB25BB0036B41F /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 		BF944B5628EB21AB0036B41F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF944B5528EB21AB0036B41F /* diEAT 다이트.app */,
+				BF944B5528EB21AB0036B41F /* diEAT.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,7 +375,7 @@
 				AD21F7D52B9F588A0097DCEB /* FirebaseStorageCombine-Community */,
 			);
 			productName = diEAT_SwiftUI;
-			productReference = BF944B5528EB21AB0036B41F /* diEAT 다이트.app */;
+			productReference = BF944B5528EB21AB0036B41F /* diEAT.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -527,6 +527,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = diEAT;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -580,6 +581,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = diEAT;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -592,11 +594,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"diEAT/Preview Content\"";
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7D5PZJWQ9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = diEAT/Info.plist;
@@ -612,8 +616,12 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
-				PRODUCT_NAME = "diEAT 다이트";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = diEAT;
+				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "distribution diEAT";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -625,11 +633,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"diEAT/Preview Content\"";
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7D5PZJWQ9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = diEAT/Info.plist;
@@ -645,8 +655,12 @@
 				);
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
-				PRODUCT_NAME = "diEAT 다이트";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = diEAT;
+				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "distribution diEAT";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -29,9 +29,7 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("backgroundImageDark")
-                    .resizable()
-                    .scaledToFill()
+                Color.white.opacity(0.7)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {

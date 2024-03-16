@@ -618,7 +618,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = diEAT;
 				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "distribution diEAT";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore cnu.cse.dayo2n.diEAT-SwiftUI";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -657,7 +657,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = diEAT;
 				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "distribution diEAT";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore cnu.cse.dayo2n.diEAT-SwiftUI";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

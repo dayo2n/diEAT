@@ -181,6 +181,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		AD76375E2BA6C40D007552E1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				BF78BBC9292E2BBB00049314 /* InquiryView.swift */,
+				ADF9CE572BA019B60019956E /* SettingsView.swift */,
+				AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		BF01252528F6E7E10081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,6 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				BF944B8228EB26960036B41F /* Main */,
+				BF944B8828EB2AE80036B41F /* Authentication */,
+				AD76375E2BA6C40D007552E1 /* Settings */,
 				BF01252828F825EC0081FBAC /* Post */,
 				BF944BB528ED9DE10036B41F /* Profile */,
 			);
@@ -315,12 +327,8 @@
 				BF944B5828EB21AB0036B41F /* diEATApp.swift */,
 				BF944B5A28EB21AB0036B41F /* ContentView.swift */,
 				BF944BB328ED9D780036B41F /* MainView.swift */,
-				BF944B8828EB2AE80036B41F /* Authentication */,
 				AD7637542BA622D8007552E1 /* EatLog */,
 				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
-				BF78BBC9292E2BBB00049314 /* InquiryView.swift */,
-				ADF9CE572BA019B60019956E /* SettingsView.swift */,
-				AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";

@@ -39,6 +39,7 @@
 		AD7637562BA62372007552E1 /* CustomSidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */; };
 		AD7637582BA6B0E3007552E1 /* RecordLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */; };
 		AD76375B2BA6B679007552E1 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76375A2BA6B679007552E1 /* String+.swift */; };
+		AD76375D2BA6C0D7007552E1 /* ErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76375C2BA6C0D7007552E1 /* ErrorCode.swift */; };
 		ADBA9F922BA02F1900E69548 /* MonthlyEatLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */; };
 		ADBA9F942BA030F000E69548 /* CustomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F932BA030F000E69548 /* CustomListView.swift */; };
 		ADF9CE582BA019B60019956E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF9CE572BA019B60019956E /* SettingsView.swift */; };
@@ -80,6 +81,7 @@
 		AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSidebarMenu.swift; sourceTree = "<group>"; };
 		AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLabelView.swift; sourceTree = "<group>"; };
 		AD76375A2BA6B679007552E1 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		AD76375C2BA6C0D7007552E1 /* ErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCode.swift; sourceTree = "<group>"; };
 		ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEatLog.swift; sourceTree = "<group>"; };
 		ADBA9F932BA030F000E69548 /* CustomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListView.swift; sourceTree = "<group>"; };
 		ADF9CE572BA019B60019956E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -289,10 +291,9 @@
 		BF944B7E28EB25740036B41F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BF944B8228EB26960036B41F /* Main */,
 				BF01252828F825EC0081FBAC /* Post */,
 				BF944BB528ED9DE10036B41F /* Profile */,
-				BF944B8828EB2AE80036B41F /* Authentication */,
-				BF944B8228EB26960036B41F /* Main */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -303,6 +304,7 @@
 				BF944B8628EB28520036B41F /* User.swift */,
 				BF01252328F6D0130081FBAC /* Post.swift */,
 				BF78BBCB292E478D00049314 /* Inquiry.swift */,
+				AD76375C2BA6C0D7007552E1 /* ErrorCode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -313,6 +315,7 @@
 				BF944B5828EB21AB0036B41F /* diEATApp.swift */,
 				BF944B5A28EB21AB0036B41F /* ContentView.swift */,
 				BF944BB328ED9D780036B41F /* MainView.swift */,
+				BF944B8828EB2AE80036B41F /* Authentication */,
 				AD7637542BA622D8007552E1 /* EatLog */,
 				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
 				BF78BBC9292E2BBB00049314 /* InquiryView.swift */,
@@ -469,6 +472,7 @@
 				BF01252C28F940620081FBAC /* FetchPostViewModel.swift in Sources */,
 				BF01252228F6CEBF0081FBAC /* CustomGridView.swift in Sources */,
 				BF944B8728EB28520036B41F /* User.swift in Sources */,
+				AD76375D2BA6C0D7007552E1 /* ErrorCode.swift in Sources */,
 				BF7ED9FF28F0166500800DCA /* CustomDatePicker.swift in Sources */,
 				ADBA9F922BA02F1900E69548 /* MonthlyEatLog.swift in Sources */,
 				ADBA9F942BA030F000E69548 /* CustomListView.swift in Sources */,

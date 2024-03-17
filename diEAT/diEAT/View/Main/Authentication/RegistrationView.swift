@@ -14,7 +14,7 @@ struct RegistrationView: View {
     @State private var email = ""
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.presentationMode) var mode
+    @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isRegisterInProgress = false
@@ -79,15 +79,15 @@ struct RegistrationView: View {
                                     email: email,
                                     password: password
                                 ) { code in
-                                    switch code {
-                                    case 17007:
+                                    switch ErrorCode(rawValue: code) {
+                                    case .alreadyRegistered:
                                         alreadyRegistered.toggle()
-                                    case 17008:
+                                    case .invalidFormatEmail:
                                         badFormatEmail.toggle()
-                                    case 17026:
+                                    case .invalidFormatPassword:
                                         badFormatPassword.toggle()
                                     default: // code == 0
-                                        mode.wrappedValue.dismiss()
+                                        dismiss()
                                     }
                                     isRegisterInProgress = false
                                 }
@@ -104,8 +104,9 @@ struct RegistrationView: View {
                                 .background(Theme.btnColor(colorScheme))
                                 .cornerRadius(10)
                         }
-                        
-                        Button(action: { mode.wrappedValue.dismiss() }, label: {
+                        Button {
+                            dismiss()
+                        } label: {
                             HStack {
                                 Text(String.ifAlreadyHaveAccount)
                                     .font(.system(size: 13))
@@ -116,7 +117,7 @@ struct RegistrationView: View {
                                     .foregroundColor(Theme.textColor(colorScheme))
                             }
                             .padding(.bottom, 16)
-                        })
+                        }
                     }
                     .padding(.bottom, 30)
                     

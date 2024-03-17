@@ -57,7 +57,7 @@ struct EditPostView: View {
                             Button {
                                 self.isShownThisView.toggle()
                             } label: {
-                                Text("Cancel")
+                                Text(String.cancel)
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Color.red)
                                     .opacity(didPressedUploadButton ? 0.2 : 1.0)
@@ -104,7 +104,7 @@ struct EditPostView: View {
                                     }
                                 }
                             }, label: {
-                                Text(isEditMode ? "Edit" : "Add")
+                                Text(isEditMode ? String.edit : String.add)
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Theme.textColor(scheme))
                                     .opacity(didPressedUploadButton ? 0.2 : 1.0)
@@ -148,11 +148,13 @@ struct EditPostView: View {
                         }
                         .padding(.top, 20)
                         
-                        Button(action: { isImagePickMode.toggle() }, label: {
-                            Text("Select image")
+                        Button {
+                            isImagePickMode.toggle()
+                        } label: {
+                            Text(String.selectImage)
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .frame(height: 44)
-                        })
+                        }
                         .sheet(
                             isPresented: $isImagePickMode,
                             onDismiss: loadImage,
@@ -160,7 +162,7 @@ struct EditPostView: View {
                         )
                         
                         HStack {
-                            Text("# 식사")
+                            Text(String.mealHeader)
                                 .font(.system(size: 16, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding([.horizontal, .top])
@@ -178,7 +180,7 @@ struct EditPostView: View {
                         .padding([.leading, .trailing, .bottom])
                         
                         HStack {
-                            Text("# 스티커")
+                            Text(String.stickerHeader)
                                 .font(.system(size: 16, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding([.leading, .top])
@@ -192,7 +194,7 @@ struct EditPostView: View {
                                 CustomIcon(iconName: Icon.exercise.rawValue)
                                     .shadow(
                                         color: .orange,
-                                        radius: selectedIcon == "exercise" ? 5 : 0
+                                        radius: selectedIcon == Icon.exercise.rawValue ? 5 : 0
                                     )
                             }
                             Spacer()
@@ -229,29 +231,32 @@ struct EditPostView: View {
                         .padding(.horizontal, 10)
                         
                         HStack {
-                            Text("# 기록")
+                            Text(String.recordHeader)
                                 .font(.system(size: 16, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding([.horizontal, .top])
                             Spacer()
                         }
                         HStack {
-                            Image(systemName: "pencil")
+                            Image(systemName: .pencil)
                                 .font(.system(size: 20))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.leading)
                             
-                            TextField("스스로 피드백을 남기는 공간", text: $caption)
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                                .padding(15)
-                                .border(Theme.defaultColor(scheme), width: 0.7)
-                                .padding()
-                                .focused($focused)
-                                .submitLabel(SubmitLabel.done)
-                                .onSubmit {
-                                    focused.toggle()
-                                }
+                            TextField(
+                                String.captionPlaceholder,
+                                text: $caption
+                            )
+                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .foregroundColor(Theme.textColor(scheme))
+                            .padding(15)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding()
+                            .focused($focused)
+                            .submitLabel(SubmitLabel.done)
+                            .onSubmit {
+                                focused.toggle()
+                            }
                         }
                         .padding(.bottom, 50)
                         
@@ -271,7 +276,7 @@ struct EditPostView: View {
                     }
                 }
                 .popup(isPresented: $popNoImageWarning) {
-                    CustomPopUpView(alertText: "업로드 실패!\n 식단 이미지를 첨부해 주세요 :(", bgColor: .red)
+                    CustomPopUpView(alertText: .alertFailedToUpload, bgColor: .red)
                 } customize: { pop in
                     pop
                         .type(.floater())

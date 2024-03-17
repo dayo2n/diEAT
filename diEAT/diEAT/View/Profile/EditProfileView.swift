@@ -34,7 +34,7 @@ struct EditProfileView: View {
                         if newUsername.isEmpty { newUsername = user.username }
                         AuthViewModel.shared.editUsername(newUsername: newUsername)
                     } label: {
-                        Text("완료")
+                        Text(String.complete)
                     }
                     .padding(10)
                 }
@@ -50,7 +50,7 @@ struct EditProfileView: View {
                             .frame(width: 120, height: 120)
                             .clipShape(Circle())
                     } else {
-                        Image("defaultProfileImg")
+                        Image(String.defaultProfileImage)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFill()
@@ -69,7 +69,7 @@ struct EditProfileView: View {
                     } label: {
                         VStack {
                             Spacer()
-                            Text("편집")
+                            Text(String.editText)
                                 .font(.system(size: 16, weight: .heavy, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.bottom, 8)
@@ -89,7 +89,7 @@ struct EditProfileView: View {
                     }
                 }
                 HStack {
-                    Image(systemName: "envelope")
+                    Image(systemName: String.envelope)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
@@ -108,7 +108,7 @@ struct EditProfileView: View {
                 CustomTextField(
                     text: $newUsername,
                     placeholder: Text("\(user.username) "),
-                    imageName: scheme == .dark ? "person.fill" : "person"
+                    imageName: scheme == .dark ? String.personFill : String.person
                 )
                 .font(.system(size: 15, weight: .medium, design: .monospaced))
                 .padding(20)
@@ -125,9 +125,9 @@ struct EditProfileView: View {
                 } label: {
                     HStack {
                         Spacer()
-                        Image(systemName: scheme == .dark ? "key.fill" : "key")
+                        Image(systemName: scheme == .dark ? String.keyFill : String.key)
                             .frame(width: 20, height: 20)
-                        Text("비밀번호 재설정")
+                        Text(String.changePassword)
                             .font(.system(size: 15, weight: .medium, design: .monospaced))
                         Spacer()
                     }
@@ -137,30 +137,31 @@ struct EditProfileView: View {
                     .background(Theme.defaultColor(scheme))
                     .padding(.horizontal)
                 }
-                .alert("전송 성공", isPresented: $resetEmailSended) {
+                .alert(
+                    String.successToSend,
+                    isPresented: $resetEmailSended
+                ) {
                     Button(
-                        "확인",
+                        String.optionCheck,
                         role: .cancel
                     ) {
                         resetEmailSended.toggle()
                         AuthViewModel.shared.logout()
                     }
                 } message: {
-                    Text("수신한 이메일을 통해 비밀번호를 재설정 후 다시 로그인하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.")
+                    Text(String.checkEmailBoxMessage)
                 }
                 
                 Spacer()
                 
-                Button(action: {
+                Button {
                     sureToDeleteUser.toggle()
-                }, label: {
+                } label: {
                     HStack {
                         Spacer()
-                        
-                        Image(systemName: "person.crop.circle.fill.badge.xmark")
+                        Image(systemName: String.personCropCircleFillBadgeXmark)
                             .foregroundColor(Theme.textColor(scheme))
-                        
-                        Text("회원 탈퇴")
+                        Text(String.withdrawal)
                             .font(.system(size: 16, weight: .medium, design: .monospaced))
                             .foregroundColor(Theme.textColor(scheme))
                             .opacity(0.8)
@@ -168,22 +169,25 @@ struct EditProfileView: View {
                     }
                     .padding(.trailing, 30)
                     .padding(.vertical)
-                })
-                .alert("회원 탈퇴", isPresented: $sureToDeleteUser) {
+                }
+                .alert(
+                    String.withdrawal,
+                    isPresented: $sureToDeleteUser
+                ) {
                     Button(
-                        "취소",
+                        String.optionCancel,
                         role: .cancel
                     ) {
                         sureToDeleteUser = false
                     }
                     Button(
-                        "탈퇴",
+                        String.optionWithdrawal,
                         role: .destructive
                     ) {
                         AuthViewModel.shared.deleteUser()
                     }
                 } message: {
-                    Text("탈퇴 후 데이터를 복원할 수 없습니다.")
+                    Text(String.withdrawalCautionMessage)
                 }
             }
             .padding(.top)

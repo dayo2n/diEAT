@@ -12,10 +12,10 @@ struct RegistrationView: View {
     
     @State private var username = ""
     @State private var email = ""
-    @State private var pw = ""
+    @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.presentationMode) var mode
-    @Environment(\.colorScheme) var scheme
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var isRegisterInProgress = false
     
@@ -28,88 +28,96 @@ struct RegistrationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("backgroundImageDark")
+                Image(String.backgroundImageDark)
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("diEAT")
+                    Text(String.app)
                         .font(.system(size: 30, weight: .heavy, design: .monospaced))
-                    Text("Sign up")
+                    Text(String.signUp)
                         .font(.system(size: 13, weight: .light, design: .monospaced))
                     
                     Spacer()
                     VStack {
-                        CustomTextField(text: $username, placeholder: Text("USERNAME"), imageName: "person")
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
-                            .padding(20)
-                            .frame(height: 50)
-                            .border(Theme.defaultColor(scheme), width: 0.7)
-                            .padding([.leading, .trailing])
-                            .padding([.top, .bottom], 10)
+                        CustomTextField(
+                            text: $username,
+                            placeholder: Text(String.username),
+                            imageName: String.person)
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Theme.defaultColor(colorScheme), width: 0.7)
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 10)
                         
-                        CustomTextField(text: $email, placeholder: Text("EMAIL"), imageName: "envelope")
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
-                            .padding(20)
-                            .frame(height: 50)
-                            .border(Theme.defaultColor(scheme), width: 0.7)
-                            .padding([.leading, .trailing])
+                        CustomTextField(
+                            text: $email,
+                            placeholder: Text(String.email),
+                            imageName: String.envelope
+                        )
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Theme.defaultColor(colorScheme), width: 0.7)
+                        .padding([.leading, .trailing])
                         
-                        CustomSecureField(password: $pw, placeholder: Text("PASSWORD"))
+                        CustomSecureField(password: $password, placeholder: Text(String.password))
                             .padding(20)
                             .frame(height: 50)
-                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .border(Theme.defaultColor(colorScheme), width: 0.7)
                             .padding([.leading, .trailing])
                             .padding([.top, .bottom], 10)
                         
                         Button {
-                            if username.count == 0 || email.count == 0 || pw.count == 0 { noBlank.toggle() }
+                            if username.count == 0 || email.count == 0 || password.count == 0 { noBlank.toggle() }
                             else {
                                 isRegisterInProgress = true
                                 viewModel.register(
                                     username: username,
                                     email: email,
-                                    pw: pw
+                                    password: password
                                 ) { code in
-                                    switch code {
-                                    case 17007:
+                                    switch ErrorCode(rawValue: code) {
+                                    case .alreadyRegistered:
                                         alreadyRegistered.toggle()
-                                    case 17008:
+                                    case .invalidFormatEmail:
                                         badFormatEmail.toggle()
-                                    case 17026:
+                                    case .invalidFormatPassword:
                                         badFormatPassword.toggle()
                                     default: // code == 0
-                                        mode.wrappedValue.dismiss()
+                                        dismiss()
                                     }
                                     isRegisterInProgress = false
                                 }
                             }
                         } label: {
-                            Text("SIGN UP")
+                            Text(String.signUp)
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
+                                .foregroundColor(Theme.textColor(colorScheme))
                                 .frame(
                                     width: UIScreen.main.bounds.size.width - 20,
                                     height: 50,
                                     alignment: .center
                                 )
-                                .background(Theme.btnColor(scheme))
+                                .background(Theme.btnColor(colorScheme))
                                 .cornerRadius(10)
                         }
-                        
-                        Button(action: { mode.wrappedValue.dismiss() }, label: {
+                        Button {
+                            dismiss()
+                        } label: {
                             HStack {
-                                Text("Already have an account?")
+                                Text(String.ifAlreadyHaveAccount)
                                     .font(.system(size: 13))
-                                    .foregroundColor(Theme.defaultColor(scheme))
+                                    .foregroundColor(Theme.defaultColor(colorScheme))
                                 
-                                Text("Sign in")
+                                Text(String.signIn)
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundColor(Theme.textColor(scheme))
+                                    .foregroundColor(Theme.textColor(colorScheme))
                             }
                             .padding(.bottom, 16)
-                        })
+                        }
                     }
                     .padding(.bottom, 30)
                     
@@ -125,9 +133,9 @@ struct RegistrationView: View {
                         .scaleEffect(5)
                 }
             }
-            .background(Theme.bgColor(scheme))
+            .background(Theme.bgColor(colorScheme))
             .popup(isPresented: $noBlank) {
-                CustomPopUpView(alertText: "항목을 모두 작성하세요!", bgColor: .red)
+                CustomPopUpView(alertText: String.alertFillAllBlank, bgColor: .red)
             } customize: { pop in
                 pop
                     .type(.floater())
@@ -137,7 +145,10 @@ struct RegistrationView: View {
                     .autohideIn(3)
             }
             .popup(isPresented: $alreadyRegistered) {
-                CustomPopUpView(alertText: "이미 가입되어 있는 이메일입니다.", bgColor: .red)
+                CustomPopUpView(
+                    alertText: String.alertAlreadyRegistered,
+                    bgColor: .red
+                )
             } customize: { pop in
                 pop
                     .type(.floater())
@@ -147,7 +158,10 @@ struct RegistrationView: View {
                     .autohideIn(3)
             }
             .popup(isPresented: $badFormatEmail) {
-                CustomPopUpView(alertText: "이메일 형식이 올바르지 않습니다.", bgColor: .red)
+                CustomPopUpView(
+                    alertText: String.alertInvaildEmail,
+                    bgColor: .red
+                )
             } customize: { pop in
                 pop
                     .type(.floater())
@@ -157,7 +171,10 @@ struct RegistrationView: View {
                     .autohideIn(3)
             }
             .popup(isPresented: $badFormatPassword) {
-                CustomPopUpView(alertText: "비밀번호를 6자리 이상 입력하세요.", bgColor: .red)
+                CustomPopUpView(
+                    alertText: String.alertPasswordCountBiggerThan6,
+                    bgColor: .red
+                )
             } customize: { pop in
                 pop
                     .type(.floater())

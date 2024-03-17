@@ -26,14 +26,14 @@ struct CustomListView: View {
                     VStack {
                         let postDate = Date2OnlyDate(date: post.timestamp.dateValue())
                         HStack {
-                            Image(systemName: "quote.opening")
+                            Image(systemName: String.quoteOpening)
                                 .font(.system(size: 12))
                                 .foregroundColor(Theme.textColor(colorScheme))
                                 .padding(.bottom, 3)
                             Text(postDate)
                                 .font(.system(size: 15, weight: .bold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(colorScheme))
-                            Image(systemName: "quote.closing")
+                            Image(systemName: String.quoteClosing)
                                 .font(.system(size: 12))
                                 .foregroundColor(Theme.textColor(colorScheme))
                                 .padding(.top, 3)

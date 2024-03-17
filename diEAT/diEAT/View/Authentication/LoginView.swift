@@ -33,34 +33,35 @@ struct LoginView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("diEAT")
+                    Text(String.app)
                         .font(.system(size: 30, weight: .heavy, design: .monospaced))
-                    Text("Sign in")
+                    Text(String.signIn)
                         .font(.system(size: 13, weight: .light, design: .monospaced))
                     
                     Spacer()
                     VStack {
                         CustomTextField(
-                            text: $email, placeholder:
-                                Text("EMAIL"), imageName: "envelope"
+                            text: $email,
+                            placeholder: Text(String.email),
+                            imageName: String.envelope
                         )
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
-                            .padding(20)
-                            .frame(height: 50)
-                            .border(Theme.defaultColor(scheme), width: 0.7)
-                            .padding([.leading, .trailing])
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
+                        .padding([.leading, .trailing])
                         
                         CustomSecureField(
                             password: $pw,
-                            placeholder: Text("PASSWORD")
+                            placeholder: Text(String.password)
                         )
-                            .padding(20)
-                            .frame(height: 50)
-                            .border(Theme.defaultColor(scheme), width: 0.7)
-                            .padding([.leading, .trailing])
-                            .padding([.top, .bottom], 10)
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Theme.defaultColor(scheme), width: 0.7)
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 10)
                         
-                        Button(action: {
+                        Button {
                             if email.count == 0 || pw.count == 0 {
                                 hasNoBlank.toggle()
                             } else {
@@ -71,8 +72,9 @@ struct LoginView: View {
                                     }
                                     isLoginInProgress = false
                                 }
-                            }}, label: {
-                            Text("LOGIN")
+                            }
+                        } label: {
+                            Text(String.login)
                                 .font(.system(size: 15, weight: .semibold, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .frame(
@@ -81,7 +83,7 @@ struct LoginView: View {
                                 )
                                 .background(Theme.btnColor(scheme))
                                 .cornerRadius(10)
-                        })
+                        }
                         
                         NavigationLink(
                             destination: RegistrationView()
@@ -89,29 +91,31 @@ struct LoginView: View {
                                 .navigationViewStyle(StackNavigationViewStyle())
                         ) {
                             HStack {
-                                Text("계정이 없다면")
+                                Text(String.ifHasNoAuth)
                                     .font(.system(size: 13))
                                     .foregroundColor(Theme.defaultColor(scheme))
                                 
-                                Text("회원가입")
+                                Text(String.registration)
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(Theme.textColor(scheme))
                             }
                             .padding(.vertical, 10)
                         }
                         
-                        Button(action: { resetPassword.toggle() }, label: {
+                        Button {
+                            resetPassword.toggle()
+                        } label: {
                             HStack {
-                                Text("비밀번호를 잊어버렸다면")
+                                Text(String.ifForgotPassword)
                                     .font(.system(size: 13))
                                     .foregroundColor(Theme.defaultColor(scheme))
                                 
-                                Text("비밀번호 재설정")
+                                Text(String.changePassword)
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(Theme.textColor(scheme))
                             }
                             .padding(.bottom, 16)
-                        })
+                        }
                     }
                     .padding(.bottom, 30)
                 }
@@ -129,7 +133,7 @@ struct LoginView: View {
             }
         }
         .popup(isPresented: $hasNoBlank) {
-            CustomPopUpView(alertText: "로그인 정보를 모두 입력하세요!", bgColor: .red)
+            CustomPopUpView(alertText: String.alertPutAllAuthInformation, bgColor: .red)
         } customize: { pop in
             pop
                 .type(.floater())
@@ -140,7 +144,7 @@ struct LoginView: View {
                 .isOpaque(true)
         }
         .popup(isPresented: $alertInvalidInput) {
-            CustomPopUpView(alertText: "아이디 또는 비밀번호를 확인하세요.", bgColor: .red)
+            CustomPopUpView(alertText: String.alertWrongInput, bgColor: .red)
         } customize: { pop in
             pop
                 .type(.floater())
@@ -151,55 +155,51 @@ struct LoginView: View {
                 .isOpaque(true)
         }
         .sheet(isPresented: $resetPassword) {
-            if #available(iOS 16.0, *) {
-                VStack {
-                    HStack {
-                        Text("비밀번호를 재설정할 이메일 입력")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundColor(Theme.textColor(scheme))
-                            .padding(20)
-                        Spacer()
-                    }
-                    CustomTextField(
-                        text: $resetTargetEmail,
-                        placeholder: Text("EMAIL"),
-                        imageName: "envelope"
-                    )
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+            VStack {
+                HStack {
+                    Text(String.inputEmailToResetPassword)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(Theme.textColor(scheme))
                         .padding(20)
-                        .frame(height: 50)
-                        .border(Theme.defaultColor(scheme), width: 0.7)
-                        .padding([.leading, .trailing])
-                    
-                    Button {
-                        viewModel.resetPassword(email: resetTargetEmail)
-                        resetEmailSended.toggle()
-                    } label: {
-                        Text("재설정 메일 전송")
-                            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .foregroundColor(Theme.textColor(scheme))
-                            .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
-                            .background(Theme.btnColor(scheme))
-                            .cornerRadius(10)
-                            .padding(.top)
-                    }
-                    .alert("전송 성공", isPresented: $resetEmailSended) {
-                        Button(
-                            "확인",
-                            role: .cancel
-                        ) {
-                            resetEmailSended.toggle()
-                            resetPassword = false
-                            resetTargetEmail = ""
-                        }
-                    } message: {
-                        Text("수신한 이메일을 통해 비밀번호를 재설정하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.")
-                    }
+                    Spacer()
                 }
-                .presentationDetents([.height(UIScreen.main.bounds.height / 3)])
-            } else {
-                // Fallback on earlier versions
+                CustomTextField(
+                    text: $resetTargetEmail,
+                    placeholder: Text(String.email),
+                    imageName: String.envelope
+                )
+                .font(.system(size: 15, weight: .medium, design: .monospaced))
+                .padding(20)
+                .frame(height: 50)
+                .border(Theme.defaultColor(scheme), width: 0.7)
+                .padding([.leading, .trailing])
+                
+                Button {
+                    viewModel.resetPassword(email: resetTargetEmail)
+                    resetEmailSended.toggle()
+                } label: {
+                    Text(String.sendResetEmail)
+                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                        .foregroundColor(Theme.textColor(scheme))
+                        .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                        .background(Theme.btnColor(scheme))
+                        .cornerRadius(10)
+                        .padding(.top)
+                }
+                .alert(String.successToSend, isPresented: $resetEmailSended) {
+                    Button(
+                        String.optionCheck,
+                        role: .cancel
+                    ) {
+                        resetEmailSended.toggle()
+                        resetPassword = false
+                        resetTargetEmail = ""
+                    }
+                } message: {
+                    Text(String.checkEmailBoxMessage)
+                }
             }
+            .presentationDetents([.height(UIScreen.main.bounds.height / 3)])
         }
         .ignoresSafeArea()
     }

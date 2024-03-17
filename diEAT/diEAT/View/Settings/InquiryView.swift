@@ -26,7 +26,7 @@ struct InquiryView: View {
                         Button {
                             dismiss()
                         } label: {
-                            Text("취소")
+                            Text(String.cancel)
                         }
                         .padding(10)
                         
@@ -36,17 +36,23 @@ struct InquiryView: View {
                             if title.count == 0 || contents.count == 0 {
                                 noBlank.toggle()
                             } else {
-                                viewModel.uploadInquiry(title: title, contents: contents) { _ in
+                                viewModel.uploadInquiry(
+                                    title: title,
+                                    contents: contents
+                                ) { _ in
                                     dismiss()
                                 }
                             }
                         } label: {
-                            Text("완료")
+                            Text(String.complete)
                         }
                         .padding(10)
-                        .alert("작성 실패", isPresented: $noBlank) {
+                        .alert(
+                            "작성 실패",
+                            isPresented: $noBlank
+                        ) {
                             Button(
-                                "확인",
+                                String.complete,
                                 role: .cancel
                             ) {
                                 noBlank = false

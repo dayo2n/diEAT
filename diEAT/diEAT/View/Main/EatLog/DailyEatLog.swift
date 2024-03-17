@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyEatLog: View {
-    @State var isEditPostMode: Bool = false
+    @State var isEditPostMode = false
     @Binding var selectedDate: Date
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: FetchPostViewModel
@@ -17,7 +17,7 @@ struct DailyEatLog: View {
         VStack(spacing: 5) {
             // Eat Log
             HStack {
-                Image(systemName: "quote.opening")
+                Image(systemName: .quoteOpening)
                     .font(.system(size: 12))
                     .foregroundColor(Theme.textColor(colorScheme))
                     .padding(.bottom, 3)
@@ -26,7 +26,7 @@ struct DailyEatLog: View {
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
                     .foregroundColor(Theme.textColor(colorScheme))
                 
-                Image(systemName: "quote.closing")
+                Image(systemName: .quoteClosing)
                     .font(.system(size: 12))
                     .foregroundColor(Theme.textColor(colorScheme))
                     .padding(.top, 3)
@@ -36,18 +36,10 @@ struct DailyEatLog: View {
                 Button {
                     self.isEditPostMode.toggle()
                 } label: {
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 35, height: 35)
-                            .cornerRadius(8)
-                            .foregroundColor(Theme.btnColor(colorScheme))
-                            .opacity(0.7)
-                        
-                        Image(systemName: "plus")
-                            .foregroundColor(Theme.textColor(colorScheme))
-                    }
-                    .frame(width: 44, height: 44)
+                    Image(systemName: .plus)
+                        .padding(2)
                 }
+                .buttonStyle(BorderedButtonStyle())
                 .fullScreenCover(isPresented: $isEditPostMode) {
                     viewModel.fetchPostByDate(selectedDate: selectedDate)
                 } content: {

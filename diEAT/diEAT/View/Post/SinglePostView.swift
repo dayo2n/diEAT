@@ -53,15 +53,16 @@ struct SinglePostView: View {
                         .padding(5)
                         .background(Color.black.opacity(0.2))
                     
-                    HStack {
-                        Text("\(post.icon == nil ? "" : "#")")
-                        Image("\(post.icon ?? "")")
-                            .resizable()
-                            .frame(width: 20, height: 20)
+                    if let icon = post.icon {
+                        HStack {
+                            Text("#")
+                            Image(icon)
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                        }
+                        .padding(5)
+                        .background(Color.black.opacity(0.2))
                     }
-                    .padding(5)
-                    .background(Color.black.opacity(post.icon == nil ? 0.0 : 0.2))
-                    
                     Spacer()
                 }
                 .padding([.leading, .bottom])

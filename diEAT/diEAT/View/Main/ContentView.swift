@@ -30,9 +30,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 isInLoading.toggle()
-            })
+            }
         }
     }
     var launchScreenView: some View {

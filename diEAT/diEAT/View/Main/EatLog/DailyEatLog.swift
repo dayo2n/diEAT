@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyEatLog: View {
-    @State var isEditPostMode: Bool = false
+    @State var isEditPostMode = false
     @Binding var selectedDate: Date
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: FetchPostViewModel
@@ -36,18 +36,10 @@ struct DailyEatLog: View {
                 Button {
                     self.isEditPostMode.toggle()
                 } label: {
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 35, height: 35)
-                            .cornerRadius(8)
-                            .foregroundColor(Theme.btnColor(colorScheme))
-                            .opacity(0.7)
-                        
-                        Image(systemName: "plus")
-                            .foregroundColor(Theme.textColor(colorScheme))
-                    }
-                    .frame(width: 44, height: 44)
+                    Image(systemName: "plus")
+                        .padding(2)
                 }
+                .buttonStyle(BorderedButtonStyle())
                 .fullScreenCover(isPresented: $isEditPostMode) {
                     viewModel.fetchPostByDate(selectedDate: selectedDate)
                 } content: {

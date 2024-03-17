@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,8 @@
 		AD21F7D62B9F588A0097DCEB /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AD21F7D52B9F588A0097DCEB /* FirebaseStorageCombine-Community */; };
 		AD4897A729B9CF04004E2B2F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AD4897A629B9CF04004E2B2F /* Kingfisher */; };
 		AD4897AA29B9CF22004E2B2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = AD4897A929B9CF22004E2B2F /* PopupView */; };
+		AD7637562BA62372007552E1 /* CustomSidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */; };
+		AD7637582BA6B0E3007552E1 /* RecordLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */; };
 		ADBA9F922BA02F1900E69548 /* MonthlyEatLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */; };
 		ADBA9F942BA030F000E69548 /* CustomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F932BA030F000E69548 /* CustomListView.swift */; };
 		ADF9CE582BA019B60019956E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF9CE572BA019B60019956E /* SettingsView.swift */; };
@@ -51,7 +53,6 @@
 		BF01253528FD415E0081FBAC /* SinglePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF01253428FD415E0081FBAC /* SinglePostView.swift */; };
 		BF78BBA82928139E00049314 /* SidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBA72928139E00049314 /* SidebarMenu.swift */; };
 		BF78BBAA2928F6C300049314 /* CustomIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBA92928F6C300049314 /* CustomIcon.swift */; };
-		BF78BBAE292BBA0900049314 /* CustomSidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBAD292BBA0900049314 /* CustomSidebarMenu.swift */; };
 		BF78BBB1292D226300049314 /* CustomPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBB0292D226300049314 /* CustomPopUpView.swift */; };
 		BF78BBC8292E2AFA00049314 /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBC7292E2AFA00049314 /* InquiryViewModel.swift */; };
 		BF78BBCA292E2BBB00049314 /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF78BBC9292E2BBB00049314 /* InquiryView.swift */; };
@@ -75,6 +76,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSidebarMenu.swift; sourceTree = "<group>"; };
+		AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLabelView.swift; sourceTree = "<group>"; };
 		ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEatLog.swift; sourceTree = "<group>"; };
 		ADBA9F932BA030F000E69548 /* CustomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListView.swift; sourceTree = "<group>"; };
 		ADF9CE572BA019B60019956E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -90,7 +93,6 @@
 		BF01253428FD415E0081FBAC /* SinglePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostView.swift; sourceTree = "<group>"; };
 		BF78BBA72928139E00049314 /* SidebarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenu.swift; sourceTree = "<group>"; };
 		BF78BBA92928F6C300049314 /* CustomIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIcon.swift; sourceTree = "<group>"; };
-		BF78BBAD292BBA0900049314 /* CustomSidebarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSidebarMenu.swift; sourceTree = "<group>"; };
 		BF78BBB0292D226300049314 /* CustomPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpView.swift; sourceTree = "<group>"; };
 		BF78BBC7292E2AFA00049314 /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		BF78BBC9292E2BBB00049314 /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD7637542BA622D8007552E1 /* EatLog */ = {
+			isa = PBXGroup;
+			children = (
+				BF01252128F6CEBF0081FBAC /* CustomGridView.swift */,
+				ADBA9F932BA030F000E69548 /* CustomListView.swift */,
+				BF01252D28F949EE0081FBAC /* DailyEatLog.swift */,
+				ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */,
+				AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */,
+			);
+			path = EatLog;
+			sourceTree = "<group>";
+		};
 		BF01252528F6E7E10081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,10 +181,8 @@
 		BF01252828F825EC0081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				BF01252128F6CEBF0081FBAC /* CustomGridView.swift */,
 				BF01252928F825FE0081FBAC /* EditPostView.swift */,
 				BF01253428FD415E0081FBAC /* SinglePostView.swift */,
-				ADBA9F932BA030F000E69548 /* CustomListView.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -217,7 +229,6 @@
 				BF944B7D28EB256E0036B41F /* ViewModel */,
 				BF944B7C28EB256A0036B41F /* API */,
 				BF944B7B28EB25610036B41F /* Utils */,
-				BF944B5828EB21AB0036B41F /* diEATApp.swift */,
 				BF7ED9F528EDC12C00800DCA /* Assets.xcassets */,
 				BF944B5E28EB21AD0036B41F /* Preview Content */,
 			);
@@ -288,14 +299,14 @@
 		BF944B8228EB26960036B41F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				BF944B5828EB21AB0036B41F /* diEATApp.swift */,
 				BF944B5A28EB21AB0036B41F /* ContentView.swift */,
-				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
-				BF78BBAD292BBA0900049314 /* CustomSidebarMenu.swift */,
 				BF944BB328ED9D780036B41F /* MainView.swift */,
-				BF01252D28F949EE0081FBAC /* DailyEatLog.swift */,
-				ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */,
+				AD7637542BA622D8007552E1 /* EatLog */,
+				BF7ED9FE28F0166500800DCA /* CustomDatePicker.swift */,
 				BF78BBC9292E2BBB00049314 /* InquiryView.swift */,
 				ADF9CE572BA019B60019956E /* SettingsView.swift */,
+				AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -394,7 +405,7 @@
 				};
 			};
 			buildConfigurationList = BF944B5028EB21AB0036B41F /* Build configuration list for PBXProject "diEAT" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -459,13 +470,14 @@
 				BF01252E28F949EE0081FBAC /* DailyEatLog.swift in Sources */,
 				BF78BBAA2928F6C300049314 /* CustomIcon.swift in Sources */,
 				BF944B8128EB25BB0036B41F /* ImageUploader.swift in Sources */,
+				AD7637562BA62372007552E1 /* CustomSidebarMenu.swift in Sources */,
 				BF01253528FD415E0081FBAC /* SinglePostView.swift in Sources */,
 				BF01252028F445F90081FBAC /* ImagePicker.swift in Sources */,
 				BF01252428F6D0130081FBAC /* Post.swift in Sources */,
 				BF7EDA0528F2E5E600800DCA /* Theme.swift in Sources */,
 				BF944BB228ED89CF0036B41F /* RegistrationView.swift in Sources */,
-				BF78BBAE292BBA0900049314 /* CustomSidebarMenu.swift in Sources */,
 				ADF9CE582BA019B60019956E /* SettingsView.swift in Sources */,
+				AD7637582BA6B0E3007552E1 /* RecordLabelView.swift in Sources */,
 				BF01252728F6E7F10081FBAC /* EditPostViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,16 +606,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"diEAT/Preview Content\"";
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7D5PZJWQ9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = diEAT/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -617,8 +628,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = diEAT;
-				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore cnu.cse.dayo2n.diEAT-SwiftUI";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -633,16 +643,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dayeon Moon (7D5PZJWQ9T)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"diEAT/Preview Content\"";
 				DEVELOPMENT_TEAM = 7D5PZJWQ9T;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7D5PZJWQ9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = diEAT/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -656,8 +665,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cnu.cse.dayo2n.diEAT-SwiftUI";
 				PRODUCT_NAME = diEAT;
-				PROVISIONING_PROFILE_SPECIFIER = "distribution diEAT";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AppStore cnu.cse.dayo2n.diEAT-SwiftUI";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

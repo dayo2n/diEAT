@@ -110,15 +110,15 @@ struct CustomDatePicker: View {
                                 if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
                                     Circle()
                                         .frame(height: 35)
-                                        .foregroundStyle(.yellow)
+                                        .foregroundStyle(Color.accentColor)
                                 } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
                                     Circle()
                                         .frame(height: 35)
                                         .foregroundColor(.gray)
                                 } else if viewModel.postedDates.contains(valueDate) {
                                     Circle()
-                                        .frame(height: 3)
-                                        .foregroundStyle(.yellow)
+                                        .frame(height: 5)
+                                        .foregroundStyle(Color.accentColor)
                                         .offset(y: 15)
                                 }
                             }

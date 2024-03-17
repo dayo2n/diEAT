@@ -17,7 +17,7 @@ struct DailyEatLog: View {
         VStack(spacing: 5) {
             // Eat Log
             HStack {
-                Image(systemName: "quote.opening")
+                Image(systemName: .quoteOpening)
                     .font(.system(size: 12))
                     .foregroundColor(Theme.textColor(colorScheme))
                     .padding(.bottom, 3)
@@ -26,7 +26,7 @@ struct DailyEatLog: View {
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
                     .foregroundColor(Theme.textColor(colorScheme))
                 
-                Image(systemName: "quote.closing")
+                Image(systemName: .quoteClosing)
                     .font(.system(size: 12))
                     .foregroundColor(Theme.textColor(colorScheme))
                     .padding(.top, 3)
@@ -36,7 +36,7 @@ struct DailyEatLog: View {
                 Button {
                     self.isEditPostMode.toggle()
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: .plus)
                         .padding(2)
                 }
                 .buttonStyle(BorderedButtonStyle())

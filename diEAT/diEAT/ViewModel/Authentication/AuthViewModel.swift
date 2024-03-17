@@ -30,8 +30,8 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func register(username: String, email: String, pw: String, _ completion: @escaping(Int) -> Void?) {
-        Auth.auth().createUser(withEmail: email, password: pw) { result, error in
+    func register(username: String, email: String, password: String, _ completion: @escaping(Int) -> Void?) {
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("=== DEBUG: \(error.localizedDescription), \(error._code)")
                 completion(error._code)
@@ -39,9 +39,11 @@ class AuthViewModel: ObservableObject {
             
             guard let user = result?.user else { return }
             
-            let data = ["email": email,
-                        "username": username,
-                        "uid": user.uid]
+            let data = [
+                "email": email,
+                "username": username,
+                "uid": user.uid
+            ]
             
             Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
                 completion(0)
@@ -67,7 +69,7 @@ class AuthViewModel: ObservableObject {
         self.userSession = nil
         try? Auth.auth().signOut()
     }
-
+    
     func resetPassword(email: String) {
         Auth.auth().sendPasswordReset(withEmail: email) { _ in
             

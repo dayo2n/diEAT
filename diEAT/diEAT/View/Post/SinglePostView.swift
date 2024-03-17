@@ -55,7 +55,7 @@ struct SinglePostView: View {
                     
                     if let icon = post.icon {
                         HStack {
-                            Text("#")
+                            Text(String.hashtag)
                             Image(icon)
                                 .resizable()
                                 .frame(width: 20, height: 20)
@@ -68,7 +68,7 @@ struct SinglePostView: View {
                 .padding([.leading, .bottom])
                 
                 HStack {
-                    Image(systemName: "highlighter")
+                    Image(systemName: String.highlighter)
                         .font(.system(size: 20))
                         .foregroundColor(Theme.textColor(scheme))
                         .padding(.leading)
@@ -89,32 +89,36 @@ struct SinglePostView: View {
                     Button { isEditPostMode.toggle()
                     } label: {
                         HStack {
-                            Image(systemName: "pencil.tip")
+                            Image(systemName: String.pencilTip)
                                 .foregroundColor(Theme.textColor(scheme))
                         }
                     }
                     .padding(.trailing, 15)
-                    Button { self.showDeleteAlert.toggle()
+                    Button { 
+                        self.showDeleteAlert.toggle()
                     } label: {
-                        Image(systemName: "trash")
+                        Image(systemName: String.trash)
                             .foregroundColor(.red)
                     }
-                    .alert("기록 삭제", isPresented: $showDeleteAlert) {
+                    .alert(
+                        String.deleteRecord,
+                        isPresented: $showDeleteAlert
+                    ) {
                         Button(
-                            "취소",
+                            String.optionCancel,
                             role: .cancel
                         ) {
                             self.showDeleteAlert.toggle()
                         }
                         Button(
-                            "삭제",
+                            String.optionDelete,
                             role: .destructive
                         ) {
                             viewModel.deletePost(id: post.id!)
                             dismiss()
                         }
                     } message: {
-                        Text("기록을 삭제하면 되돌릴 수 없습니다.")
+                        Text(String.deleteMessage)
                     }
                 }
             }

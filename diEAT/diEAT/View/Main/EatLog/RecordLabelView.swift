@@ -23,7 +23,7 @@ struct RecordLabelView: View {
                         .padding([.leading, .top], 5)
                     if let icon = post.icon {
                         HStack {
-                            Text("#")
+                            Text(String.hashtag)
                                 .font(.system(size: 12, weight: .regular, design: .monospaced))
                                 .foregroundColor(Theme.textColor(colorScheme))
                             Image(icon)

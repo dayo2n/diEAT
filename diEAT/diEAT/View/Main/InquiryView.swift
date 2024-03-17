@@ -26,7 +26,7 @@ struct InquiryView: View {
                         Button {
                             dismiss()
                         } label: {
-                            Text("취소")
+                            Text(String.cancel)
                         }
                         .padding(10)
                         
@@ -44,7 +44,7 @@ struct InquiryView: View {
                                 }
                             }
                         } label: {
-                            Text("완료")
+                            Text(String.complete)
                         }
                         .padding(10)
                         .alert(
@@ -52,7 +52,7 @@ struct InquiryView: View {
                             isPresented: $noBlank
                         ) {
                             Button(
-                                "확인",
+                                String.complete,
                                 role: .cancel
                             ) {
                                 noBlank = false

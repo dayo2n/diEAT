@@ -57,7 +57,7 @@ struct CustomDatePicker: View {
                 Button {
                     currentMonth -= 1
                 } label: {
-                    Image(systemName: "chevron.left")
+                    Image(systemName: String.chevronLeft)
                         .font(.headline)
                 }
                 .buttonStyle(BorderedButtonStyle())
@@ -66,7 +66,7 @@ struct CustomDatePicker: View {
                     selectedDate = today
                     currentMonth = 0
                 } label: {
-                    Text("TODAY")
+                    Text(String.today)
                         .font(.system(size: 13, weight: .semibold, design: .monospaced))
                 }
                 .buttonStyle(BorderedButtonStyle())
@@ -74,7 +74,7 @@ struct CustomDatePicker: View {
                 Button {
                     currentMonth += 1
                 } label: {
-                    Image(systemName: "chevron.right")
+                    Image(systemName: String.chevronRight)
                         .font(.headline)
                 }
                 .buttonStyle(BorderedButtonStyle())

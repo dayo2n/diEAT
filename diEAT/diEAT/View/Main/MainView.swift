@@ -19,7 +19,7 @@ struct MainView: View {
     let user: User
     @State var currentDate = Date()
     @State var selectedDate = Date()
-    @Environment(\.colorScheme) var scheme
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel = FetchPostViewModel()
     
     // show flag
@@ -40,7 +40,7 @@ struct MainView: View {
                         viewType: $viewType,
                         viewModel: viewModel
                     )
-                    .foregroundColor(Theme.textColor(scheme))
+                    .foregroundColor(Theme.textColor(colorScheme))
                     .padding([.leading, .trailing], 10)
                     .onChange(of: selectedDate) { value in
                         selectedDate = value
@@ -62,7 +62,7 @@ struct MainView: View {
                 }
             }
             .edgesIgnoringSafeArea([.bottom, .trailing, .leading])
-            .background(Theme.bgColor(scheme))
+            .background(Theme.bgColor(colorScheme))
             .onAppear {
                 viewModel.fetchPostedDates()
                 if !freezePop {
@@ -82,7 +82,7 @@ struct MainView: View {
                     .autohideIn(3)
             }
             .popup(isPresented: $popErrorOccured) {
-                CustomPopUpView(alertText: "오류가 발생했습니다", bgColor: .red)
+                CustomPopUpView(alertText: String.alertErrorOccured, bgColor: .red)
             } customize: { pop in
                 pop
                     .type(.floater())
@@ -97,7 +97,7 @@ struct MainView: View {
                         Button {
                             viewType = viewType == .day ? .month : .day
                         } label: {
-                            Image(systemName: viewType == .day ? "list.bullet" : "square.grid.2x2")
+                            Image(systemName: viewType == .day ? String.listBullet : String.squareGrid2x2)
                         }
                         Spacer()
                         if viewType == .day, !viewModel.postsByDay.isEmpty {
@@ -108,7 +108,7 @@ struct MainView: View {
                                     popErrorOccured = true
                                 }
                             } label: {
-                                Image(systemName: "square.and.arrow.up")
+                                Image(systemName: String.squareAndArrowUp)
                             }
                             Spacer()
                         }

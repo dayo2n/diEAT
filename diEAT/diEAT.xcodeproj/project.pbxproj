@@ -38,6 +38,7 @@
 		AD4897AA29B9CF22004E2B2F /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = AD4897A929B9CF22004E2B2F /* PopupView */; };
 		AD7637562BA62372007552E1 /* CustomSidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */; };
 		AD7637582BA6B0E3007552E1 /* RecordLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */; };
+		AD76375B2BA6B679007552E1 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76375A2BA6B679007552E1 /* String+.swift */; };
 		ADBA9F922BA02F1900E69548 /* MonthlyEatLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */; };
 		ADBA9F942BA030F000E69548 /* CustomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F932BA030F000E69548 /* CustomListView.swift */; };
 		ADF9CE582BA019B60019956E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF9CE572BA019B60019956E /* SettingsView.swift */; };
@@ -78,6 +79,7 @@
 /* Begin PBXFileReference section */
 		AD7637552BA62372007552E1 /* CustomSidebarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSidebarMenu.swift; sourceTree = "<group>"; };
 		AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLabelView.swift; sourceTree = "<group>"; };
+		AD76375A2BA6B679007552E1 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEatLog.swift; sourceTree = "<group>"; };
 		ADBA9F932BA030F000E69548 /* CustomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListView.swift; sourceTree = "<group>"; };
 		ADF9CE572BA019B60019956E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -169,6 +171,14 @@
 			path = EatLog;
 			sourceTree = "<group>";
 		};
+		AD7637592BA6B670007552E1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AD76375A2BA6B679007552E1 /* String+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BF01252528F6E7E10081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +233,7 @@
 		BF944B5728EB21AB0036B41F /* diEAT */ = {
 			isa = PBXGroup;
 			children = (
+				AD7637592BA6B670007552E1 /* Extensions */,
 				BF944BB028ED7BF60036B41F /* Info.plist */,
 				BF944B7F28EB25790036B41F /* Model */,
 				BF944B7E28EB25740036B41F /* View */,
@@ -454,6 +465,7 @@
 				BF944B5B28EB21AB0036B41F /* ContentView.swift in Sources */,
 				BF944B5928EB21AB0036B41F /* diEATApp.swift in Sources */,
 				BF944B8E28ED6DD00036B41F /* CustomTextField.swift in Sources */,
+				AD76375B2BA6B679007552E1 /* String+.swift in Sources */,
 				BF01252C28F940620081FBAC /* FetchPostViewModel.swift in Sources */,
 				BF01252228F6CEBF0081FBAC /* CustomGridView.swift in Sources */,
 				BF944B8728EB28520036B41F /* User.swift in Sources */,

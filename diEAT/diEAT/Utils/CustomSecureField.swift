@@ -24,7 +24,7 @@ struct CustomSecureField: View {
             HStack {
                 Spacer()
                 
-                Image(systemName: "lock")
+                Image(systemName: String.lock)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)

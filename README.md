@@ -1,7 +1,8 @@
 # diEAT 다이트
-![Static Badge](https://img.shields.io/badge/version-1.1.1-orange)
+![Static Badge](https://img.shields.io/badge/version-1.2.0-orange)  ![Static Badge](https://img.shields.io/badge/iOS-16.0%2B-yellow)
 
-<img src="https://github.com/dayo2n/diEAT/assets/57654681/93f848ec-6ac4-4d92-b15a-245b0720ebbd" width=700>
+
+<img src="https://github.com/dayo2n/diEAT/assets/57654681/b7de6a80-7d76-47ad-8b59-85fad8ce6864" width=700>
 
 
 ## Tech

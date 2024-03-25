@@ -86,7 +86,7 @@ struct RegistrationView: View {
                                         badFormatEmail.toggle()
                                     case .invalidFormatPassword:
                                         badFormatPassword.toggle()
-                                    default: // code == 0
+                                    default:
                                         dismiss()
                                     }
                                     isRegisterInProgress = false

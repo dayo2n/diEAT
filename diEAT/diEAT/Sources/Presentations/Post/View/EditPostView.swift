@@ -277,6 +277,7 @@ struct EditPostView: View {
                 }
                 .popup(isPresented: $popNoImageWarning) {
                     CustomPopUpView(alertText: .alertFailedToUpload, bgColor: .red)
+                        .padding(.top, 40)
                 } customize: { pop in
                     pop
                         .type(.floater())
@@ -288,6 +289,11 @@ struct EditPostView: View {
                 .onAppear() {
                     getExistedLog()
                     if isEditMode { selectedIcon = post?.icon }
+                }
+                .onChange(of: popNoImageWarning) { status in
+                    if status {
+                        didPressedUploadButton = false
+                    }
                 }
             }
             .ignoresSafeArea()

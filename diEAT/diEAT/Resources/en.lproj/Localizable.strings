@@ -83,3 +83,9 @@
 "alertAlreadyRegistered" = "The email is already registered.";
 "alertInvaildEmail" = "The email format is not valid.";
 "alertPasswordCountBiggerThan6" = "Please enter a password of at least 6 characters.";
+
+/* enum MealTime */
+"Breakfast" = "Breakfast";
+"Lunch" = "Lunch";
+"Dinner" = "Dinner";
+"etc" = "etc";

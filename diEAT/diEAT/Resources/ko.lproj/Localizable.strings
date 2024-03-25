@@ -84,3 +84,9 @@
 "alertAlreadyRegistered" = "이미 가입되어 있는 이메일입니다.";
 "alertInvaildEmail" = "이메일 형식이 올바르지 않습니다.";
 "alertPasswordCountBiggerThan6" = "비밀번호를 6자리 이상 입력하세요.";
+
+/* enum MealTime */
+"Breakfast" = "아침";
+"Lunch" = "점심";
+"Dinner" = "저녁";
+"etc" = "기타";

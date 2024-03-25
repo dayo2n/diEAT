@@ -1,0 +1,91 @@
+/*
+  Localizable.strings
+  diEAT
+
+  Created by 제나 on 3/25/24.
+  
+*/
+
+/* App */
+"app" = "diEAT";
+
+/* Strings */
+"hashtag" = "#";
+"today" = "TODAY";
+
+/* Login View */
+"login" = "LOGIN";
+"signIn" = "SIGN IN";
+"email" = "EMAIL";
+"password" = "PASSWORD";
+"ifHasNoAuth" = "If you don't have an account,";
+"registration" = "please sign up";
+"ifForgotPassword" = "If you forgot your password,";
+"inputEmailToResetPassword" = "Enter the email to reset your password";
+"sendResetEmail" = "Send reset email";
+
+/// alert
+"optionCheck" = "OK";
+"successToSend" = "Transmission successful";
+"checkEmailBoxMessage" = "Please reset your password through the email you received. If you haven't received the email, please check your spam folder.";
+
+// Registration View
+"signUp" = "SIGN UP";
+"username" = "USERNAME";
+"ifAlreadyHaveAccount" = "Already have an account?";
+
+// Main View
+"welcomeMessage" = ", Welcome =)";
+"sunday" = "Sun";
+"monday" = "Mon";
+"tuesday" = "Tue";
+"wednesday" = "Wed";
+"thursday" = "Thu";
+"friday" = "Fri";
+"saturday" = "Sat";
+
+// Edit Profile View
+"editText" = "Edit";
+"complete" = "Done";
+"changePassword" = "Reset password";
+
+/// alert
+"withdrawal" = "Withdraw membership";
+"optionWithdrawal" = "Withdrawl";
+"withdrawalCautionMessage" = "After withdrawal, data cannot be restored.";
+
+// Edit Post View
+/// buttons
+"add" = "Add";
+"edit" = "Edit";
+"cancel" = "Cancel";
+"selectImage" = "Select image";
+
+/// Text
+"mealHeader" = "# Meal";
+"recordHeader" = "# Note";
+"stickerHeader" = "# Sticker";
+"captionPlaceholder" = "A space for leaving feedback on your own.";
+
+// Single Post View
+/// alert
+"deleteRecord" = "Delete record";
+"optionCancel" = "Cancel";
+"optionDelete" = "Delete";
+"deleteMessage" = "Once deleted, records cannot be recovered.";
+
+/* popup */
+"alertPutAllAuthInformation" = "Please enter all login information!";
+"alertWrongInput" = "Please check your email or password.";
+"alertFailedToUpload" = "Upload failed!\nPlease attach the meal image =(";
+"alertErrorOccurred" = "An error occurred.";
+"alertFillAllBlank" = "Please fill in all the fields!";
+"alertAlreadyRegistered" = "The email is already registered.";
+"alertInvaildEmail" = "The email format is not valid.";
+"alertPasswordCountBiggerThan6" = "Please enter a password of at least 6 characters.";
+
+/* enum MealTime */
+"Breakfast" = "Breakfast";
+"Lunch" = "Lunch";
+"Dinner" = "Dinner";
+"etc" = "etc";

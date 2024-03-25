@@ -9,11 +9,6 @@ import SwiftUI
 import Kingfisher
 import PopupView
 
-enum MealTime: String, CaseIterable, Identifiable {
-    case Breakfast, Lunch, Dinner, etc
-    var id: Self { self } // Identifiable 프로토콜을 받으면 ForEach문을 사용 가능
-}
-
 struct EditPostView: View {
     
     enum Icon: String {
@@ -171,7 +166,7 @@ struct EditPostView: View {
                         
                         Picker("MealTime", selection: $mealTime) {
                             ForEach(MealTime.allCases) { time in
-                                Text(time.rawValue.capitalized)
+                                Text(time.toString.capitalized)
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Theme.textColor(scheme))
                             }
@@ -277,6 +272,7 @@ struct EditPostView: View {
                 }
                 .popup(isPresented: $popNoImageWarning) {
                     CustomPopUpView(alertText: .alertFailedToUpload, bgColor: .red)
+                        .padding(.top, 40)
                 } customize: { pop in
                     pop
                         .type(.floater())
@@ -288,6 +284,11 @@ struct EditPostView: View {
                 .onAppear() {
                     getExistedLog()
                     if isEditMode { selectedIcon = post?.icon }
+                }
+                .onChange(of: popNoImageWarning) { status in
+                    if status {
+                        didPressedUploadButton = false
+                    }
                 }
             }
             .ignoresSafeArea()

@@ -48,13 +48,14 @@ struct CustomListView: View {
                                 .cornerRadius(8)
                             VStack {
                                 HStack {
-                                    Text("# \(post.mealtime)")
-                                        .font(.system(size: 12, weight: .regular, design: .monospaced))
-                                        .foregroundStyle(Theme.textColor(colorScheme))
-                                        .frame(height: 20)
-                                        .padding(2)
-                                        .background(Theme.bgColor(colorScheme).opacity(0.7))
-                                        .padding([.leading, .top], 5)
+                                    if let mealtime = MealTime(rawValue: post.mealtime) {
+                                        Text("# \(mealtime.toString)")
+                                            .font(.system(size: 12, weight: .regular, design: .monospaced))
+                                            .foregroundStyle(Theme.textColor(colorScheme))
+                                            .frame(height: 20)
+                                            .padding(2)
+                                            .background(Theme.bgColor(colorScheme).opacity(0.7))
+                                    }
                                     if let icon = post.icon {
                                         HStack {
                                             Text("#")
@@ -66,10 +67,10 @@ struct CustomListView: View {
                                         }
                                         .padding(2)
                                         .background(Theme.bgColor(colorScheme).opacity(post.icon == nil ? 0.0 : 0.7))
-                                        .padding(.top, 5)
                                     }
                                     Spacer()
                                 }
+                                .padding([.leading, .top], 5)
                                 HStack {
                                     Text(post.caption)
                                         .font(.system(size: 12, weight: .regular, design: .monospaced))

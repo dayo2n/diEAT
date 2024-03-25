@@ -14,13 +14,14 @@ struct RecordLabelView: View {
         HStack {
             VStack{
                 HStack {
-                    Text("# \(post.mealtime)")
-                        .font(.system(size: 12, weight: .regular, design: .monospaced))
-                        .foregroundColor(Theme.textColor(colorScheme))
-                        .frame(height: 20)
-                        .padding(5)
-                        .background(Theme.bgColor(colorScheme).opacity(0.7))
-                        .padding([.leading, .top], 5)
+                    if let mealtime = MealTime(rawValue: post.mealtime) {
+                        Text("# \(mealtime.toString)")
+                            .font(.system(size: 12, weight: .regular, design: .monospaced))
+                            .foregroundColor(Theme.textColor(colorScheme))
+                            .frame(height: 20)
+                            .padding(5)
+                            .background(Theme.bgColor(colorScheme).opacity(0.7))
+                    }
                     if let icon = post.icon {
                         HStack {
                             Text(String.hashtag)
@@ -32,9 +33,9 @@ struct RecordLabelView: View {
                         }
                         .padding(5)
                         .background(Theme.bgColor(colorScheme).opacity(0.7))
-                        .padding(.top, 5)
                     }
                 }
+                .padding([.leading, .top], 5)
                 Spacer()
             }
             Spacer()

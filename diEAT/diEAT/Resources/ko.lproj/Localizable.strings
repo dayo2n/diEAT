@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  diEAT
+
+  Created by 제나 on 3/25/24.
+  
+*/
+
+/* App */
+"app" = "다이트 diEAT";
+
+/* Strings */
+"hashtag" = "#";
+"today" = "오늘";
+
+/* Login View */
+"login" = "로그인";
+"signIn" = "로그인";
+"email" = "이메일";
+"password" = "비밀번호";
+"ifHasNoAuth" = "계정이 없다면";
+"registration" = "회원가입";
+"ifForgotPassword" = "비밀번호를 잊어버렸다면";
+"inputEmailToResetPassword" = "비밀번호를 재설정할 이메일 입력";
+"sendResetEmail" = "재설정 메일 전송";
+
+/// alert
+"optionCheck" = "확인";
+"successToSend" = "전송 성공";
+"checkEmailBoxMessage" = "수신한 이메일을 통해 비밀번호를 재설정하세요. 이메일이 도착하지 않으면 스팸메일함을 확인하세요.";
+
+// Registration View
+"signUp" = "회원가입";
+"username" = "별명";
+"ifAlreadyHaveAccount" = "이미 계정이 있으신가요?";
+
+// Main View
+"welcomeMessage" = "님 반갑습니다  =)";
+"sunday" = "일";
+"monday" = "월";
+"tuesday" = "화";
+"wednesday" = "수";
+"thursday" = "목";
+"friday" = "금";
+"saturday" = "토";
+
+
+// Edit Profile View
+"editText" = "편집";
+"complete" = "완료";
+"changePassword" = "비밀번호 재설정";
+
+/// alert
+"withdrawal" = "회원 탈퇴";
+"optionWithdrawal" = "탈퇴";
+"withdrawalCautionMessage" = "탈퇴 후 데이터를 복원할 수 없습니다.";
+
+// Edit Post View
+/// buttons
+"add" = "추가";
+"edit" = "편집";
+"cancel" = "취소";
+"selectImage" = "이미지 선택";
+
+/// Text
+"mealHeader" = "# 식사";
+"recordHeader" = "# 기록";
+"stickerHeader" = "# 스티커";
+"captionPlaceholder" = "스스로 피드백을 남기는 공간";
+
+// Single Post View
+/// alert
+"deleteRecord" = "기록 삭제";
+"optionCancel" = "취소";
+"optionDelete" = "삭제";
+"deleteMessage" = "기록을 삭제하면 되돌릴 수 없습니다.";
+
+/* popup */
+"alertPutAllAuthInformation" = "로그인 정보를 모두 입력하세요!";
+"alertWrongInput" = "아이디 또는 비밀번호를 확인하세요.";
+"alertFailedToUpload" = "업로드 실패!\n식단 이미지를 첨부해 주세요 =(";
+"alertErrorOccurred" = "오류가 발생했습니다";
+"alertFillAllBlank" = "항목을 모두 작성하세요!";
+"alertAlreadyRegistered" = "이미 가입되어 있는 이메일입니다.";
+"alertInvaildEmail" = "이메일 형식이 올바르지 않습니다.";
+"alertPasswordCountBiggerThan6" = "비밀번호를 6자리 이상 입력하세요.";
+
+/* enum MealTime */
+"Breakfast" = "아침";
+"Lunch" = "점심";
+"Dinner" = "저녁";
+"etc" = "기타";

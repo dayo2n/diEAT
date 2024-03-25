@@ -72,7 +72,10 @@ struct MainView: View {
             }
             // login 인사
             .popup(isPresented: $popLoginToast) {
-                CustomPopUpView(alertText: "\(user.username)님 반갑습니다 :)", bgColor: .blue)
+                CustomPopUpView(
+                    alertText: "\(user.username)\(String.welcomeMessage)",
+                    bgColor: .blue
+                )
             } customize: { pop in
                 pop
                     .type(.floater())
@@ -82,7 +85,10 @@ struct MainView: View {
                     .autohideIn(3)
             }
             .popup(isPresented: $popErrorOccured) {
-                CustomPopUpView(alertText: String.alertErrorOccured, bgColor: .red)
+                CustomPopUpView(
+                    alertText: String.alertErrorOccurred,
+                    bgColor: .red
+                )
             } customize: { pop in
                 pop
                     .type(.floater())

@@ -21,23 +21,7 @@ struct CustomDatePicker: View {
     @ObservedObject var viewModel: FetchPostViewModel
     
     // Days
-    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    // Months
-    let months = [
-        "January": "01", 
-        "February": "02",
-        "March": "03",
-        "April": "04", 
-        "May": "05",
-        "June": "06",
-        "July": "07", 
-        "August": "08",
-        "September": "09",
-        "October": "10", 
-        "November": "11",
-        "December": "12"
-    ]
-    
+ 
     var body: some View {
         VStack(spacing: 5) {
             HStack(spacing: 2) {
@@ -85,8 +69,8 @@ struct CustomDatePicker: View {
             if viewType == .day {
                 // Day View
                 HStack() {
-                    ForEach(0..<days.count, id: \.self) { index in
-                        Text(days[index])
+                    ForEach(0..<String.days.count, id: \.self) { index in
+                        Text(String.days[index])
                             .font(.system(size: 15, weight: .semibold, design: .monospaced))
                             .frame(maxWidth: .infinity) // 자동 간격 최대
                             .foregroundColor(index % 7 == 6 ? Theme.saturdayTextColor : (index % 7 == 0 ? Theme.sundayTextColor : Theme.textColor(scheme)))
@@ -155,7 +139,7 @@ struct CustomDatePicker: View {
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
         if value.day != -1 {
-            Text("\(value.day)")
+            Text(value.day.description)
                 .font(.system(size: 14, weight: .regular, design: .monospaced))
         }
     }

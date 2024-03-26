@@ -70,6 +70,10 @@ struct MainView: View {
                     freezePop = true
                 }
             }
+            .onChange(of: AuthViewModel.shared.currentUser?.id) { _ in
+                freezePop = false
+                viewModel.fetchPostedDates()
+            }
             // login 인사
             .popup(isPresented: $popLoginToast) {
                 CustomPopUpView(

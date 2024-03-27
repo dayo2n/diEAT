@@ -33,6 +33,7 @@ class FetchPostViewModel: ObservableObject {
                 .filter { $0.timestamp.dateValue().date2OnlyDate == selectedDate }
                 .sorted { $0.timestamp.dateValue() < $1.timestamp.dateValue() }
             print("=== DEBUG: fetch posts on \(selectedDate)")
+            print(self.postsByDay)
         }
     }
     

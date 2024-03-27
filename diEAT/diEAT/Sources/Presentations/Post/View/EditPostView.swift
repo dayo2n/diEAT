@@ -37,7 +37,7 @@ struct EditPostView: View {
     @State private var popNoSelectedIconWarning = false
     
     @Environment(\.colorScheme) var scheme
-    @Environment(\.presentationMode) var mode
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel = EditPostViewModel()
     @FocusState private var focused: Bool
     
@@ -46,7 +46,6 @@ struct EditPostView: View {
             ScrollView {
                 ZStack {
                     VStack {
-                        // toolbar
                         HStack {
                             // cancel
                             Button {
@@ -64,39 +63,33 @@ struct EditPostView: View {
                             // add || edit
                             Button {
                                 didPressedUploadButton = true
-                                
-                                if isEditMode {
+                                if let selectedImage = selectedImage {
                                     isUploadPostInProgress = true
-                                    viewModel.updatePost(
-                                        id: "\(post!.id ?? "")",
-                                        selectedDate: post?.timestamp.dateValue() ?? selectedDate,
-                                        image: selectedImage!,
-                                        caption: caption,
-                                        mealtime: mealTime.rawValue,
-                                        icon: selectedIcon
-                                    ) { _ in
-                                        print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                        isUploadPostInProgress = false
-                                        mode.wrappedValue.dismiss()
-                                    }
-                                } else {
-                                    if selectedImage == nil {
-                                        popNoImageWarning.toggle()
-                                        print("=== DEBUG: no selected image")
-                                    } else {
-                                        isUploadPostInProgress = true
-                                        viewModel.uploadPost(
-                                            selectedDate: selectedDate.utc2kst,
-                                            image: selectedImage!,
+                                    if isEditMode {
+                                        viewModel.updatePost(
+                                            id: "\(post!.id ?? "")",
+                                            selectedDate: post?.timestamp.dateValue() ?? selectedDate,
+                                            image: selectedImage,
                                             caption: caption,
                                             mealtime: mealTime.rawValue,
                                             icon: selectedIcon
                                         ) { _ in
-                                            print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                            isUploadPostInProgress = false
-                                            mode.wrappedValue.dismiss()
+                                            afterUploadAction()
+                                        }
+                                    } else {
+                                        viewModel.uploadPost(
+                                            selectedDate: selectedDate.utc2kst,
+                                            image: selectedImage,
+                                            caption: caption,
+                                            mealtime: mealTime.rawValue,
+                                            icon: selectedIcon
+                                        ) { _ in
+                                            afterUploadAction()
                                         }
                                     }
+                                } else {
+                                    popNoImageWarning.toggle()
+                                    print("=== DEBUG: no selected image")
                                 }
                             } label: {
                                 Text(String.complete)
@@ -282,9 +275,8 @@ struct EditPostView: View {
                         .closeOnTap(true)
                         .autohideIn(3)
                 }
-                .onAppear() {
+                .onAppear {
                     getExistedLog()
-                    if isEditMode { selectedIcon = post?.icon }
                 }
                 .onChange(of: popNoImageWarning) { status in
                     if status {
@@ -300,6 +292,12 @@ struct EditPostView: View {
             focused = false
         }
     }
+    
+    func afterUploadAction() {
+        print("=== DEBUG: upload success on \(selectedDate)!")
+        isUploadPostInProgress = false
+        dismiss()
+    }
 }
 
 extension EditPostView {
@@ -312,6 +310,7 @@ extension EditPostView {
         if isEditMode {
             mealTime = MealTime(rawValue: post!.mealtime)!
             caption = post!.caption
+            selectedIcon = post?.icon
             if let url = URL(string: post!.imageUrl) {
                 KingfisherManager.shared.retrieveImage(
                     with: url

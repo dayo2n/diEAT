@@ -20,7 +20,7 @@ extension Date {
     // Date 타입에서 "2000-01" 형식의 문자열로 리턴
     var date2OnlyMonth: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Date.defaultDateFormat
+        dateFormatter.dateFormat = "yyyy-MM dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         let splitOnlyDate = dateFormatter.string(from: self).split(separator: " ")
         return "\(splitOnlyDate[0])"

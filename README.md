@@ -1,5 +1,5 @@
 # diEAT 다이트
-![Static Badge](https://img.shields.io/badge/version-1.2.0-orange)  ![Static Badge](https://img.shields.io/badge/iOS-16.0%2B-yellow)
+![Static Badge](https://img.shields.io/badge/version-1.2.1-orange)  ![Static Badge](https://img.shields.io/badge/iOS-16.0%2B-yellow)
 
 
 <img src="https://github.com/dayo2n/diEAT/assets/57654681/b7de6a80-7d76-47ad-8b59-85fad8ce6864" width=700>

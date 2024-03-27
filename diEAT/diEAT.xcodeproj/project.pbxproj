@@ -313,8 +313,8 @@
 		BF01252828F825EC0081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				ADEEFCCA2BB151CF00FDD569 /* ViewModel */,
 				ADEEFCC52BB1518400FDD569 /* View */,
+				ADEEFCCA2BB151CF00FDD569 /* ViewModel */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -409,8 +409,8 @@
 		BF944B8828EB2AE80036B41F /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				ADEEFCCB2BB151E100FDD569 /* ViewModel */,
 				ADEEFCC32BB1517600FDD569 /* View */,
+				ADEEFCCB2BB151E100FDD569 /* ViewModel */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";

@@ -133,7 +133,10 @@ struct LoginView: View {
             }
         }
         .popup(isPresented: $hasNoBlank) {
-            CustomPopUpView(alertText: String.alertPutAllAuthInformation, bgColor: .red)
+            CustomPopUpView(
+                alertText: String.alertPutAllAuthInformation,
+                bgColor: .red
+            )
         } customize: { pop in
             pop
                 .type(.floater())
@@ -144,7 +147,10 @@ struct LoginView: View {
                 .isOpaque(true)
         }
         .popup(isPresented: $alertInvalidInput) {
-            CustomPopUpView(alertText: String.alertWrongInput, bgColor: .red)
+            CustomPopUpView(
+                alertText: String.alertWrongInput,
+                bgColor: .red
+            )
         } customize: { pop in
             pop
                 .type(.floater())
@@ -181,7 +187,10 @@ struct LoginView: View {
                     Text(String.sendResetEmail)
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
-                        .frame(width: UIScreen.main.bounds.size.width - 20 ,height: 50, alignment: .center)
+                        .frame(
+                            width: UIScreen.main.bounds.size.width - 20,
+                            height: 50, alignment: .center
+                        )
                         .background(Theme.btnColor(scheme))
                         .cornerRadius(10)
                         .padding(.top)

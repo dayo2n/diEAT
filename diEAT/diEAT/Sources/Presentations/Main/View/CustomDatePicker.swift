@@ -158,7 +158,11 @@ struct CustomDatePicker: View {
         let calendar = Calendar.current
         
         // Getting current month date
-        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else { return Date() }
+        guard let currentMonth = calendar.date(
+            byAdding: .month,
+            value: self.currentMonth,
+            to: Date()
+        ) else { return Date() }
         return currentMonth
     }
     
@@ -193,7 +197,12 @@ extension Date {
         let calendar = Calendar.current
         
         // getting start date
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+        let startDate = calendar.date(
+            from: Calendar.current.dateComponents(
+                [.year, .month],
+                from: self
+            )
+        )!
         
         let range = calendar.range(of: .day, in: .month, for: self)!
         
@@ -203,7 +212,6 @@ extension Date {
         }
     }
 }
-
 
 struct DateValue: Identifiable, Hashable {
     var id = UUID().uuidString

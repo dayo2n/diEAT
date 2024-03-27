@@ -25,7 +25,6 @@ class AuthViewModel: ObservableObject {
         print("=== DEBUG: fetch user \(uid)")
         Firestore.firestore().collection("users").document(uid).getDocument { snapshot , _ in
             guard let user = try? snapshot?.data(as: User.self) else { return }
-            
             self.currentUser = user
         }
     }
@@ -38,13 +37,11 @@ class AuthViewModel: ObservableObject {
             }
             
             guard let user = result?.user else { return }
-            
             let data = [
                 "email": email,
                 "username": username,
                 "uid": user.uid
             ]
-            
             Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
                 completion(0)
             }
@@ -72,9 +69,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func resetPassword(email: String) {
-        Auth.auth().sendPasswordReset(withEmail: email) { _ in
-            
-        }
+        Auth.auth().sendPasswordReset(withEmail: email)
     }
     
     func deleteUser() {
@@ -100,7 +95,6 @@ class AuthViewModel: ObservableObject {
         ImageUploader.uploadImage(image: newProfileImage, type: .profile) { imageUrl in
             Firestore.firestore().collection("users").document(uid).updateData(["profileImageUrl": imageUrl]) { _ in
                 print("=== DEBUG: profile image uploaded!")
-                
                 self.fetchUser()
                 completion()
             }

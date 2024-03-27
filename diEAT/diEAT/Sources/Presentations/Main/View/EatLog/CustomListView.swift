@@ -24,7 +24,7 @@ struct CustomListView: View {
                     )
                 ) {
                     VStack {
-                        let postDate = Date2OnlyDate(date: post.timestamp.dateValue())
+                        let postDate = post.timestamp.dateValue().date2OnlyDate
                         HStack {
                             Image(systemName: String.quoteOpening)
                                 .font(.system(size: 12))

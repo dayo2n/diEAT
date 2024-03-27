@@ -94,7 +94,7 @@ struct EditProfileView: View {
                         .scaledToFit()
                         .frame(width: 20, height: 20)
                     
-                    Text("\(user.email)")
+                    Text(user.email)
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                     
                     Spacer()
@@ -107,7 +107,7 @@ struct EditProfileView: View {
                 
                 CustomTextField(
                     text: $newUsername,
-                    placeholder: Text("\(user.username) "),
+                    placeholder: Text(user.username),
                     imageName: scheme == .dark ? String.personFill : String.person
                 )
                 .font(.system(size: 15, weight: .medium, design: .monospaced))

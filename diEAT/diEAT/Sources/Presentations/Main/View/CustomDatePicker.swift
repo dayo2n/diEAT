@@ -87,15 +87,15 @@ struct CustomDatePicker: View {
                         id: \.element
                     ) { index, value in
                         
-                        let valueDate = Date2OnlyDate(date: UTC2KST(date: value.date))
+                        let valueDate = value.date.utc2kst.date2OnlyDate
                         
                         ZStack {
                             if value.day != -1 {
-                                if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
+                                if valueDate == selectedDate.utc2kst.date2OnlyDate {
                                     Circle()
                                         .frame(height: 35)
                                         .foregroundStyle(Color.accentColor)
-                                } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
+                                } else if valueDate == today.utc2kst.date2OnlyDate {
                                     Circle()
                                         .frame(height: 35)
                                         .foregroundColor(.gray)

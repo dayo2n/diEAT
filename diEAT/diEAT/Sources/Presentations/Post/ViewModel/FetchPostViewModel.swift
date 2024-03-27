@@ -23,9 +23,9 @@ class FetchPostViewModel: ObservableObject {
         Firestore.firestore().collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             let posts = documents.compactMap { try? $0.data(as: Post.self) }
-            let selectedDate = Date2OnlyDate(date: UTC2KST(date: selectedDate))
+            let selectedDate = selectedDate.utc2kst.date2OnlyDate
             self.postsByDay = posts
-                .filter { Date2OnlyDate(date: $0.timestamp.dateValue()) == selectedDate }
+                .filter { $0.timestamp.dateValue().date2OnlyDate == selectedDate }
                 .sorted { $0.timestamp.dateValue() < $1.timestamp.dateValue() }
             print("=== DEBUG: fetch posts on \(selectedDate)")
         }
@@ -36,9 +36,9 @@ class FetchPostViewModel: ObservableObject {
         Firestore.firestore().collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             let posts = documents.compactMap { try? $0.data(as: Post.self) }
-            let selectedDate = Date2OnlyMonth(date: UTC2KST(date: selectedDate))
+            let selectedDate = selectedDate.utc2kst.date2OnlyMonth
             self.postsByMonth = posts
-                .filter { Date2OnlyMonth(date: $0.timestamp.dateValue()) == selectedDate }
+                .filter { $0.timestamp.dateValue().date2OnlyMonth == selectedDate }
                 .sorted { $0.timestamp.dateValue() < $1.timestamp.dateValue() }
             print("=== DEBUG: fetch posts on \(selectedDate)")
         }
@@ -50,7 +50,7 @@ class FetchPostViewModel: ObservableObject {
             guard let documents = snapshot?.documents else { return }
             let posts = documents.compactMap{ try? $0.data(as: Post.self) }
             self.postedDates = posts
-                .map { Date2OnlyDate(date: $0.timestamp.dateValue()) }
+                .map { $0.timestamp.dateValue().date2OnlyDate }
             print(self.postedDates)
         }
     }

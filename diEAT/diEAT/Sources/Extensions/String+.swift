@@ -25,6 +25,15 @@ extension String {
     static let backgroundImageDark = "backgroundImageDark"
     static let launchScreenImage = "launchScreenImage"
     static let launchScreenImageDark = "launchScreenImageDark"
+    static let defaultProfileImg = "defaultProfileImg"
+}
+
+extension String {
+    /* Colors */
+    static let saturdayTextColor = "saturdayTextColor"
+    static let sundayTextColor = "sundayTextColor"
+    static let bgColor = "bgColor"
+    static let defaultColor = "defaultColor"
 }
 
 extension String {

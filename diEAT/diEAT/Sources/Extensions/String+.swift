@@ -43,6 +43,7 @@ extension String {
     static let pencilTip = "pencil.tip"
     static let listBullet = "list.bullet"
     static let squareGrid2x2 = "square.grid.2x2"
+    static let envelopOpenFill = "envelope.open.fill"
     static let squareAndArrowUp = "square.and.arrow.up"
     static let personCropCircleFillBadgeXmark = "person.crop.circle.fill.badge.xmark"
     
@@ -113,6 +114,14 @@ extension String {
     static let optionCancel = "optionCancel".localized()
     static let optionDelete = "optionDelete".localized()
     static let deleteMessage = "deleteMessage".localized()
+    
+    // Inquiry View
+    static let failedToSend = "failedToSend".localized()
+    static let inquiryGuideMessage = "inquiryGuideMessage".localized()
+    static let enterTitle = "enterTitle".localized()
+    static let enterContents = "enterContents".localized()
+    static let successToSendInquiry = "successToSendInquiry".localized()
+    
     
     /* popup */
     static let alertPutAllAuthInformation = "alertPutAllAuthInformation".localized()

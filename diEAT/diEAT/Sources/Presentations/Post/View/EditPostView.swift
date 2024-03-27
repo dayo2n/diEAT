@@ -37,7 +37,7 @@ struct EditPostView: View {
     @State private var popNoSelectedIconWarning = false
     
     @Environment(\.colorScheme) var scheme
-    @Environment(\.presentationMode) var mode
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel = EditPostViewModel()
     @FocusState private var focused: Bool
     
@@ -46,7 +46,6 @@ struct EditPostView: View {
             ScrollView {
                 ZStack {
                     VStack {
-                        // toolbar
                         HStack {
                             // cancel
                             Button {
@@ -62,48 +61,42 @@ struct EditPostView: View {
                             Spacer()
                             
                             // add || edit
-                            Button(action: {
+                            Button {
                                 didPressedUploadButton = true
-                                
-                                if isEditMode {
+                                if let selectedImage = selectedImage {
                                     isUploadPostInProgress = true
-                                    viewModel.updatePost(
-                                        id: "\(post!.id ?? "")",
-                                        selectedDate: post?.timestamp.dateValue() ?? selectedDate,
-                                        image: selectedImage!,
-                                        caption: caption,
-                                        mealtime: mealTime.rawValue,
-                                        icon: selectedIcon
-                                    ) { _ in
-                                        print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                        isUploadPostInProgress = false
-                                        mode.wrappedValue.dismiss()
-                                    }
-                                } else {
-                                    if selectedImage == nil {
-                                        popNoImageWarning.toggle()
-                                        print("=== DEBUG: no selected image")
-                                    } else {
-                                        isUploadPostInProgress = true
-                                        viewModel.uploadPost(
-                                            selectedDate: selectedDate.utc2kst,
-                                            image: selectedImage!,
+                                    if isEditMode {
+                                        viewModel.updatePost(
+                                            id: "\(post!.id ?? "")",
+                                            selectedDate: post?.timestamp.dateValue() ?? selectedDate,
+                                            image: selectedImage,
                                             caption: caption,
                                             mealtime: mealTime.rawValue,
                                             icon: selectedIcon
                                         ) { _ in
-                                            print("=== DEBUG: upload sucess on \(selectedDate)!")
-                                            isUploadPostInProgress = false
-                                            mode.wrappedValue.dismiss()
+                                            afterUploadAction()
+                                        }
+                                    } else {
+                                        viewModel.uploadPost(
+                                            selectedDate: selectedDate.utc2kst,
+                                            image: selectedImage,
+                                            caption: caption,
+                                            mealtime: mealTime.rawValue,
+                                            icon: selectedIcon
+                                        ) { _ in
+                                            afterUploadAction()
                                         }
                                     }
+                                } else {
+                                    popNoImageWarning.toggle()
+                                    print("=== DEBUG: no selected image")
                                 }
-                            }, label: {
-                                Text(isEditMode ? String.edit : String.add)
+                            } label: {
+                                Text(String.complete)
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Theme.textColor(scheme))
                                     .opacity(didPressedUploadButton ? 0.2 : 1.0)
-                            })
+                            }
                             .disabled(didPressedUploadButton)
                         }
                         .padding(.top, 80)
@@ -111,32 +104,33 @@ struct EditPostView: View {
                         
                         // editor
                         ZStack {
-                            if isEditMode {
-                                KFImage(URL(string: post!.imageUrl))
+                            let imageSize = geo.size.width - 20
+                            if let image = image {
+                                image
                                     .resizable()
                                     .scaledToFit()
                                     .frame(
-                                        width: geo.size.width - 20,
-                                        height: geo.size.width - 20
+                                        width: imageSize,
+                                        height: imageSize
                                     )
                                     .cornerRadius(8)
                             } else {
-                                if image == nil {
-                                    Rectangle()
-                                        .frame(
-                                            width: geo.size.width - 20,
-                                            height: geo.size.width - 20
-                                        )
-                                        .foregroundColor(Theme.defaultColor(scheme))
-                                        .cornerRadius(8)
-                                } else if let image = image {
-                                    image
+                                if isEditMode {
+                                    KFImage(URL(string: post!.imageUrl))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(
-                                            width: geo.size.width - 20,
-                                            height: geo.size.width - 20
+                                            width: imageSize,
+                                            height: imageSize
                                         )
+                                        .cornerRadius(8)
+                                } else {
+                                    Rectangle()
+                                        .frame(
+                                            width: imageSize,
+                                            height: imageSize
+                                        )
+                                        .foregroundColor(Theme.defaultColor(scheme))
                                         .cornerRadius(8)
                                 }
                             }
@@ -267,7 +261,7 @@ struct EditPostView: View {
                         
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(5)
+                            .scaleEffect(2)
                     }
                 }
                 .popup(isPresented: $popNoImageWarning) {
@@ -281,9 +275,8 @@ struct EditPostView: View {
                         .closeOnTap(true)
                         .autohideIn(3)
                 }
-                .onAppear() {
+                .onAppear {
                     getExistedLog()
-                    if isEditMode { selectedIcon = post?.icon }
                 }
                 .onChange(of: popNoImageWarning) { status in
                     if status {
@@ -299,6 +292,12 @@ struct EditPostView: View {
             focused = false
         }
     }
+    
+    func afterUploadAction() {
+        print("=== DEBUG: upload success on \(selectedDate)!")
+        isUploadPostInProgress = false
+        dismiss()
+    }
 }
 
 extension EditPostView {
@@ -311,6 +310,7 @@ extension EditPostView {
         if isEditMode {
             mealTime = MealTime(rawValue: post!.mealtime)!
             caption = post!.caption
+            selectedIcon = post?.icon
             if let url = URL(string: post!.imageUrl) {
                 KingfisherManager.shared.retrieveImage(
                     with: url

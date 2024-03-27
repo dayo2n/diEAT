@@ -14,8 +14,13 @@ class FetchPostViewModel: ObservableObject {
     @Published var postedDates = [String]()
     
     init() {
-        fetchPostByDate(selectedDate: Date.now)
-        fetchPostByMonth(selectedDate: Date.now)
+        fetchPostData(selectedDate: Date.now)
+    }
+    
+    func fetchPostData(selectedDate: Date) {
+        fetchPostByDate(selectedDate: selectedDate)
+        fetchPostByMonth(selectedDate: selectedDate)
+        fetchPostedDates()
     }
     
     func fetchPostByDate(selectedDate: Date) {
@@ -28,6 +33,7 @@ class FetchPostViewModel: ObservableObject {
                 .filter { $0.timestamp.dateValue().date2OnlyDate == selectedDate }
                 .sorted { $0.timestamp.dateValue() < $1.timestamp.dateValue() }
             print("=== DEBUG: fetch posts on \(selectedDate)")
+            print(self.postsByDay)
         }
     }
     
@@ -55,8 +61,10 @@ class FetchPostViewModel: ObservableObject {
         }
     }
     
-    func deletePost(id: String) {
+    func deletePost(id: String, _ completion: @escaping() -> Void) {
         print("=== DEBUG: delete \(id)")
-        Firestore.firestore().collection("posts").document(id).delete()
+        Firestore.firestore().collection("posts").document(id).delete() { _ in
+            completion()
+        }
     }
 }

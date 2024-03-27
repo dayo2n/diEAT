@@ -41,9 +41,7 @@ struct DailyEatLog: View {
                 }
                 .buttonStyle(BorderedButtonStyle())
                 .fullScreenCover(isPresented: $isEditPostMode) {
-                    viewModel.fetchPostByDate(selectedDate: selectedDate)
-                    viewModel.fetchPostByMonth(selectedDate: selectedDate)
-                    viewModel.fetchPostedDates()
+                    viewModel.fetchPostData(selectedDate: selectedDate)
                 } content: {
                     EditPostView(
                         isEditMode: false,

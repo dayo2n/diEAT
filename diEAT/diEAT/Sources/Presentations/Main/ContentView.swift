@@ -38,7 +38,10 @@ struct ContentView: View {
     var launchScreenView: some View {
         ZStack(alignment: .center) {
             Theme.bgColor(colorScheme).ignoresSafeArea()
-            Image(colorScheme == .dark ? "launchScreenImageDark" : "launchScreenImage")
+            Image(colorScheme == .dark ?
+                  String.launchScreenImageDark
+                  : String.launchScreenImage
+            )
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200)

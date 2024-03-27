@@ -58,7 +58,7 @@ struct CustomListView: View {
                                     }
                                     if let icon = post.icon {
                                         HStack {
-                                            Text("#")
+                                            Text(String.hashtag)
                                                 .font(.system(size: 12, weight: .regular, design: .monospaced))
                                                 .foregroundStyle(Theme.textColor(colorScheme))
                                             Image(icon)

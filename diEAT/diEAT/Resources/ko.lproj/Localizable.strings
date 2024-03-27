@@ -82,6 +82,11 @@
 "enterContents" = "개발팀에 전달할 내용을 입력하세요";
 "successToSendInquiry" = "작성하신 내용은 검토 후 등록하신 계정의 이메일로 결과를 전달해 드리겠습니다. 감사합니다 :))";
 
+// Settings View
+"editUserInformation" = "회원정보 수정";
+"signOut" = "로그아웃";
+"inquiryOrBugReport" = "문의 및 버그 제보";
+
 
 /* popup */
 "alertPutAllAuthInformation" = "로그인 정보를 모두 입력하세요!";

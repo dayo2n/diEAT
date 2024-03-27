@@ -25,8 +25,8 @@ struct SettingsView: View {
                     showEditProfile.toggle()
                 } label: {
                     CustomSidebarMenu(
-                        imageName: "person.fill.viewfinder",
-                        menuTitle: "회원정보 수정"
+                        imageName: String.personFillViewfinder,
+                        menuTitle: String.editUserInformation
                     )
                 }
                 .sheet(isPresented: $showEditProfile) {
@@ -34,8 +34,12 @@ struct SettingsView: View {
                 }
                 
                 Button(action: AuthViewModel.shared.logout) {
-                    CustomSidebarMenu(imageName: "\(colorScheme == .dark ? "rectangle.portrait.and.arrow.right.fill" : "rectangle.portrait.and.arrow.right")",
-                                      menuTitle: "로그아웃")
+                    CustomSidebarMenu(
+                        imageName: colorScheme == .dark ?
+                        String.rectanglePortraitAndArrowRightFill
+                        : String.rectanglePortraitAndArrowRight,
+                        menuTitle: String.signOut
+                    )
                 }
                 
                 Divider()
@@ -46,26 +50,31 @@ struct SettingsView: View {
                 Button {
                     showInquiry.toggle()
                 } label: {
-                    CustomSidebarMenu(imageName: "macwindow", menuTitle: "문의 및 버그 제보")
+                    CustomSidebarMenu(
+                        imageName: String.macwindow,
+                        menuTitle: String.inquiryOrBugReport
+                    )
                 }
-                .sheet(isPresented: $showInquiry, content: { InquiryView() })
+                .sheet(isPresented: $showInquiry) {
+                    InquiryView()
+                }
                 
                 Divider()
                 
                 // 개발자 정보
                 Button {
-                    if let url = URL(string: "https://github.com/dayo2n") {
+                    if let url = URL(string: String.githubUrl) {
                         UIApplication.shared.open(url)
                     }
                 } label: {
                     HStack {
-                        Image("octocat")
+                        Image(String.octocat)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 16)
                         
-                        Text("Github @dayo2n")
+                        Text(String.githubId)
                             .font(.system(size: 12, weight: .medium, design: .monospaced))
                             .padding(.leading, 10)
                         

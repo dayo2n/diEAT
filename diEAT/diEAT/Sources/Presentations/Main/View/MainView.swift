@@ -76,7 +76,7 @@ struct MainView: View {
             }
             .popup(isPresented: $popLoginToast) {
                 CustomPopUpView(
-                    alertText: "\(user.username)\(String.welcomeMessage)",
+                    alertText: user.username + String.welcomeMessage,
                     bgColor: .blue
                 )
             } customize: { pop in

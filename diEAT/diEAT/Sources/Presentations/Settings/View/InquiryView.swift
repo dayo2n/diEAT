@@ -48,7 +48,7 @@ struct InquiryView: View {
                         }
                         .padding(10)
                         .alert(
-                            "작성 실패",
+                            String.failedToSend,
                             isPresented: $noBlank
                         ) {
                             Button(
@@ -58,14 +58,14 @@ struct InquiryView: View {
                                 noBlank = false
                             }
                         } message: {
-                            Text("제목 또는 내용을 입력해야 합니다.")
+                            Text(String.inquiryGuideMessage)
                         }
                     }
                     
                     CustomTextField(
                         text: $title,
-                        placeholder: Text("제목을 입력하세요"),
-                        imageName: "envelope.open.fill"
+                        placeholder: Text(String.enterTitle),
+                        imageName: String.envelopOpenFill
                     )
                     .font(.system(size: 15, weight: .medium, design: .monospaced))
                     .padding(20)
@@ -75,23 +75,18 @@ struct InquiryView: View {
                     
                     ZStack {
                         VStack {
-                            if #available(iOS 16.0, *) {
-                                TextField(
-                                    "개발팀에 전달할 내용을 입력하세요",
-                                    text: $contents,
-                                    axis: .vertical
-                                )
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundColor(Theme.textColor(scheme))
-                                .padding(20)
-                                .border(Theme.defaultColor(scheme), width: 0.7)
-                                .padding([.leading, .trailing])
-                            } else {
-                                // Fallback on earlier versions
-                            }
+                            TextField(
+                                String.enterContents,
+                                text: $contents,
+                                axis: .vertical
+                            )
+                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .foregroundColor(Theme.textColor(scheme))
+                            .padding(20)
+                            .border(Theme.defaultColor(scheme), width: 0.7)
+                            .padding([.leading, .trailing])
                             Spacer()
-                            
-                            Text("작성하신 내용은 검토 후 등록하신 계정의 이메일로 결과를 전달해 드리겠습니다. 감사합니다 :))")
+                            Text(String.successToSendInquiry)
                                 .font(.system(size: 15, weight: .medium, design: .monospaced))
                                 .foregroundColor(Theme.textColor(scheme))
                                 .padding(.all)

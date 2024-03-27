@@ -16,12 +16,13 @@ struct ProfileHeaderView: View {
     var body: some View {
         HStack {
             ProfileImageView(user: user, size: CGSize(width: 70, height: 70))
-            Text("\(user.username)")
+            Text(user.username)
                 .font(.system(size: 20, weight: .bold, design: .monospaced))
                 .foregroundColor(Theme.textColor(scheme))
                 .padding(.leading)
             
             Spacer()
-        }.padding(.top, 30)
+        }
+        .padding(.top, 30)
     }
 }

@@ -40,6 +40,7 @@
 		AD7637582BA6B0E3007552E1 /* RecordLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */; };
 		AD76375B2BA6B679007552E1 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76375A2BA6B679007552E1 /* String+.swift */; };
 		AD76375D2BA6C0D7007552E1 /* ErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD76375C2BA6C0D7007552E1 /* ErrorCode.swift */; };
+		ADACE9D52BB3DB00005C8807 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADACE9D42BB3DB00005C8807 /* Date+.swift */; };
 		ADBA9F922BA02F1900E69548 /* MonthlyEatLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */; };
 		ADBA9F942BA030F000E69548 /* CustomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBA9F932BA030F000E69548 /* CustomListView.swift */; };
 		ADEEFCCE2BB1525300FDD569 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ADEEFCD02BB1525300FDD569 /* Localizable.strings */; };
@@ -84,6 +85,7 @@
 		AD7637572BA6B0E3007552E1 /* RecordLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLabelView.swift; sourceTree = "<group>"; };
 		AD76375A2BA6B679007552E1 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		AD76375C2BA6C0D7007552E1 /* ErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCode.swift; sourceTree = "<group>"; };
+		ADACE9D42BB3DB00005C8807 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		ADBA9F912BA02F1900E69548 /* MonthlyEatLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyEatLog.swift; sourceTree = "<group>"; };
 		ADBA9F932BA030F000E69548 /* CustomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListView.swift; sourceTree = "<group>"; };
 		ADEEFCCF2BB1525300FDD569 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				AD76375A2BA6B679007552E1 /* String+.swift */,
+				ADACE9D42BB3DB00005C8807 /* Date+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -313,8 +316,8 @@
 		BF01252828F825EC0081FBAC /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				ADEEFCCA2BB151CF00FDD569 /* ViewModel */,
 				ADEEFCC52BB1518400FDD569 /* View */,
+				ADEEFCCA2BB151CF00FDD569 /* ViewModel */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -409,8 +412,8 @@
 		BF944B8828EB2AE80036B41F /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				ADEEFCCB2BB151E100FDD569 /* ViewModel */,
 				ADEEFCC32BB1517600FDD569 /* View */,
+				ADEEFCCB2BB151E100FDD569 /* ViewModel */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADACE9D52BB3DB00005C8807 /* Date+.swift in Sources */,
 				ADF9CE5A2BA020CB0019956E /* ProfileImageView.swift in Sources */,
 				BF7EDA0128F022B600800DCA /* EditProfileView.swift in Sources */,
 				BF78BBC8292E2AFA00049314 /* InquiryViewModel.swift in Sources */,

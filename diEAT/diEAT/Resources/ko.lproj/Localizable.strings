@@ -75,6 +75,19 @@
 "optionDelete" = "삭제";
 "deleteMessage" = "기록을 삭제하면 되돌릴 수 없습니다.";
 
+// Inquiry View
+"failedToSend" = "작성 실패";
+"inquiryGuideMessage" = "제목 또는 내용을 입력해야 합니다.";
+"enterTitle" = "제목을 입력하세요";
+"enterContents" = "개발팀에 전달할 내용을 입력하세요";
+"successToSendInquiry" = "작성하신 내용은 검토 후 등록하신 계정의 이메일로 결과를 전달해 드리겠습니다. 감사합니다 :))";
+
+// Settings View
+"editUserInformation" = "회원정보 수정";
+"signOut" = "로그아웃";
+"inquiryOrBugReport" = "문의 및 버그 제보";
+
+
 /* popup */
 "alertPutAllAuthInformation" = "로그인 정보를 모두 입력하세요!";
 "alertWrongInput" = "아이디 또는 비밀번호를 확인하세요.";

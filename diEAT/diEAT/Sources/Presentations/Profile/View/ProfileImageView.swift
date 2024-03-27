@@ -27,7 +27,7 @@ struct ProfileImageView: View {
                 )
                 .padding(.leading)
         } else {
-            Image("defaultProfileImg")
+            Image(String.defaultProfileImg)
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFill()

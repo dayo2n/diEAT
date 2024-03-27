@@ -24,7 +24,7 @@ struct CustomListView: View {
                     )
                 ) {
                     VStack {
-                        let postDate = Date2OnlyDate(date: post.timestamp.dateValue())
+                        let postDate = post.timestamp.dateValue().date2OnlyDate
                         HStack {
                             Image(systemName: String.quoteOpening)
                                 .font(.system(size: 12))
@@ -58,7 +58,7 @@ struct CustomListView: View {
                                     }
                                     if let icon = post.icon {
                                         HStack {
-                                            Text("#")
+                                            Text(String.hashtag)
                                                 .font(.system(size: 12, weight: .regular, design: .monospaced))
                                                 .foregroundStyle(Theme.textColor(colorScheme))
                                             Image(icon)

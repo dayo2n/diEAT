@@ -74,6 +74,13 @@
 "optionDelete" = "Delete";
 "deleteMessage" = "Once deleted, records cannot be recovered.";
 
+// Inquiry View
+"failedToSend" = "Failed to send";
+"inquiryGuideMessage" = "You must enter a title or content.";
+"enterTitle" = "Please enter a title.";
+"enterContents" = "Please enter the contents to be delivered to the development team.";
+"successToSendInquiry"="We will review what you have written and forward the results to the email of your registered account. Thank you =)";
+
 /* popup */
 "alertPutAllAuthInformation" = "Please enter all login information!";
 "alertWrongInput" = "Please check your email or password.";

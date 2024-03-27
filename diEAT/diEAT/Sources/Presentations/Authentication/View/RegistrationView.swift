@@ -63,16 +63,22 @@ struct RegistrationView: View {
                         .border(Theme.defaultColor(colorScheme), width: 0.7)
                         .padding([.leading, .trailing])
                         
-                        CustomSecureField(password: $password, placeholder: Text(String.password))
-                            .padding(20)
-                            .frame(height: 50)
-                            .border(Theme.defaultColor(colorScheme), width: 0.7)
-                            .padding([.leading, .trailing])
-                            .padding([.top, .bottom], 10)
+                        CustomSecureField(
+                            password: $password,
+                            placeholder: Text(String.password)
+                        )
+                        .padding(20)
+                        .frame(height: 50)
+                        .border(Theme.defaultColor(colorScheme), width: 0.7)
+                        .padding([.leading, .trailing])
+                        .padding([.top, .bottom], 10)
                         
                         Button {
-                            if username.count == 0 || email.count == 0 || password.count == 0 { noBlank.toggle() }
-                            else {
+                            if username.count == 0
+                                || email.count == 0
+                                || password.count == 0 {
+                                noBlank.toggle()
+                            } else {
                                 isRegisterInProgress = true
                                 viewModel.register(
                                     username: username,
@@ -135,7 +141,10 @@ struct RegistrationView: View {
             }
             .background(Theme.bgColor(colorScheme))
             .popup(isPresented: $noBlank) {
-                CustomPopUpView(alertText: String.alertFillAllBlank, bgColor: .red)
+                CustomPopUpView(
+                    alertText: String.alertFillAllBlank,
+                    bgColor: .red
+                )
             } customize: { pop in
                 pop
                     .type(.floater())

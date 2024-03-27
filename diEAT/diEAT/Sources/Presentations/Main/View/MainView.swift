@@ -74,10 +74,9 @@ struct MainView: View {
                 freezePop = false
                 viewModel.fetchPostedDates()
             }
-            // login 인사
             .popup(isPresented: $popLoginToast) {
                 CustomPopUpView(
-                    alertText: "\(user.username)\(String.welcomeMessage)",
+                    alertText: user.username + String.welcomeMessage,
                     bgColor: .blue
                 )
             } customize: { pop in
@@ -107,7 +106,11 @@ struct MainView: View {
                         Button {
                             viewType = viewType == .day ? .month : .day
                         } label: {
-                            Image(systemName: viewType == .day ? String.listBullet : String.squareGrid2x2)
+                            Image(
+                                systemName: viewType == .day ?
+                                String.listBullet 
+                                : String.squareGrid2x2
+                            )
                         }
                         Spacer()
                         if viewType == .day, !viewModel.postsByDay.isEmpty {
@@ -165,7 +168,10 @@ struct MainView: View {
                                     Image(uiImage: cachedIamge)
                                         .resizable()
                                         .scaledToFill()
-                                        .frame(width: length, height: length)
+                                        .frame(
+                                            width: length,
+                                            height: length
+                                        )
                                         .cornerRadius(8)
                                 }
                             }
@@ -183,8 +189,15 @@ struct MainView: View {
     }
     
     private func shareDailyRecords(image: UIImage) {
-        let av = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-        UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+        let activityView = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        UIApplication.shared.windows.first?.rootViewController?.present(
+            activityView,
+            animated: true,
+            completion: nil
+        )
     }
     
     func getExistedLog(url: URL) -> UIImage? {

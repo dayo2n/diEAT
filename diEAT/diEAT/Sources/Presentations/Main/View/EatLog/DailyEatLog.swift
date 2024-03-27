@@ -22,7 +22,7 @@ struct DailyEatLog: View {
                     .foregroundColor(Theme.textColor(colorScheme))
                     .padding(.bottom, 3)
                 
-                Text("\(Date2OnlyDate(date: UTC2KST(date: selectedDate)))")
+                Text(selectedDate.utc2kst.date2OnlyDate)
                     .font(.system(size: 15, weight: .bold, design: .monospaced))
                     .foregroundColor(Theme.textColor(colorScheme))
                 
@@ -42,6 +42,8 @@ struct DailyEatLog: View {
                 .buttonStyle(BorderedButtonStyle())
                 .fullScreenCover(isPresented: $isEditPostMode) {
                     viewModel.fetchPostByDate(selectedDate: selectedDate)
+                    viewModel.fetchPostByMonth(selectedDate: selectedDate)
+                    viewModel.fetchPostedDates()
                 } content: {
                     EditPostView(
                         isEditMode: false,

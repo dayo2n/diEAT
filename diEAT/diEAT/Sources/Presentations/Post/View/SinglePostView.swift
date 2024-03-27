@@ -39,7 +39,7 @@ struct SinglePostView: View {
                     .padding()
                 
                 HStack {
-                    Text("# \(Date2OnlyDate(date: post.timestamp.dateValue()))'s ")
+                    Text("# \(post.timestamp.dateValue().date2OnlyDate)'s ")
                         .font(.system(size: 14, weight: .medium, design: .monospaced))
                         .foregroundColor(Theme.textColor(scheme))
                         .frame(height: 20)

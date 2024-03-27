@@ -86,7 +86,7 @@ struct EditPostView: View {
                                     } else {
                                         isUploadPostInProgress = true
                                         viewModel.uploadPost(
-                                            selectedDate: UTC2KST(date: selectedDate),
+                                            selectedDate: selectedDate.utc2kst,
                                             image: selectedImage!,
                                             caption: caption,
                                             mealtime: mealTime.rawValue,

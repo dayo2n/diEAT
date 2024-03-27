@@ -87,15 +87,15 @@ struct CustomDatePicker: View {
                         id: \.element
                     ) { index, value in
                         
-                        let valueDate = Date2OnlyDate(date: UTC2KST(date: value.date))
+                        let valueDate = value.date.utc2kst.date2OnlyDate
                         
                         ZStack {
                             if value.day != -1 {
-                                if valueDate == Date2OnlyDate(date: (UTC2KST(date: selectedDate))) {
+                                if valueDate == selectedDate.utc2kst.date2OnlyDate {
                                     Circle()
                                         .frame(height: 35)
                                         .foregroundStyle(Color.accentColor)
-                                } else if valueDate == Date2OnlyDate(date: UTC2KST(date: today)) {
+                                } else if valueDate == today.utc2kst.date2OnlyDate {
                                     Circle()
                                         .frame(height: 35)
                                         .foregroundColor(.gray)
@@ -158,7 +158,11 @@ struct CustomDatePicker: View {
         let calendar = Calendar.current
         
         // Getting current month date
-        guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else { return Date() }
+        guard let currentMonth = calendar.date(
+            byAdding: .month,
+            value: self.currentMonth,
+            to: Date()
+        ) else { return Date() }
         return currentMonth
     }
     
@@ -193,7 +197,12 @@ extension Date {
         let calendar = Calendar.current
         
         // getting start date
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
+        let startDate = calendar.date(
+            from: Calendar.current.dateComponents(
+                [.year, .month],
+                from: self
+            )
+        )!
         
         let range = calendar.range(of: .day, in: .month, for: self)!
         
@@ -203,7 +212,6 @@ extension Date {
         }
     }
 }
-
 
 struct DateValue: Identifiable, Hashable {
     var id = UUID().uuidString

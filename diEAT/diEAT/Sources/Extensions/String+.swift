@@ -20,31 +20,48 @@ extension String {
 
 extension String {
     /* Images */
+    static let octocat = "octocat"
     static let defaultProfileImage = "defaultProfileImg"
     static let backgroundImageDark = "backgroundImageDark"
+    static let launchScreenImage = "launchScreenImage"
+    static let launchScreenImageDark = "launchScreenImageDark"
+    static let defaultProfileImg = "defaultProfileImg"
+}
+
+extension String {
+    /* Colors */
+    static let saturdayTextColor = "saturdayTextColor"
+    static let sundayTextColor = "sundayTextColor"
+    static let bgColor = "bgColor"
+    static let defaultColor = "defaultColor"
 }
 
 extension String {
     /* SF Symbols */
+    static let key = "key"
     static let plus = "plus"
     static let lock = "lock"
     static let trash = "trash"
     static let pencil = "pencil"
-    static let envelope = "envelope"
-    static let key = "key"
-    static let keyFill = "key.fill"
     static let person = "person"
+    static let keyFill = "key.fill"
+    static let envelope = "envelope"
+    static let macwindow = "macwindow"
+    static let pencilTip = "pencil.tip"
+    static let listBullet = "list.bullet"
     static let personFill = "person.fill"
+    static let highlighter = "highlighter"
     static let chevronLeft = "chevron.left"
     static let chevronRight = "chevron.right"
     static let quoteOpening = "quote.opening"
     static let quoteClosing = "quote.closing"
-    static let highlighter = "highlighter"
-    static let pencilTip = "pencil.tip"
-    static let listBullet = "list.bullet"
     static let squareGrid2x2 = "square.grid.2x2"
+    static let envelopOpenFill = "envelope.open.fill"
     static let squareAndArrowUp = "square.and.arrow.up"
+    static let personFillViewfinder = "person.fill.viewfinder"
+    static let rectanglePortraitAndArrowRight = "rectangle.portrait.and.arrow.right"
     static let personCropCircleFillBadgeXmark = "person.crop.circle.fill.badge.xmark"
+    static let rectanglePortraitAndArrowRightFill = "rectangle.portrait.and.arrow.right.fill"
     
     /* Strings */
     static let hashtag = "hashtag".localized()
@@ -113,6 +130,20 @@ extension String {
     static let optionCancel = "optionCancel".localized()
     static let optionDelete = "optionDelete".localized()
     static let deleteMessage = "deleteMessage".localized()
+    
+    // Inquiry View
+    static let failedToSend = "failedToSend".localized()
+    static let inquiryGuideMessage = "inquiryGuideMessage".localized()
+    static let enterTitle = "enterTitle".localized()
+    static let enterContents = "enterContents".localized()
+    static let successToSendInquiry = "successToSendInquiry".localized()
+    
+    // Settings View
+    static let editUserInformation = "editUserInformation".localized()
+    static let signOut = "signOut".localized()
+    static let inquiryOrBugReport = "inquiryOrBugReport".localized()
+    static let githubId = "Github @dayo2n"
+    static let githubUrl = "https://github.com/dayo2n"
     
     /* popup */
     static let alertPutAllAuthInformation = "alertPutAllAuthInformation".localized()

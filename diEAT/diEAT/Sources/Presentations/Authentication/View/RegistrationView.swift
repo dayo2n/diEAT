@@ -136,7 +136,7 @@ struct RegistrationView: View {
                     
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(5)
+                        .scaleEffect(2)
                 }
             }
             .background(Theme.bgColor(colorScheme))

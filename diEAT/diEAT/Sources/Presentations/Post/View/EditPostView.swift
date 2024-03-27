@@ -261,7 +261,7 @@ struct EditPostView: View {
                         
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
-                            .scaleEffect(5)
+                            .scaleEffect(2)
                     }
                 }
                 .popup(isPresented: $popNoImageWarning) {

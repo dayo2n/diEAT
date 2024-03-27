@@ -27,7 +27,7 @@ struct CustomGridView: View {
                         selectedDate: post.timestamp.dateValue(),
                         viewModel: viewModel
                     )
-                    ) {
+                ) {
                     ZStack {
                         KFImage(URL(string: post.imageUrl))
                             .resizable()

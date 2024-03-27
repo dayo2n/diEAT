@@ -62,7 +62,7 @@ struct EditPostView: View {
                             Spacer()
                             
                             // add || edit
-                            Button(action: {
+                            Button {
                                 didPressedUploadButton = true
                                 
                                 if isEditMode {
@@ -98,12 +98,12 @@ struct EditPostView: View {
                                         }
                                     }
                                 }
-                            }, label: {
-                                Text(isEditMode ? String.edit : String.add)
+                            } label: {
+                                Text(String.complete)
                                     .font(.system(size: 14, weight: .semibold, design: .monospaced))
                                     .foregroundColor(Theme.textColor(scheme))
                                     .opacity(didPressedUploadButton ? 0.2 : 1.0)
-                            })
+                            }
                             .disabled(didPressedUploadButton)
                         }
                         .padding(.top, 80)
@@ -111,32 +111,33 @@ struct EditPostView: View {
                         
                         // editor
                         ZStack {
-                            if isEditMode {
-                                KFImage(URL(string: post!.imageUrl))
+                            let imageSize = geo.size.width - 20
+                            if let image = image {
+                                image
                                     .resizable()
                                     .scaledToFit()
                                     .frame(
-                                        width: geo.size.width - 20,
-                                        height: geo.size.width - 20
+                                        width: imageSize,
+                                        height: imageSize
                                     )
                                     .cornerRadius(8)
                             } else {
-                                if image == nil {
-                                    Rectangle()
-                                        .frame(
-                                            width: geo.size.width - 20,
-                                            height: geo.size.width - 20
-                                        )
-                                        .foregroundColor(Theme.defaultColor(scheme))
-                                        .cornerRadius(8)
-                                } else if let image = image {
-                                    image
+                                if isEditMode {
+                                    KFImage(URL(string: post!.imageUrl))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(
-                                            width: geo.size.width - 20,
-                                            height: geo.size.width - 20
+                                            width: imageSize,
+                                            height: imageSize
                                         )
+                                        .cornerRadius(8)
+                                } else {
+                                    Rectangle()
+                                        .frame(
+                                            width: imageSize,
+                                            height: imageSize
+                                        )
+                                        .foregroundColor(Theme.defaultColor(scheme))
                                         .cornerRadius(8)
                                 }
                             }

@@ -114,8 +114,10 @@ struct SinglePostView: View {
                             String.optionDelete,
                             role: .destructive
                         ) {
-                            viewModel.deletePost(id: post.id!)
-                            dismiss()
+                            viewModel.deletePost(id: post.id!) {
+                                viewModel.fetchPostData(selectedDate: selectedDate)
+                                dismiss()
+                            }
                         }
                     } message: {
                         Text(String.deleteMessage)

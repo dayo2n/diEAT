@@ -192,11 +192,22 @@ struct MainView: View {
             activityItems: [image],
             applicationActivities: nil
         )
-        UIApplication.shared.windows.first?.rootViewController?.present(
-            activityView,
-            animated: true,
-            completion: nil
-        )
+        if let popoverController = activityView.popoverPresentationController {
+            activityView.popoverPresentationController?.sourceRect = CGRect(
+                x: UIScreen.main.bounds.width / 2,
+                y: UIScreen.main.bounds.height / 2,
+                width: 0,
+                height: 0
+            )
+            activityView.popoverPresentationController?.sourceView = UIView()
+            activityView.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+            
+            UIApplication.shared.windows.first?.rootViewController?.present(
+                activityView,
+                animated: true,
+                completion: nil
+            )
+        }
     }
     
     func getExistedLog(url: URL) -> UIImage? {
